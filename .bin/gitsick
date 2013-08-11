@@ -1,0 +1,118 @@
+#!/bin/bash
+
+GITSICK=$(basename $0)
+
+usage() {
+    echo -n "\
+$GITSICK <name> init
+$GITSICK <name> clone <repository>
+$GITSICK <name> ...
+"
+}
+
+main() {
+    if [ $# -eq 0 ]; then
+        set -- -h
+    fi
+    for ARG in "$@"; do
+        case "$ARG" in
+            -h|--help) usage; exit ;;
+        esac
+    done
+
+    # for debugging
+    if [ "$1" == "--work-tree" ]; then
+        GIT_WORK_TREE="$2";
+        shift;
+        shift;
+    fi
+
+    init_git_work_tree
+
+    set -o nounset
+
+    local NAME="$1"
+    shift
+
+    init_git_dir "$NAME"
+
+    command="$1"
+    shift
+    case "$command" in
+        init) git_init "$@" ;;
+        clone) git_clone "$@" ;;
+        *) git_cmd "$command" "$@" ;;
+    esac
+}
+
+die() {
+    echo >&2 "$*"
+    exit 1
+}
+
+init_git_work_tree() {
+    if [ -z "$GIT_WORK_TREE" ]; then
+        GIT_WORK_TREE="$HOME"
+    fi
+
+    if [ -e "$GIT_WORK_TREE/.git" ]; then
+        die "ERROR: GIT_WORK_TREE looks like a Git repository!"
+    fi
+}
+
+init_gitsick_dir() {
+    GITSICK_DIR="$(git config --global gitsick.dir || true)"
+    if [ -z "$GITSICK_DIR" ]; then
+        GITSICK_DIR="$HOME/.gitsick"
+    fi
+    if [ ! -d "$GITSICK_DIR" ]; then
+        mkdir "$GITSICK_DIR"
+    fi
+}
+
+init_git_dir() {
+    local NAME="$1"
+    GIT_DIR="$GITSICK_DIR/$NAME.git"
+}
+
+git_init() {
+    git init --separate-git-dir "$GIT_DIR" "$GIT_WORK_TREE" "$@"
+    git config --file "$GIT_DIR"/config core.worktree $GIT_WORK_TREE
+    if [ -f "$GIT_WORK_TREE/.git" ]; then
+        rm "$GIT_WORK_TREE/.git"
+    fi
+}
+
+git_clone() {
+    local CLONE_DIR
+    OS="$(uname -s)"
+    case "$OS" in
+        Linux) CLONE_DIR="$(mktemp --tmpdir --directory $GITSICK.XXX)" ;;
+        Darwin) CLONE_DIR="$(mktemp -d -t $GITSICK)" ;;
+        *) die "ERROR: Unknown OS: $OS" ;;
+    esac
+    git clone --no-checkout --separate-git-dir "$GIT_DIR" "$@" "$CLONE_DIR"
+    git config --file "$GIT_DIR"/config core.worktree $GIT_WORK_TREE
+    rm "$CLONE_DIR"/.git
+    rmdir "$CLONE_DIR"
+}
+
+git_cmd() {
+    if [ ! -d "$GIT_DIR" ]; then
+        die "ERROR: No $GITSICK repo found: $GIT_DIR"
+    fi
+
+    if [ "$1" == "status" ]; then
+        shift
+        git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE \
+            status --untracked-files=no "$@"
+    else
+        git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE "$@"
+    fi
+}
+
+set -o errexit
+set -o pipefail
+
+init_gitsick_dir
+main "$@"

@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+import argparse
+import email
+import sys
+import subprocess
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        prog='changes-files',
+    )
+    parser.add_argument('changes_file', help='change file')
+
+    args = parser.parse_args()
+    return args
+
+def open_file(f):
+    try:
+        fd = open(f, 'r')
+    except IOError:
+        print "Unable to open '%s'." % f
+        sys.exit(1)
+    return fd
+
+def parse_changes_for_files(changes_file):
+    chg_fd = open_file(changes_file)
+    # based on dput's implementation
+    check = chg_fd.read(5)
+    if check != '-----':
+        chg_fd.seek(0)
+    else: # found a PGP header, gonna ditch the next 3 lines
+        chg_fd.readline() # eat the rest of the line
+        chg_fd.readline() # Hash: SHA1
+        chg_fd.readline() # empty line
+    if not chg_fd.readline().find('Format') != -1:
+        chg_fd.readline()
+    changes = email.message_from_file(chg_fd)
+    chg_fd.close
+    files = []
+    for a in changes.get('files').split('\n'):
+        if len(a.split()) != 5:
+            print >> sys.stderr, "Invalid Files line in .changes:\n  %s"%a
+            sys.exit(1)
+        files.append(a.split(' ')[-1])
+    return files
+
+def validate_files(files):
+    for f in files:
+        fd = open_file(f)
+        fd.close
+
+def main(args=None):
+    files = parse_changes_for_files(args.changes_file)
+    files.append(args.changes_file)
+    validate_files(files)
+    for f in files:
+        print f
+
+if __name__ == '__main__':
+    args = parse_args()
+    main(args)

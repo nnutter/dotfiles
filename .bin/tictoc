@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+$| = 1;
+
+my $start = time();
+my $msg = "toc\n";
+my $gsm = "tic\n";
+while ((time - $start) < $ARGV[0]) {
+    ($msg, $gsm) = ($gsm, $msg);
+    my ($h, $m, $s) = (localtime(time))[2, 1, 0];
+    printf '[%02d:%02d:%02d] %s', $h, $m, $s, $msg;
+    sleep 1;
+}

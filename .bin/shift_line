@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ ! -e $1 ]; then
+    echo "ERROR: file does not exist ($1)"
+    exit
+fi
+if [ ! -x $2 ]; then
+    BAK=$2
+fi
+
+head -n 1 $1
+sed -i${BAK} -e '1d' $1

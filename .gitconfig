@@ -1,0 +1,31 @@
+[user]
+	name = Nathan Nutter
+	email = iam@nnutter.com
+	signingkey = 6A4DDCEA
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[core]
+	editor = vim
+	quotepath = false
+	preloadindex = true
+	excludesfile = /Users/nnutter/.gitignore_global
+	fsyncobjectfiles = true
+[merge]
+	renameLimit = 10000
+	tool = vimdiff
+[push]
+	default = upstream
+[url "git://github.com/"]
+	insteadOf = gh:
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[url "git@github.com:"]
+	insteadOf = git@github.com/
+[url "git@github.com:"]
+    insteadOf = https://github.com/

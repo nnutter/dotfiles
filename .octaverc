@@ -1,0 +1,3 @@
+edit mode async
+edit editor "vim %s"
+PS1('>> ');

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+BIN=$(basename "$0")
+DIR=$(dirname "$0")
+
+if [ -f "/usr/bin/$BIN" ]; then
+    exec /usr/bin/$BIN "$@"
+else
+    PATH="$(echo $PATH | tr : "\n" | grep -v "^$DIR$" | tr "\n" : | sed 's/:$//')"
+    exec $BIN "$@"
+fi

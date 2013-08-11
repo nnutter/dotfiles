@@ -1,0 +1,27 @@
+#!/bin/bash
+UP_BRANCH="$1"
+BRANCH="$2"
+
+if [ -z "$BRANCH" ]; then
+    BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+fi
+
+if [ -z "$UP_BRANCH" ]; then
+    UP_REMOTE=$(git config branch.$BRANCH.remote)
+    UP_MERGE=$(git config branch.$BRANCH.merge)
+    UP_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref ${UP_MERGE/refs\/heads/refs\/remotes\/$UP_REMOTE})
+fi
+
+if ! git rev-parse --symbolic-full-name --abbrev-ref $UP_BRANCH > /dev/null; then
+    echo "ERROR: '$UP_BRANCH' is not valid!"
+    exit 1
+fi
+
+if ! git rev-parse --symbolic-full-name --abbrev-ref $BRANCH > /dev/null; then
+    echo "ERROR: '$BRANCH' is not valid!"
+    exit 2
+fi
+
+for PP in $(git diff --name-only $UP_BRANCH $BRANCH | grep \.pp$); do
+    puppet-lint --with-context --with-filename --fail-on-warnings "$PP"
+done

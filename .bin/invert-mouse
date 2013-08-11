@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+if [ -n "$(which xinput)" ]; then
+    DEV_ID=$(xinput list | egrep 'Dell.*Mouse' | sed -e 's/^.*id=//' -e 's/\s.*$//')
+    xinput set-button-map $DEV_ID 1 2 3 5 4 6 7
+fi

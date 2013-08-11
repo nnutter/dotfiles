@@ -1,0 +1,42 @@
+#! /bin/sh
+# wrapper for running scripts as cron job
+# to use, create a file under cron1:/etc/cron.d/ with the contents
+# MIN HOUR DATE MON DAY USER /gsc/scripts/sbin/gsc-cron SCRIPT-NAME
+
+# copied from gsc-cron on 2/21/2011 by jhonold
+# only change: adding following line for nnutter@
+export USER=`/usr/bin/whoami`
+
+pkg=gsc-cron
+version=0.5
+
+# make sure there was a script provided
+if [ "$1" ]; then
+    prog="$1"
+    shift
+else
+    echo "$pkg: no script name given"
+    exit 1
+fi
+
+# use correct profile
+#profile=/gsc/scripts/share/gsc-login/system.profile
+# changed by jmh on 12/30/2010 per ticket 65657
+profile=/gapp/noarch/share/login/gapp.profile
+if [ "`basename $0 | sed 's/^gsc-cron//'`" = '-test' ]; then
+    profile="$profile.test"
+fi
+
+# set up environment
+if [ -f $profile ]; then
+    . $profile >/dev/null
+fi
+
+APP_PRINT_DEFAULT_PRINTER=gschpinfo3
+PATH=/gsc/scripts/sbin:$PATH
+export APP_PRINT_DEFAULT_PRINTER PATH
+
+export PERL5LIB="/gscuser/nnutter/lib/gsc_bin_perl_5.8.7/lib/perl5:$PERL5LIB"
+
+# exec the program
+exec $prog "$@"

@@ -1,0 +1,13 @@
+#!/bin/bash
+#echo "Put the IPs you want to lookup into a file named list."
+#
+#url="http://www.geoiptool.com/en/?IP="
+#for i in `cat list`
+#do
+#lynx -dump $url$i > tmp
+#cat tmp | sed -n '/Host Name/,/Postal code/p'
+#rm tmp
+#done
+
+url="http://www.geoiptool.com/en/?IP="
+curl -s ${url}${1} | sed -n '/Host Name/,/<\/table>/p' | sed -e 's/<[^>]*>//g' -e '/^[\ \t]*$/d' -e 's/^[\ \t]*//' | sed '/:.*$/N;s/\n/\ /'

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+POST="$1"
+PELICAN_DIR="/home/nnutter/Code/nnutter.com"
+CONTENT_DIR="${PELICAN_DIR}/content"
+
+cp "${POST}" "${CONTENT_DIR}"
+cd "${PELICAN_DIR}"
+source /home/nnutter/.virtualenvs/pelican/bin/activate
+make publish

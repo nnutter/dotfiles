@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+
+my $params = join(' ', @ARGV);
+my @bjobs = qx(bjobs -W $params);
+shift @bjobs;
+print uc(join("\t", "job_id", "user", "stat", "queue", "project", "submit_time", "start_time", "exec_host", "job_name")) . "\n";
+for my $bjob (@bjobs) {
+    my ($job_id, $user, $stat, $queue, $from_host, $exec_host, $job_name, $submit_time, $proj_name, $cpu_used, $mem, $swap, $pids, $start_time, $finish_time) = $bjob =~ /([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*?)\s+(\d{2}\/\d{2}-\d{2}:\d{2}:\d{2})\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+/;
+    print join("\t", $job_id, $user, $stat, $queue, $proj_name, $submit_time, $start_time, $exec_host, $job_name) . "\n";
+}
+

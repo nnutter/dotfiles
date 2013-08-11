@@ -1,0 +1,142 @@
+#!/usr/bin/env perl
+
+# f47ba26c9db3dde68386c8a358839461  /gscuser/jlolofie/bin/sql_summary.pl
+
+use strict;
+use Data::Dumper;
+
+
+my $q = {};
+my $c;
+
+
+while(<>) {
+    $c .= $_;
+}
+
+while (my ($raw, $rest) = $c =~ /SQL:\s+\n(.*?)\n\n(.*)/ms) {
+
+    my ($query, $params) = $raw =~ /(.*)\n(PARAMS:.*)/ms;
+    my $param_href = {};
+    my $bind_vars;
+    my $found_end = 0;
+
+
+    for my $param (split(/\n/,$params)) {
+        my ($key, $value) = split(/:\s/,$param);
+
+        if ($key eq 'SQL') {
+            last; # connect/disconect message plus timings
+        }
+
+        $param_href->{$key} = $value;
+
+        if ($key eq 'PARAMS') {
+            $bind_vars = $value;
+        }
+
+    }
+
+    $q->{'query'}->{$query}->{'count'}++;
+    $q->{'query'}->{$query}->{'bind_var'}->{$bind_vars}->{'count'}++;
+    push @{ $q->{'query'}->{$query}->{'bind_var'}->{$bind_vars}->{'params'} }, $param_href;
+
+    if (my ($action) = $query =~/^(\w+)/) {
+        $q->{'action'}->{$action}->{'count'}++; 
+
+        if ($action eq 'select') {
+            my ($table) = $query =~ /^from (\w+)/ms;
+            $q->{'select_tables'}->{$table}++;
+        }
+    } else {
+        $q->{'action'}->{'wtf'}->{'count'}++;
+    }
+
+    $c = $rest;
+}
+
+
+my $html = <<"TOP_HTML";
+<html>
+<body>
+<h3>Type</h3>
+<table border=1> 
+<tr><th>count</th><th>action</th></tr>
+TOP_HTML
+
+for my $action (keys %{$q->{'action'}} ) {
+    $html .= "<tr><td>" . $q->{'action'}->{$action}->{'count'} . "</td><td>$action</td></tr>\n";
+}
+
+$html .= "</table>\n<h3>Tables in SELECT queries</h3>\n<table border=1>";
+
+for my $table (sort keys %{ $q->{'select_tables'} }) {
+    $html .= "<tr><td>" . $q->{'select_tables'}->{$table} . "</td><td>$table</td></tr>";
+}
+
+
+$html .= "</table>\n<h3>Queries</h3><table border=1><tr><th>total executions of this query</th><th>distinct executions (different bind vars)</th><th>query</th></tr>";
+
+for my $query (keys %{$q->{'query'}}) {
+    my $query_href = $q->{'query'}->{$query};
+    my $executions = $q->{'query'}->{$query}->{'bind_var'};
+
+    $html .= "<tr><td>" . $query_href->{'count'} . "</td><td>" . scalar(keys %$executions) . "</td><td>$query";
+    $html .= "<h4>Executions</h4><table border=1><tr><th>num executions</th><th>bind variables</th></tr>\n";
+
+    for my $bind_var (keys %{ $executions}) {
+        $html .= "<tr><td>" 
+            . scalar(@{ $executions->{$bind_var}->{'params'} }) 
+            . "</td><td>" 
+            . $bind_var 
+            . "</td><td>"
+            . get_timing_info($executions->{$bind_var}->{'params'})
+            . "</td></tr>\n";
+    }
+    $html .= "</table></td></tr>\n";
+}
+
+
+$html .= <<'BOTTOM_HTML';
+</table>
+</body>
+</html>
+BOTTOM_HTML
+
+
+my $out_filename = 'sql_summary.html';
+open(my $fh, ">$out_filename");
+print $fh $html;
+close($fh);
+
+
+print "\nDone. Look for $out_filename\n\n";
+
+exit;
+
+
+
+#PARAMS: 'common_name', '2880543435'
+#EXECUTE TIME: 0.0007 s
+#FIRST FETCH TIME: 0.0001 s
+#TOTAL EXECUTE-FETCH TIME: 0.0008 s
+
+sub zip {
+    my $p = @_ / 2;
+    return @_[ map { $_, $_ + $p } 0 .. $p - 1 ];
+}
+
+sub get_timing_info {
+    my ($params) = @_;
+    my $str;
+
+    for my $p (@$params) {
+        for my $key (keys %$p) {
+            $str .= join(': ', $key, $p->{$key}) . "<br/>";
+        }
+    }
+
+    return $str;
+}
+
+

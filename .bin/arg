@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+while [ $# -gt 0 ]; do
+    echo $1
+    shift
+done

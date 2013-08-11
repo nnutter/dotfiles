@@ -1,0 +1,12 @@
+#!/bin/bash
+
+LOG=/var/log/vacuum.log
+INDEX=/Users/Nathan/Library/Mail/Envelope\ Index
+
+date >> ${LOG}
+echo -n "Before: " >> ${LOG}
+du -hs "${INDEX}" >> ${LOG}
+sqlite3 "${INDEX}" vacuum
+echo -n "After: " >> ${LOG}
+du -hs "${INDEX}" >> ${LOG}
+echo >> ${LOG}

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+
+SRC_VERSION="$1"
+PKG_ITERATION="$2"
+[[ -z "$PKG_ITERATION" ]] && PKG_ITERATION="1" || true
+
+set -o nounset
+
+PKG_VERSION="$SRC_VERSION-$PKG_ITERATION"
+DISTRO="ubuntu-lucid"
+
+cd ~/Code/TestTracker
+
+if (( "$(git status -s | wc -l)" )); then
+    echo "Aborting, repo is not in a clean state!"
+    exit 1
+fi
+git checkout master
+
+dzil release || true
+rm -rf TestTracker-$SRC_VERSION # Removed "temp" directory...
+mv TestTracker-$SRC_VERSION.tar.gz /tmp/
+git tag -a -m '' v$SRC_VERSION # If you don't upload the release we still need to tag...
+
+# import the dist using git-buildpackage
+git checkout $DISTRO
+git-import-orig /tmp/TestTracker-$SRC_VERSION.tar.gz
+rm -f /tmp/TestTracker-$SRC_VERSION.tar.gz
+
+# update the changelog
+dch -v $PKG_VERSION
+git commit -m "Updated changelog for $PKG_VERSION." debian/changelog
+git tag -a -m "" $DISTRO/$PKG_VERSION
+git push --all
+git push --tags
+git checkout master
+
+# build package
+ssh -A -t vmpool39 /home/vmuser/tt-build "$PKG_VERSION"
+
+# Push package to repo.
+cd ~/pkg
+tgi-dput --repo lucid-genome-development --changes libtesttracker-perl_$PKG_VERSION*.changes

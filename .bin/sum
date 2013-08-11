@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+awk '{total = total + $1}END{print total}'
+

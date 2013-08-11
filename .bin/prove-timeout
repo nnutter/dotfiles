@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use App::Prove;
+
+my $timeout = shift @ARGV;
+
+my $prove = App::Prove->new;
+$prove->process_args(@ARGV);
+
+my $alarm_triggered = 0;
+my $alarm_msg = "alarm\n";
+eval {
+    local $SIG{ALRM} = sub { $alarm_triggered = 1; die $alarm_msg };
+    alarm $timeout;
+    $prove->run;
+    alarm 0;
+};
+if ($alarm_triggered) {
+    exit 1;
+} else {
+    exit;
+}

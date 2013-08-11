@@ -1,0 +1,7 @@
+#!/bin/bash
+Q=$1
+CMD=`echo $* | sed s/$1\ //`
+SUFFIX=`echo ${CMD} | sed -e 's/[^a-zA-Z0-9]/_/g' -e 's/^_//' -e 's/_$//' -e 's/_\{2,\}/_/g'`
+FILE=${HOME}/logs/bigsub_$$_${SUFFIX}
+bsub -e ${FILE}.e -o ${FILE}.o -M 16000000 -R 'select[type==LINUX64 && mem>16000 && tmp>30000] rusage[mem=16000, tmp=30000]' -q ${Q} -u ${USER}@genome.wustl.edu "${CMD}"
+echo "Log file will be ${FILE}.{o,e}";

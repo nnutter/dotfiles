@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print "Usage: %s <integer>" %os.path.basename(sys.argv[0])
+        print " Explain what the bam flag <integer> means"
+        sys.exit(1)
+
+flags = [
+    "template having multiple fragments in sequencing",
+    "each fragment properly aligned according to the aligner",
+    "fragment unmapped",
+    "next fragment in the template unmapped",
+    "SEQ being reverse complemented",
+    "SEQ of the next fragment in the template being reversed",
+    "the first fragment in the template",
+    "the last fragment in the template",
+    "secondary alignment",
+    "not passing quality controls",
+    "PCR or optical duplicate",
+]
+
+def getint(s):
+    if s.startswith("0x") or s.startswith("0X"):
+        return int(s, 16)
+
+    if s.endswith('h') or s.endswith('H'):
+        return int(s[:-1], 16)
+
+    return int(s)
+
+n = getint(sys.argv[1])
+for i, txt in enumerate(flags):
+    v = 1 << i
+    if n & v:
+        print "%xh (%d): %s" %(v, v, txt)

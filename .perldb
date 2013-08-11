@@ -1,0 +1,21 @@
+$DB::deep = 1000;
+
+sub afterinit {
+    push @DB::typeahead, "{{v" unless $DB::already_curly_curly_v++;
+};
+
+parse_options('dumpDepth=2 NonStop=1');
+
+$DB::alias{dp} = 's/dp/DB::dp/';
+sub DB::dp {
+    eval {
+        require Data::Printer;
+        Data::Printer->import(colored=>1,use_prototypes=>0);
+    };
+    if ($@=~/Can't locate/) {
+        print 'Data::Printer is not installed';
+        return;
+    };
+    print Data::Printer::p(@_);
+}
+

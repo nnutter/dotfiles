@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+
+finish() {
+    # OPTIONS_SPEC is parsed by git-sh-setup
+    # GIT_DIR is set by git-sh-setup
+    source "$(git --exec-path)/git-sh-setup"
+
+    local top_level="$(git rev-parse --show-toplevel)"
+    if [ "$branchdir_base" != "$top_level" ]; then
+        die_with_status 128 "error: finish must be run from the branchdir base directory"
+    fi
+
+    local name="$1"
+    if [ -z "$name" ]; then
+        die_with_status 128 "error: no branchdir specified"
+    fi
+
+    git merge --no-ff $name
+    git bd -d $name
+}
+
+SUBDIRECTORY_OK=1
+OPTIONS_SPEC="\
+git branchdir <branchdir-name> [<start-point>]
+git branchdir (-m | -M) <oldbranchdir> <newbranchdir>
+git branchdir (-d | -D) <branchdir-name>
+--
+h,help  show the help
+m       Move/rename a branchdir.
+M       Move/rename a branchdir even if the new branchdir already exists.
+d       Delete a branchdir.
+D       Delete a branchdir irrespective of its merged status.
+"
+branchdir $@

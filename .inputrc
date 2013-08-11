@@ -1,0 +1,18 @@
+set completion-ignore-case on
+
+# hide the common part of the matches behind ellipsis
+set completion-prefix-display-length 2
+
+# navigate possible completions
+Control-j: menu-complete
+Control-k: menu-complete-backward
+
+# lets hyphens complete underscores
+set completion-map-case on
+
+set completion-query-items 150
+"\e[3~": delete-char
+
+# up/down searches history starting with what's been typed
+"\e[A": history-search-backward
+"\e[B": history-search-forward

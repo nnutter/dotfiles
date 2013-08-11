@@ -1,0 +1,2 @@
+#!/bin/bash
+sed 's/\ \{8,\}/s/g' | sed '{:q;N;s/\n/Z/g;t q}' | sed 's/Zs//g' | sed 's/Z/\n/g'

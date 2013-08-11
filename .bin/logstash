@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use ElasticSearch;
+
+my $es = ElasticSearch->new(
+    servers => 'logstash.gsc.wustl.edu:9200',
+);
+
+my $results = $es->search(
+    index => ['logstash-general-2013.02.27', 'logstash-general-2013.02.28', 'logstash-general-2013.03.01'],
+    queryb => {
+        message => 'autofs main process ended, respawning',
+        post_date => {
+            '>'   => '2013-02-27',
+            '<='  => '2013-03-01',
+        },
+    },
+);
+
+use Data::Dumper;
+print Dumper($results);

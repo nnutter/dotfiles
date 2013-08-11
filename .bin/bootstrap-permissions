@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -o errexit
+
+# remove write permissions from everything except in Public
+chmod -v go-w "$HOME"
+find "$HOME" -mindepth 1 -maxdepth 1 -type d ! -name Public \
+    -print -exec chmod -vR go-rwx {} \;
+
+chmod 700 "$HOME/.ssh"
+find "$HOME/.ssh" -type f ! -name '*.pub' -exec chmod 600 {} \;
+find "$HOME/.ssh" -type f -name '*.pub' -exec chmod 644 {} \;
+
+chmod 600 "$HOME/.pypirc"

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DIR="$1"
+FILE="$2"
+
+case "${2##*.}" in
+    pdf)
+        mv "$2" "${DIR}/PDF/"
+        ;;
+    mobi)
+        mv "$2" "${DIR}/Kindle/"
+        ;;
+    epub)
+        mv "$2" "${DIR}/ePub/"
+        ;;
+esac

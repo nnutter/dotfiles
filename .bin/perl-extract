@@ -1,0 +1,137 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+
+use IO::File qw();
+use File::Temp qw();
+
+main();
+
+sub main {
+    my $code = join('', <>);
+    print extract_method($code);
+}
+
+sub tmp_filename {
+    my $tmp_file = File::Temp->new(TMPDIR => 1);
+    my $tmp_filename = $tmp_file->filename();
+    $tmp_file->close();
+    return $tmp_filename;
+}
+
+sub extract_method {
+    my $code = shift;
+
+    my $filename = tmp_filename();
+    write_file($filename, codegen($code, 'test'));
+
+    my $err  = 1;
+    my @args = ();
+    while ($err) {
+        $err = 0;
+        open(my $perl, "-|", 'perl -C ' . $filename . ' 2>&1') || die $@;
+        while (my $item = <$perl>) {
+            if ($item =~ /Global symbol "(.*)" requires explicit package name/) {
+                $err = 1;
+                push @args, $1 unless (grep { $1 eq $_ } @args);
+            }
+        }
+        close($perl);
+        write_file($filename, codegen($code, 'test', @args));
+    }
+    return codegen($code, 'final', @args);
+}
+
+sub write_file {
+    my $filename = shift;
+    my $code     = shift;
+
+    my $file = IO::File->new($filename, 'w+');
+    $file->print($code);
+    $file->close();
+}
+
+sub codegen {
+    my $code = shift;
+    my $mode = shift;
+    my @args = (@_);
+
+    my ($class_obj, @params) = split_args(@args);
+    my $method_body = signature($class_obj, \@params, $code);
+    my $subname     = 'mysub_' . int(rand(1000));
+    my $invocation  = invocation($class_obj, $subname, @params);
+    my $ret         = "$invocation;\n";
+    $ret .=
+        "sub $subname {\n"
+      . ($mode eq 'test' ? "use strict;\n" : '')
+      . $method_body . "}";
+    return $ret;
+}
+
+sub split_args {
+    my @args = (@_);
+
+    my $selforthis_signature = qr/^(\$self|\$this)$/;
+    my ($class_obj) = grep { $_ =~ /$selforthis_signature/ } @args;
+    my @params = grep { $_ !~ /$selforthis_signature/ } @args;
+
+    return ($class_obj, @params);
+}
+
+sub invocation {
+    my $class_obj = shift;
+    my $subname   = shift;
+    my @params    = (@_);
+
+    my $invocation;
+    if ($class_obj) {
+        $invocation = $class_obj . "->" . $subname;
+    } else {
+        $invocation = $subname;
+    }
+
+    $invocation = "$invocation("
+      . join(', ', map { /^(\%|\@)/ ? '\\' . $_ : $_ } @params) . ")";
+
+    return $invocation;
+}
+
+sub shifter {
+    my $var = shift;
+    my ($sigil, $name) = $var =~ /^(.)(.*)$/;
+    if ($sigil eq '%' || $sigil eq '@') {
+        return $sigil . "{(shift)}";
+    } else {
+        return 'shift';
+    }
+}
+
+sub signature {
+    my $class_obj = shift;
+    my @params    = @{ (shift) };
+    my $code      = shift;
+
+    my $tab = ' ' x 4;
+    my @lines;
+
+    if ($class_obj) {
+        push @lines, "${tab}my " . $class_obj . " = shift;";
+    }
+
+    if (@params) {
+        for my $var (@params) {
+            my $shift = shifter($var);
+            push @lines, ${tab} . join(' ', 'my', $var, '=', $shift) . ';';
+        }
+        push @lines, '';
+    }
+
+    if (index($code, $tab) == 0) {
+        push @lines, $code;
+    } else {
+        push @lines, $tab . $code;
+    }
+
+    return join("\n", @lines);
+}

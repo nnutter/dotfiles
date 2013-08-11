@@ -1,0 +1,15 @@
+--- /gsc/scripts/bin/genome	2008-11-18 14:48:18.440688000 -0600
++++ /gscuser/nnutter/bin/genome	2010-07-07 11:01:05.000000000 -0500
+@@ -3,6 +3,12 @@
+ use strict;
+ use warnings;
+ 
++# we do this before using any other modules, since so we
++# get the full speed improvement of caching
++BEGIN {
++    eval "use Getopt::Complete::Cache class => 'Genome::Command', above => 1;";
++};
++
+ # do a smart "use lib" for developers
+ # this only has an effect when your pwd is under Genome/
+ use above "Genome"; 

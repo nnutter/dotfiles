@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ "$PERL5LIB_ORIG" == "" ]; then
+    export PERL5LIB_ORIG=$PERL5LIB
+fi
+
+if [ "$1" == "dev" ]; then
+    export PERL5LIB=~/git/Getopt--Complete-for-Perl/lib:~/git/ur/lib:~/git/workflow/lib:$PERL5LIB_ORIG
+fi
+if [ "$1" == "clean" ]; then
+    git-clean-pull
+    export PERL5LIB=~/git/Getopt--Complete-for-Perl/lib:~/git/clean/genome/lib/perl:~/git/clean/ur/lib:~/git/clean/workflow/lib:$PERL5LIB_ORIG
+fi
+if [ "$1" == "orig" ]; then
+    export PERL5LIB=$PERL5LIB_ORIG
+fi
+

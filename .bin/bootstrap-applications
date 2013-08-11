@@ -1,0 +1,68 @@
+#!/usr/bin/perl
+
+use File::Spec;
+
+my @apps = (
+    'Adium',
+    'Alfred',
+    'Arq',
+    'Caffeine',
+    'Clyppan',
+    'Dropbox',
+    'Flux',
+    'Google Chrome',
+    'MacVim',
+    'Moom',
+    'nvALT',
+    'TextExpander',
+);
+
+my @prefpanes = (
+    'Hazel',
+);
+
+my @brewapps = (
+    'ack',
+    'gpg2',
+    'libmagic',
+    'libyaml',
+    'macvim',
+    'multimarkdown',
+    'openconnect',
+    'tmux',
+);
+
+for my $app (@apps) {
+    my $status;
+    if (system(qq(open -a "$app.app" -R 2> /dev/null)) == 0) {
+        $status = 'installed';
+    } else {
+        $status = 'not installed';
+    }
+    print "$app: $status\n";
+}
+
+for my $prefpane (@prefpanes) {
+    my @pp_dirs = (
+        '/Library/PreferencePanes',
+        File::Spec->join($ENV{HOME}, 'Library', 'PreferencePanes'),
+    );
+    my $prefpane_dir = join('.', $prefpane, 'prefPane');
+    my $status;
+    if ( grep { -d File::Spec->join($_, $prefpane_dir) } @pp_dirs ) {
+        $status = 'installed';
+    } else {
+        $status = 'not installed';
+    }
+    print "$prefpane: $status\n";
+}
+
+for my $brewapp (@brewapps) {
+    my $status;
+    if (system(qq(brew list $brewapp 1> /dev/null 2> /dev/null)) == 0) {
+        $status = 'installed';
+    } else {
+        $status = 'not installed';
+    }
+    print "$brewapp: $status\n";
+}

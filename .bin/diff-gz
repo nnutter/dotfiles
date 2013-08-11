@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+#{/gscmnt/gc7001/info/model_data/2880503916/build129723444,/gscmnt/gc13001/info/model_data/2880503916/build129776834}/variants/snvs.vcf.gz
+
+declare -a new_argv
+while (( "$#" )); do
+    if [ -f "$1" ] && file -L "$1" | grep -q 'gzip compressed data'; then
+        new_argv=("${new_argv[@]}" "<(zcat $1)")
+    else
+        new_argv=("${new_argv[@]}" "$1")
+    fi
+    shift
+done
+
+eval diff "${new_argv[@]}"

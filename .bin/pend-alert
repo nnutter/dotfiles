@@ -1,0 +1,36 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Data::Dumper;
+use DateTime;
+use IPC::System::Simple qw(capture);
+
+my $max_seconds = shift @ARGV;
+
+my @bjobs = capture('bjobsw', '-nsTjqJ', @ARGV);
+chomp @bjobs;
+
+my $dt_pattern = '%y/%m/%d-%H:%M:%S';
+my $now = DateTime->now(time_zone => 'America/Chicago');
+
+my @found;
+for my $bjob (@bjobs) {
+    my ($status, $submit_time, $job_id, $job_queue, $job_name) = split(/\t/, $bjob);
+    next if $status eq 'RUN';
+    next if $submit_time eq '-';
+    my $elapsed_seconds = capture('delta_s', $dt_pattern, '13/' . $submit_time, $now->strftime($dt_pattern));
+    chomp $elapsed_seconds;
+    if ($elapsed_seconds >= $max_seconds) {
+        push @found, join("\t", $job_id, $job_queue, $job_name);
+    }
+}
+
+if (@found) {
+    print join("\n", "Found non-running jobs older than $max_seconds seconds:", @found), "\n";
+    print "\n\nPlease check on these jobs and see if they can be expedited.  For example, if they are in the alignment-pd queue you might try moving them to the apipe queue.\n";
+    exit 1;
+} elsif (@bjobs) {
+    print "No non-running jobs older than $max_seconds seconds.\n";
+}

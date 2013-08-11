@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use IO::File;
+use List::Util qw(max min);
+use Pod::Usage;
+
+my %opts = (
+    after => 0,
+    before => 0,
+    context => 0,
+    help => 0,
+);
+GetOptions(
+    'A|after-context:i'  => \$opts{after},
+    'B|before-context:i' => \$opts{before},
+    'C|context:i'        => \$opts{context},
+    'n=i'                => \$opts{num},
+    'h|?|help'           => \$opts{help},
+) or exit 1;
+pod2usage(1) if ($opts{help} || !$opts{num});
+
+my $file = shift @ARGV;
+my $fh = (defined $file ? IO::File->new($file, 'r') : *STDIN);
+
+my @lines;
+my $max = -1 + $opts{num} + max($opts{after}, $opts{context});
+while (@lines <= $max) {
+    push @lines, <$fh>;
+}
+my $min = -1 + $opts{num} - max($opts{before}, $opts{context});
+print @lines[$min..$max];
+
+__END__
+
+=pod
+
+help me

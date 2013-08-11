@@ -1,0 +1,113 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Carp qw(croak);
+
+# Install Hashed for Safari:
+#    curl -o $HOME/.Trash/Hashed.safariextz "http://hashedapp.com/safari/Hashed.safariextz"
+#    open $HOME/.Trash/Hashed.safariextz
+
+# Set Caps Lock to Control.
+# Enable FileVault.
+# Enable Remote Login.
+# Set Computer Name.
+
+my %defaults = (
+    'com.apple.dock' => {
+        'wvous-tl-corner' => ['integer', 5], # top left hot corner starts screensaver
+        'autohide'        => ['boolean', 'yes'],
+    },
+    'com.apple.screensaver' => {
+        askForPassword      => ['integer', 1],
+        askForPasswordDelay => ['float', 5], # seconds?
+    },
+    'com.apple.menuextra.battery' => {
+        ShowPercent => ['boolean', 'no'],
+        ShowTime    => ['boolean', 'yes'],
+    },
+    'com.apple.screencapture' => {
+        type     => ['string', 'png'],
+        location => ['string', join('/', $ENV{HOME}, 'Desktop')],
+    },
+    'com.apple.finder' => {
+        QLEnableTextSelection => ['boolean', 'yes'],
+    },
+    'com.apple.Safari' => {
+        AutoOpenSafeDownloads        => ['boolean', 'no'],
+        NewTabBehavior               => ['integer', 1], # 1 = empty page
+        NewWindowBehavior            => ['integer', 1], # 1 = empty page
+        AlwaysRestoreSessionAtLaunch => ['boolean', 'yes'],
+    },
+    'com.apple.SoftwareUpdate' => {
+        ScheduleFrequency => ['integer', 1], # 1 = daily?
+    },
+    'com.google.Chrome' => {
+        AppleEnableSwipeNavigateWithScrolls => ['boolean', 'no'],
+    },
+);
+
+#-------------------------------------------------------------------------- 
+
+sub defaults_true {
+    my $v = shift;
+    return grep { $v eq $_ } ('yes', 'true', 1);
+}
+
+sub defaults_eq {
+    my ($type, $a, $b) = @_;
+    if ($type eq 'boolean') {
+        return (defaults_true($a) == defaults_true($b));
+    } else {
+        return $a eq $b;
+    }
+}
+
+sub qxx($) {
+    my $cmd = shift;
+    my @out = qx($cmd);
+    unless ($? == 0) {
+        print "ERROR: `$cmd` failed!\n";
+        exit 1;
+    }
+    return (wantarray ? @out : join('', @out));
+}
+
+sub foobar($$$$) {
+    my ($domain, $key, $type, $value) = @_;
+
+    unless ($domain) { croak 'domain not set' }
+    unless ($key) { croak 'key not set' }
+    unless ($type) { croak 'type not set' }
+    unless ($value) { croak 'value not set' }
+
+    my $read = qx(defaults read $domain $key 2> /dev/null);
+    my ($current_value) = $read =~ /^(.*)$/;
+    $current_value ||= '';
+
+    my $status;
+    my $write_cmd = qq(defaults write $domain $key -$type $value);
+    if (! defined $current_value) {
+        if (system($write_cmd) == 0) {
+            $status = 'initialized';
+        } else {
+            $status = 'initialization failed';
+        }
+    } elsif (! defaults_eq($type, $current_value, $value)) {
+        if (system($write_cmd) == 0) {
+            $status = "changed ('$current_value' => '$value')";
+        } else {
+            $status = "change ('$current_value' => '$value') failed";
+        }
+    } else {
+        $status = 'no change';
+    }
+    print "$domain $key: $status\n";
+}
+
+for my $domain (keys %defaults) {
+    for my $key (keys %{$defaults{$domain}}) {
+        my ($type, $value) = @{$defaults{$domain}{$key}};
+        foobar $domain, $key, $type, $value;
+    }
+}

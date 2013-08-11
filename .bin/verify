@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $1 == "help" && $2 == "" || $1 == "" && $2 = "" ]]; then
+	echo "verify: usage: verify src1 src2 "
+	exit
+fi
+
+if [[ -e $1 && -e $2 ]]; then
+	find $1 -type f | xargs openssl dgst -md5 > checksums.src1
+	find $2 -type f | xargs openssl dgst -md5 > checksums.src2
+else
+	echo "verify: error: non-existant file/dir"
+fi

@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+GENOME_PATH="${HOME}/genome/sandbox"
+
+set -o errexit
+set -o pipefail
+
+if [ ! -d ${GENOME_PATH}/.git ]; then
+	git clone ssh://git/srv/git/genome.git $GENOME_PATH
+fi
+
+cd ${GENOME_PATH}
+LAST_STABLE=$(git describe --tags | sed -e 's/\(genome-[0-9]\+\).*/\1/')
+git checkout $LAST_STABLE
+git reset --hard HEAD
+git clean -xdf
+
+git submodule update --init ur workflow
+
+# Remove /gsc/scripts/opt/genome/current/user/lib/perl
+PERL5LIB=$(echo $PERL5LIB | sed 's|/gsc/scripts/opt/genome/current/user/lib/perl[:$]||')
+
+# Add UR and Workflow
+PERL5LIB=${GENOME_PATH}/ur/lib:$PERL5LIB
+PERL5LIB=${GENOME_PATH}/workflow/lib:$PERL5LIB
+
+export PERL5LIB
+
+if [ -x $LSF_ENVDIR ]; then
+	UR_TEST_RUN_OPTS=' --lsf --jobs 10'
+fi
+
+# Run UR Tests
+cd ${GENOME_PATH}/ur
+git reset --hard HEAD
+git clean -xdf
+prove -r -v t/
+
+# Run Workflow Tests
+cd ${GENOME_PATH}/workflow
+git reset --hard HEAD
+git clean -xdf
+prove -r -v t/
+
+# Run Genome Tests
+cd ${GENOME_PATH}/lib/perl/Genome
+ur test run --recurse $UR_TEST_RUN_OPTS

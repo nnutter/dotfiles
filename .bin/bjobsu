@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+use IPC::System::Simple qw(capture);
+my $output = capture('bjobs', @ARGV);
+my $i = ' ' x 21;
+(my $filtered_output = $output) =~ s/\n$i//mg;
+print $filtered_output;

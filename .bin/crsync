@@ -1,0 +1,29 @@
+#!/usr/bin/env perl 
+
+use strict;
+use warnings;
+use Modern::Perl;
+use Filesys::Notify::Simple;
+
+my ($watch_dir, $dest_dir) = @ARGV;
+unless ($watch_dir && $dest_dir) {
+    say("Usage: crsync SRC DEST");
+    exit;
+}
+
+my $sync_count;
+my $rsync = "rsync -qav --delete --exclude '*.swp' --exclude '*~'";
+my $event_responder = sub {
+    $sync_count++;
+    print("$sync_count: Syncing... ");
+    system("$rsync $watch_dir $dest_dir");
+    say("Done.");
+};
+
+say("Performing initial sync...");
+system("$rsync $watch_dir $dest_dir");
+say("Monitoring for changes...");
+for (;;) {
+    my $watcher = Filesys::Notify::Simple->new([ $watch_dir ]);
+    $watcher->wait($event_responder);
+}

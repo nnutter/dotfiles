@@ -1,0 +1,4 @@
+# /etc/hostconfig HOSTNAME
+# sudo easy_install pip
+# sudo pip install virtualenv
+# set alert volume to 25%

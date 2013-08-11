@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "You can remove 'source ~nnutter/genome-completion.sh', it is now part of the system bashrc."
+#complete -C "trap 'unset COMP_LINE && unset COMP_POINT' SIGINT && /gsc/scripts/bin/genome" genome
+#complete -C "trap 'unset COMP_LINE && unset COMP_POINT' SIGINT && /gsc/scripts/bin/gmt" gmt
+#complete -C "trap 'unset COMP_LINE && unset COMP_POINT' SIGINT && /gsc/scripts/bin/ur" ur
+#complete -C "trap 'unset COMP_LINE && unset COMP_POINT' SIGINT && /gsc/scripts/bin/workflow" workflow
+

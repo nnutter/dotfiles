@@ -1,0 +1,15 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my @public_keys = qx(ls ~/.ssh/*.pub);
+chomp @public_keys;
+my @private_keys = map { $_ =~ /(.*)\.pub$/ } @public_keys;
+
+my @ssh_add_list = qx(ssh-add -l);
+
+for my $private_key (@private_keys) {
+    next if grep { $_ =~ /$private_key/ } @ssh_add_list;
+    system("ssh-add $private_key");
+}

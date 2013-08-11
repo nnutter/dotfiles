@@ -1,0 +1,159 @@
+#!/usr/bin/perl
+
+use v5.10;
+
+use strict;
+use warnings;
+
+use IPC::System::Simple qw(capture);
+use Pod::Usage;
+use Text::Table;
+
+my @fields;
+my %field = (
+    c => 'cpu',
+    e => 'exec_host',
+    F => 'finish_time',
+    f => 'from_host',
+#   h => 'help',
+    j => 'job_id',
+    J => 'job_name',
+    m => 'mem',
+#   n => 'no_headers',
+    p => 'pids',
+    P => 'proj_name',
+    q => 'queue',
+    S => 'start_time',
+    s => 'status',
+    T => 'submit_time',
+#   t => 'tabular output',
+    u => 'user',
+    w => 'swap',
+#   ? => 'help',
+);
+my ($help, $man, $headers, $tabular) = (0, 0, 1, 0);
+my $argv = shift @ARGV;
+unless (substr($argv, 0, 2) eq '--' || substr($argv, 0, 1) ne '-') {
+    my @switches = split(//, substr($argv, 1));
+    for my $s (@switches) {
+        my $field = $field{$s};
+        if ($s eq 'h' || $s eq '?') {
+            $help = 1;
+        } elsif ($s eq 'n') {
+            $headers = 0;
+        } elsif ($s eq 't') {
+            $tabular = 1;
+        } elsif ($field) {
+            push @fields, $field;
+        } else {
+            print "Unknown option: $s\n";
+            exit 1;
+        }
+    }
+}
+pod2usage(1) if $help;
+
+unless (@fields) {
+    my @default_fields = qw(job_id user status queue from_host job_name submit_time);
+    push @fields, @default_fields;
+}
+
+my @bjobs = capture('bjobs', '-W', @ARGV);
+
+# remove header line
+shift @bjobs;
+
+my @table;
+if ($headers) {
+    my @headers = map { uc($_) } @fields;
+    my @sep = map { '-' x length($_) } @headers;
+    push @table, [@headers], [@sep];
+}
+
+for my $bjob (@bjobs) {
+    next unless ($bjob =~ /^\d/);
+    my %values = parse_bjob($bjob);
+    my @values = map { $values{$_} || '-' } @fields;
+    push @table, [@values];
+}
+
+if ($tabular) {
+    my $tt = Text::Table->new();
+    $tt->load(@table);
+    print $tt;
+} else {
+    for my $row (@table) {
+        print join("\t", @$row), "\n";
+    }
+}
+
+sub parse_bjob {
+    my $bjob = shift;
+    $bjob =~ m{
+        ^
+        (?<job_id>\d+)
+        \s+
+        (?<user>\S+)
+        \s+
+        (?<status>\S+)
+        \s+
+        (?<queue>\S+)
+        \s+
+        (?<from_host>\S+)
+        \s+
+        (?<exec_host>\S+)
+        \s+
+        (?<job_name>.*?)
+        \s+
+        (?<submit_time>\d{2}\/\d{2}-\d{2}:\d{2}:\d{2})
+        \s+
+        (?<proj_name>\S+)
+        \s+
+        (?<cpu_used>[\d:.]+)
+        \s+
+        (?<mem>\d+)
+        \s+
+        (?<swap>\d+)
+        \s+
+        (?<pids>([\d,]+|-))
+        \s+
+        (?<start_time>(\d{2}\/\d{2}-\d{2}:\d{2}:\d{2}|-))
+        \s+
+        (?<finish_time>(\d{2}\/\d{2}-\d{2}:\d{2}:\d{2}|-))
+    }x;
+    my %o = %+;
+    return %o;
+}
+
+__END__
+
+=head1 NAME
+
+    bjobsw - bjobs wrapper to allow the selection of columns
+
+=head1 SYNOPSIS
+
+    bjobsw [columns] [bjobs options]
+
+     Options:
+       -                     default bjobs columns (job_id, user, status, queue, from_host, job_name, submit_time)
+       -t                    tabular output (as opposed to tab seperated output)
+       -n                    hide headers
+       -c                    show CPU usage
+       -e                    show execution host
+       -F                    show execution finish time
+       -f                    show submission host
+       -j                    show job ID
+       -J                    show job name
+       -m                    show memory usage
+       -p                    show PIDs
+       -P                    show project
+       -q                    show queue
+       -S                    show execution start time
+       -s                    show status
+       -T                    show submission time
+       -u                    show username
+       -w                    show swap usage
+       -?, -h                brief help message
+
+=cut

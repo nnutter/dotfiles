@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -n "$*" ]; then
+    LIST=$*
+else
+    LIST=$(read -t 0)
+fi
+if [ ! -n "$LIST" ]; then
+    echo "no list"
+    exit;
+fi
+for build in $LIST; do
+    open "https://imp.gsc.wustl.edu/view/Genome/Model/Build/status.html?id=$build"
+done

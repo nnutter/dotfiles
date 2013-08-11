@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+URL=$1
+MASTER_PASSWORD=$(security find-generic-password -g -s 'Safari Extension: com.nnutter.hashed.safari-ED44U2C732' 1>/dev/null 2>&1 | grep "^password:")
+
+echo $URL $MASTER_PASSWORD

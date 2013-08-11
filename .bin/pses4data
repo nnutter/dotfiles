@@ -1,0 +1,11 @@
+#!/gscuser/nnutter/bin/lims-env /gsc/bin/perl
+
+use Genome;
+
+for my $instrument_data_id (@ARGV) {
+    my @params = GSC::PSEParam->get(param_value => $instrument_data_id);
+    my @pse_id = map { $_->pse_id } @params;
+    my @pse = map { GSC::PSE->get($_) } @pse_id;
+    print ($instrument_data_id, "\n");
+    for (@pse) { print join("\t", ref $_, $_->id, ($_->pse_status || '-'), ($_->pse_result || '-')) . "\n"; }
+}

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+PATH=~nnutter/bin:$PATH
+
+if [ ! -e "$1" ]; then
+    echo "ERROR: file does not exist ($1)"
+    exit
+fi
+
+if [ -x "$2" ]; then
+    echo "ERROR: please provide a command"
+    exit
+fi
+CMD=$2
+
+while [[ `wc -l $1 | awk '{print $1}'` > 0 ]]; do
+    LINE=`shift_line $1`
+    if [ ! -x $LINE ]; then
+        $CMD $LINE
+    fi
+done

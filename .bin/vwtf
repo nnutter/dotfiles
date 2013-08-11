@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ -n "$1" ]; then
+    vim $(wtf $1 | head -n 1)
+fi

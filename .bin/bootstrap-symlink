@@ -1,0 +1,62 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use autodie qw(chdir);
+use File::Spec qw(abs2rel);
+use IO::Dir qw();
+
+my $home = $ENV{HOME} || die;
+my $repo = File::Spec->join($home, 'Dropbox', 'dotfiles');
+
+chdir $home;
+
+my $symlink = sub {
+	my $rel_path = shift;
+
+	my $d = File::Spec->join($repo, $rel_path);
+
+	my $h = File::Spec->join($home, $rel_path);
+	my $ht = (-l $h ? readlink $h : '');
+	if (-l $h && $ht ne $d) {
+		print "ERROR: '$rel_path' already exists in home!\n";
+		exit 1;
+	}
+
+	my $status;
+	if ($ht eq $d) {
+		$status = 'correct';
+	} elsif(symlink $d, $h) {
+		$status = 'symlinked';
+	} else {
+		$status = 'failed';
+	}
+	print "$rel_path: $status\n";
+};
+
+my $repo_dir = IO::Dir->new($repo);
+while (my $rel_path = $repo_dir->read) {
+	next if ($rel_path eq '.' || $rel_path eq '..');
+	$symlink->($rel_path);
+}
+
+my $home_dir = IO::Dir->new($home);
+while (my $rel_path = $home_dir->read) {
+	next if ($rel_path eq '.' || $rel_path eq '..');
+	next unless -l $rel_path;	
+
+	my $h = File::Spec->join($home, $rel_path);
+
+	my $ht = readlink $h;
+	next unless $ht =~ /^$repo\//;
+	next if -e $ht;
+
+	my $status;
+	if (unlink $h) {
+		$status = 'removed';
+	} else {
+		$status = 'orphaned';
+	}
+	print "$rel_path: $status\n";
+}

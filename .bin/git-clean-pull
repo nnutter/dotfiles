@@ -1,0 +1,13 @@
+#!/bin/bash
+cd ~/git/clean
+cd genome
+git reset --hard HEAD
+git pull origin master
+cd ../ur
+git reset --hard HEAD
+git pull origin master
+cd ../workflow
+git reset --hard HEAD
+git pull origin master
+echo "Done"
+

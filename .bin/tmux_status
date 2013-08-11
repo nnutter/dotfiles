@@ -1,0 +1,41 @@
+#!/bin/bash
+
+URL_HOST="apipe-ci.gsc.wustl.edu"
+
+function fetch_status () {
+    local URL_PREFIX="https://$URL_HOST/job/"
+    local URL_SUFFIX="/lastCompletedBuild/api/xml"
+    local TEST_QUERY="?xpath=/matrixBuild/result"
+    echo $(curl -sk ${URL_PREFIX}${1}${URL_SUFFIX}${TEST_QUERY} | perl -ne '/result>([^<]*)/ && print "$1";')
+}
+
+function fetch_snapshot () {
+    SNAPSHOT_PATH=$(readlink /gsc/scripts/opt/genome/current/user)
+    echo ${SNAPSHOT_PATH/*\//}
+}
+
+function color_on_status () {
+    local BG, FG
+    case $2 in
+        FAILURE)  BG='red';     FG='white' ;;
+        UNSTABLE) BG='yellow';  FG='black' ;;
+        SUCCESS)  BG='default'; FG='blue'  ;;
+        ABORTED)  BG='black';   FG='white' ;;
+    esac
+    echo "#[bg=$BG, fg=$FG]${1}#[default]"
+}
+
+if dig $URL_HOST +short | grep -q .; then
+    if [ -n "$(which curl)" ]; then
+        for J in '0-Genome-Perl-Tests-Quick' '1-Genome-Perl-Tests' '2-Genome-Model-Tests'; do
+            STATUS=$(fetch_status "$J")
+            TEST=$(color_on_status " ${STATUS:0:1} " $STATUS)
+            if [ -z "$TESTS" ]; then
+                TESTS=$TEST
+            else
+                TESTS=${TESTS}${TEST}
+            fi
+        done
+        echo -n "${TESTS}"
+    fi
+fi

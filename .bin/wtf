@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+use Carp;
+
+my $Mod = shift;
+
+unless(defined($Mod)) {
+    croak "usage: $0 Some::Module::Name\n";
+}
+
+unless($Mod =~ /\.pm$/x) {
+    $Mod = $Mod . ".pm";
+}
+
+$Mod =~ s/\:\:/\//gx;
+#print $Mod, "\n"; 
+foreach my $path (@INC) {
+    my $fullpath = $path . "/" .$Mod;
+    if( -e $fullpath) {
+        print $fullpath, "\n";
+    }
+
+}
+
+=head1 NAME
+
+wtf - Where the fsck?
+
+=head1 SYNOPSIS
+
+wtf Some::Module
+
+=head1 DESCRIPTION
+
+This handy script tells you the locations of a module, if you really want
+to know that kind of thing.
+
+=head2 EXPORT
+
+None. This is a script
+
+=head1 SEE ALSO
+
+=head1 FILES
+
+=head1 BUGS
+
+Possible
+
+=head1 AUTHOR
+
+John Osborne, E<lt>josborne@watson.wustl.eduE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2007 by John Osborne.  All Rights Reserved.
+
+=cut
+
+#$Id: wtf.pl 28976 2007-10-09 15:20:10Z josborne $

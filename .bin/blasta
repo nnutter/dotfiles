@@ -1,0 +1,61 @@
+#! /bin/bash
+# set up and execute wu-blast programs
+
+# path to current version of blast
+path=/gsc/pkg/bio/wu-blast/blast2_2006-05-04
+
+# set up architecture-specific versions
+if [ "$GSC_ARCHOS" ]; then
+    if [ "$GSC_ARCHOS" = 'sparc-solaris' ]; then
+        #if [ `isainfo -b` = '64' ]; then
+        # run 64-bit version on high memory machines
+        if [ "`/bin/uname -i`" = 'SUNW,Sun-Fire-880' ]; then
+            path=`echo $path | sed 's/blast2/blast2p64/'`
+        elif [ "`uname -m`" = 'sun4u' ]; then
+            # run ultra 32-bit version on ultras
+            path=`echo $path | sed 's/blast2/blast2p32/'`
+        fi
+    elif [ "$GSC_ARCHOS" = 'ia32-linux' ]; then
+        # check for blade to run i786
+        host=`hostname`
+        case "$host" in
+            blade[12]-*)
+                path=`echo $path | sed 's/blast2/blast2i786/'`
+                ;;
+            *)
+                # check for x86_64
+                if [ "`uname -m`" = x86_64 ]; then
+                    path=`echo $path | sed 's/blast2/blast2x64/'`
+                fi
+                ;;
+        esac
+    fi
+fi
+
+# set needed environment variables
+if [ ! "$WUBLASTMAT" ]; then
+    WUBLASTMAT=/gsc/scripts/share/wu-blast/matrix
+fi
+WUBLASTFILTER=$path/filter
+export WUBLASTMAT WUBLASTFILTER
+
+if [ "`ulimit -u`" = "unlimited" ]; then
+    # 264*1024, semi-arbitray based on strace of previously working blastn
+    ulimit -u 270336
+fi
+
+# determine the name with which we were invoked
+program=`basename $0`
+
+# make sure such an executable exists
+if [ -x "$path/$program" ]; then
+    :
+elif [ -x "$path/filter/$program" ]; then
+    path=$path/filter
+else
+    echo "blast:executable $program not found under $path"
+    exit 1
+fi
+
+# execute appropriate program with arguments provided
+exec $path/$program "$@"

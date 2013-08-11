@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use IO::File qw();
+
+my $IP = shift @ARGV;
+unless ($IP) {
+    print STDERR "ERROR: Please provide an IP address to lazy unmount.\n";
+    exit 128;
+}
+
+my @mounts = mounts();
+for my $mount (@mounts) {
+    my @opts = split(',', $mount->{fs_mntops});
+    my $addr = (grep { index($_, 'addr=') == 0 } @opts)[0];
+    if ($addr && $addr eq qq(addr=$IP)) {
+        my $path = $mount->{fs_file};
+        unless ($path) {
+            die 'no path found';
+        }
+        my @cmd = ('umount', '-l', $path);
+        my $exit = system(@cmd) >> 8;
+        unless ($exit == 0) {
+            printf STDERR "failed to `%s`\n", join(' ', @cmd);
+            exit $exit;
+        }
+    }
+}
+
+
+sub fields {
+    return qw(fs_spec fs_file fs_vfstype fs_mntops fs_freq fs_passno);
+}
+
+
+sub mounts {
+    my $file = IO::File->new('/proc/mounts', 'r');
+
+    my @mounts;
+    while (my $line = $file->getline) {
+        push @mounts, {parse_mounts_line($line)};
+    }
+
+    return @mounts;
+}
+
+
+sub parse_mounts_line {
+    my $line = shift;
+
+    my @fields = fields();
+    my %value;
+
+    # `man fstab` says fs_file would/should have spaces escaped as `\040`.
+    my @values = split(' ', $line);
+    if (@values < 4) {
+        die sprintf("got %d fields from /proc/mounts line but expect >= 4\n", scalar(@values));
+    }
+    if (@values > 6) {
+        die sprintf("got %d fields from /proc/mounts line but expect <= 6\n", scalar(@values));
+    }
+    @value{@fields} = @values;
+
+    # assign defaults according to `man fstab`.
+    $value{fs_freq} //= 0;
+    $value{fs_passno} //= 0;
+
+    return %value;
+}

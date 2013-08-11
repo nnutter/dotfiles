@@ -1,0 +1,5 @@
+#!/bin/bash
+for i in ${*}; do
+  echo ***Checking ${i}...
+  { time curl -sIL $i | egrep "Location|HTTP\/1"; } 2>&1 | egrep -v "^user|^sys"
+done

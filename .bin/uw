@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+UW='/opt/extras.ubuntu.com/uberwriter/bin/uberwriter'
+if [ -e "$UW" ]; then
+    exec $UW "$@" 2> /dev/null &
+else
+    if [ -e "/Applications/iA Writer.app" ]; then
+        exec open -a 'iA Writer' "$@"
+    fi
+fi

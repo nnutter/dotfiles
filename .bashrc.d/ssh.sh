@@ -1,6 +1,3 @@
-alias ssh='ssh -A'
-alias sshgc='ssh -A -t wugsc.wustl.edu ssh'
-
 function ssh-reagent {
     for agent in /tmp/ssh-*/agent.*; do
         export SSH_AUTH_SOCK=$agent

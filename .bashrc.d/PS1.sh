@@ -13,12 +13,6 @@ find_up() {
     fi
 }
 
-in_git() {
-    if git show-ref --quiet 2> /dev/null; then
-        echo 1
-    fi
-}
-
 in_hg() {
     find_up .hg "$(pwd)"
 }
@@ -47,9 +41,9 @@ build_ps1 () {
     if [ -n "$SUDO_USER" ]; then
         PS1="\u@$PS1"
     fi
-    [ "$(in_git)" ] && git_ps1
-    [ "$(in_hg)" ] && hg_ps1
-    [ "$(in_svn)" ] && svn_ps1
+    if git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then git_ps1; fi
+#    [ "$(in_hg)" ] && hg_ps1
+#    [ "$(in_svn)" ] && svn_ps1
     if [ -n "$GENOME_QUERY_POSTGRES" ]; then
         PS1="${PS1} (GENOME_QUERY_POSTGRES)"
     fi

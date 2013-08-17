@@ -1,3 +1,9 @@
 [submodule "/home/nnutter/.vim/bundle/vimroom"]
 	path = /home/nnutter/.vim/bundle/vimroom
 	url = https://github.com/mikewest/vimroom.git
+[submodule "/home/nnutter/.vim/bundle/iawriter"]
+	path = /home/nnutter/.vim/bundle/iawriter
+	url = https://github.com/cschneid/vim-iawriter.git
+[submodule "/home/nnutter/.vim/bundle/distractfree"]
+	path = /home/nnutter/.vim/bundle/distractfree
+	url = https://github.com/chrisbra/DistractFree.git

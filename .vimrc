@@ -49,6 +49,10 @@ endif
 set ts=4 sts=4 sw=4             " default to a 4-space tab
 set expandtab                   " use spaces instead of tabs
 
+" DistractFree
+let g:distractfree_width = '60%'
+let g:distractfree_colorscheme = "iawriter"
+
 " Highlight Cursor
 set cursorline
 

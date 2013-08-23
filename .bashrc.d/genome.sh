@@ -7,7 +7,6 @@ if [ -n "$(which genome 2> /dev/null)" ]; then
     alias genome-test='DEV genome'
     alias genome-test-debug='DEV genome-debug'
 
-    export UR_COMMAND_DUMP_STATUS_MESSAGES=1
     export GENOME_QUERY_POSTGRES=1
 
     go() {

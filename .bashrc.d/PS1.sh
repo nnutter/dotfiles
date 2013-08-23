@@ -41,12 +41,25 @@ build_ps1 () {
     if [ -n "$SUDO_USER" ]; then
         PS1="\u@$PS1"
     fi
+
     if git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then git_ps1; fi
 #    [ "$(in_hg)" ] && hg_ps1
 #    [ "$(in_svn)" ] && svn_ps1
-    if [ -n "$GENOME_QUERY_POSTGRES" ]; then
-        PS1="${PS1} (GENOME_QUERY_POSTGRES)"
+
+    local TAGS
+    if [ -n "$WF_USE_FLOW" ]; then
+        TAGS+=('FLOW')
     fi
+    if [ -n "$GENOME_QUERY_POSTGRES" ]; then
+        TAGS+=('GQP')
+    fi
+    if [ -n "$GENOME_SOFTWARE_RESULT_TEST_NAME" ]; then
+        TAGS+=('GST')
+    fi
+    if [ -n "$UR_DBI_NO_COMMIT" ]; then
+        TAGS+=('NO_COMMIT')
+    fi
+    PS1="${PS1} (${TAGS[@]})"
     PS1="${PS1}\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
 }
 

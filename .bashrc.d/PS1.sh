@@ -46,7 +46,7 @@ build_ps1 () {
 #    [ "$(in_hg)" ] && hg_ps1
 #    [ "$(in_svn)" ] && svn_ps1
 
-    local TAGS
+    local -a TAGS
     if [ -n "$WF_USE_FLOW" ]; then
         TAGS+=('FLOW')
     fi
@@ -59,7 +59,9 @@ build_ps1 () {
     if [ -n "$UR_DBI_NO_COMMIT" ]; then
         TAGS+=('NO_COMMIT')
     fi
-    PS1="${PS1} (${TAGS[@]})"
+    if [ ${#TAGS[@]} -gt 0 ]; then
+        PS1="${PS1} (${TAGS[@]})"
+    fi
     PS1="${PS1}\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
 }
 

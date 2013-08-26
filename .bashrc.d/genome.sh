@@ -7,8 +7,6 @@ if [ -n "$(which genome 2> /dev/null)" ]; then
     alias genome-test='DEV genome'
     alias genome-test-debug='DEV genome-debug'
 
-    export GENOME_QUERY_POSTGRES=1
-
     go() {
         cd $(find_snapshot "$1")
     }

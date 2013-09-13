@@ -22,6 +22,8 @@ function main {
         die "ERROR: Unexpected arguments: $@."
     fi
 
+    require_clean_work_tree
+
     if [ -z "$ANCESTOR" ]; then
         if git rev-parse @{u} > /dev/null 2>&1; then
             ANCESTOR='@{u}'
@@ -41,23 +43,7 @@ function main {
         exit 0
     fi
 
-    STASH_COUNT=$(git stash list | wc -l)
-    git stash save --include-untracked --quiet
-    NEW_STASH_COUNT=$(git stash list | wc -l)
-    if [ $NEW_STASH_COUNT -gt $STASH_COUNT ]; then
-        echo 'Stashed some changes.'
-    fi
     git rebase --interactive $ANCESTRAL_COMMIT
-
-    if [ $NEW_STASH_COUNT -gt $STASH_COUNT ]; then
-        if [ -d "${GIT_DIR}/rebase-merge" ]; then
-            echo 'Stashed changed were *not* re-applied since you are still rebasing. You will need to `git stash apply` when you are done.'
-        else
-            echo 'Re-applying stashed changes.'
-            git stash apply
-        fi
-    fi
-
 }
 
 SUBDIRECTORY_OK=1

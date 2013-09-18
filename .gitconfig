@@ -16,7 +16,7 @@
 	renameLimit = 10000
 	tool = vimdiff
 [push]
-	default = upstream
+	default = simple
 [url "git://github.com/"]
 	insteadOf = gh:
 [difftool "sourcetree"]

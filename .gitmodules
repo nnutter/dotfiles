@@ -1,21 +1,21 @@
-[submodule "/home/nnutter/.vim/bundle/vimroom"]
-	path = /home/nnutter/.vim/bundle/vimroom
+[submodule ".vim/bundle/vimroom"]
+	path = .vim/bundle/vimroom
 	url = https://github.com/mikewest/vimroom.git
-[submodule "/home/nnutter/.vim/bundle/iawriter"]
-	path = /home/nnutter/.vim/bundle/iawriter
+[submodule ".vim/bundle/iawriter"]
+	path = .vim/bundle/iawriter
 	url = https://github.com/cschneid/vim-iawriter.git
-[submodule "/home/nnutter/.vim/bundle/distractfree"]
-	path = /home/nnutter/.vim/bundle/distractfree
+[submodule ".vim/bundle/distractfree"]
+	path = .vim/bundle/distractfree
 	url = https://github.com/chrisbra/DistractFree.git
-[submodule "/home/nnutter/.vim/bundle/syntastic"]
-	path = /home/nnutter/.vim/bundle/syntastic
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "/home/nnutter/.vim/bundle/fugitive"]
-	path = /home/nnutter/.vim/bundle/fugitive
+[submodule ".vim/bundle/fugitive"]
+	path = .vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "/home/nnutter/.vim/bundle/dispatch"]
-	path = /home/nnutter/.vim/bundle/dispatch
+[submodule ".vim/bundle/dispatch"]
+	path = .vim/bundle/dispatch
 	url = https://github.com/tpope/vim-dispatch.git
-[submodule "/home/nnutter/.vim/bundle/surround"]
-	path = /home/nnutter/.vim/bundle/surround
+[submodule ".vim/bundle/surround"]
+	path = .vim/bundle/surround
 	url = https://github.com/tpope/vim-surround.git

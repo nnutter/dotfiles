@@ -70,7 +70,7 @@ function print_screen_title {
     if git rev-parse --git-dir 1> /dev/null 2> /dev/null ; then
         local REPO="$(git config branchdir.name)"
         if [ -z "$REPO" ]; then
-            REPO="$(basename $(git rev-parse --show-toplevel 2> /dev/null))"
+            REPO="$(basename "$(git rev-parse --show-toplevel 2> /dev/null)")"
         fi
         local BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
         TITLE="$REPO/$BRANCH"

@@ -6,8 +6,24 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'bkad/CamelCaseMotion'
+Bundle 'davidoc/taskpaper.vim'
+Bundle 'derekwyatt/vim-scala'
+Bundle 'godlygeek/tabular'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'kien/ctrlp.vim'
+Bundle 'klen/python-mode'
+Bundle 'rodjek/vim-puppet'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-dispatch'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-pandoc'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+Bundle 'wting/rust.vim'
+
 Bundle 'Syntastic'
-Bundle 'vim-pandoc'
 
 filetype plugin indent on
 syntax enable

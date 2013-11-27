@@ -43,4 +43,4 @@ ssh -A -t vmpool39 /home/vmuser/tt-build "$PKG_VERSION"
 
 # Push package to repo.
 cd ~/pkg
-tgi-dput --repo lucid-genome-development --changes libtesttracker-perl_$PKG_VERSION*.changes
+dput lucid-genome-development --change libtesttracker-perl_$PKG_VERSION*.changes

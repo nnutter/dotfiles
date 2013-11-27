@@ -1,3 +1,10 @@
+# gapp.bashrc sources ~/.bash_profile (and shouldn't?) so trick it using LD_LIBRARY_PATH
+OLD_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+LD_LIBRARY_PATH="FOO"
+use "/gapp/noarch/share/login/gapp.bashrc"
+LD_LIBRARY_PATH="$OLD_LD_LIBRARY_PATH"
+unset OLD_LD_LIBRARY_PATH
+
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -14,13 +21,6 @@ fi
 
 use "/etc/bashrc"
 use "/etc/bash.bashrc"
-
-# gapp.bashrc source ~/.bash_profile (and shouldn't?) so this breaks recursion
-if [ -z $GAPP_BASHRC_LOADED ]; then
-    export GAPP_BASHRC_LOADED=1
-    use "/gapp/noarch/share/login/gapp.bashrc"
-    unset GAPP_BASHRC_LOADED
-fi
 
 colon() {
     if [ -z "$1" ]; then

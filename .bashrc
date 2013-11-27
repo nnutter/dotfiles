@@ -1,5 +1,3 @@
-alias hs="$HOME/.homesick/repos/homeshick/home/.homeshick"
-
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -10,31 +8,17 @@ if [ -n "$XDG_CACHE_HOME" ]; then
     HISTFILE="$BASHBASEDIR/history"
 fi
 
-function source_if_dir {
-    DIR="$1"
-    if [ -d "$DIR" ]; then
-        local SH_FILE
-        for SH_FILE in $(find -L "$DIR" -name '*.sh'); do
-            source "$SH_FILE"
-        done
-    fi
-}
-
-function source_if_file {
-    [[ -f "$1" ]] && source "$1"
-}
-
 if [ "$COLORTERM" == "gnome-terminal" ] && [ "$TERM" == "xterm" ]; then
     export TERM="xterm-256color"
 fi
 
-source_if_file "/etc/bashrc"
-source_if_file "/etc/bash.bashrc"
+use "/etc/bashrc"
+use "/etc/bash.bashrc"
 
 # gapp.bashrc source ~/.bash_profile (and shouldn't?) so this breaks recursion
 if [ -z $GAPP_BASHRC_LOADED ]; then
     export GAPP_BASHRC_LOADED=1
-    source_if_file "/gapp/noarch/share/login/gapp.bashrc"
+    use "/gapp/noarch/share/login/gapp.bashrc"
     unset GAPP_BASHRC_LOADED
 fi
 
@@ -72,7 +56,12 @@ OS=$(uname -s)
 
 # export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
-source_if_dir ${HOME}/.bash_completion.d
-source_if_dir ${HOME}/.bashrc.d
+use ${HOME}/.bash_completion.d
+use ${HOME}/.bashrc.d
 
 export GPG_TTY=$(tty)
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+alias ls='ls -G'
+alias ll='ls -lh'

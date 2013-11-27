@@ -1,3 +1,17 @@
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'Syntastic'
+Bundle 'vim-pandoc'
+
+filetype plugin indent on
+syntax enable
+
 "set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
 "set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
 "set directory=$XDG_CACHE_HOME/vim,~/,/tmp
@@ -7,12 +21,6 @@ set directory=~/.vim/swap,/tmp
 set backupdir=~/.vim/backup,/tmp
 let g:notesdir="$HOME/Dropbox/Notes"
 
-filetype off
-call pathogen#infect()
-filetype on
-filetype plugin indent on
-
-set nocompatible
 set encoding=utf-8
 set showcmd
 set showmode

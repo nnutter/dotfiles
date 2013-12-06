@@ -25,9 +25,10 @@ function color_on_status {
     echo "#[bg=$BG, fg=$FG]${1}#[default]"
 }
 
-if dig $URL_HOST +short | grep -q .; then
-    if [ -n "$(which curl)" ]; then
-        for J in '0-Genome-Perl-Tests-Quick' '1-Genome-Perl-Tests' '2-Genome-Model-Tests'; do
+function job_status {
+    J="$1"
+    if dig $URL_HOST +short | grep -q .; then
+        if [ -n "$(which curl)" ]; then
             STATUS=$(fetch_status "$J")
             TEST=$(color_on_status " ${STATUS:0:1} " $STATUS)
             if [ -z "$TESTS" ]; then
@@ -35,7 +36,11 @@ if dig $URL_HOST +short | grep -q .; then
             else
                 TESTS=${TESTS}${TEST}
             fi
-        done
-        echo -n "${TESTS}"
+            echo -n "${TESTS}"
+        fi
     fi
-fi
+}
+
+job_status '0-Genome-Perl-Tests-Quick'
+job_status '1-Genome-Perl-Tests'
+job_status '2-Genome-Model-Tests'

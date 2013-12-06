@@ -41,6 +41,11 @@ function job_status {
     fi
 }
 
+function count_gerrit_query {
+    echo -n "$(ssh -p 29418 apipe-review.gsc.wustl.edu gerrit query "$@" | grep ^rowCount | cut -d ' ' -f 2)"
+}
+
+count_gerrit_query 'status:open'
 job_status '0-Genome-Perl-Tests-Quick'
 job_status '1-Genome-Perl-Tests'
 job_status '2-Genome-Model-Tests'

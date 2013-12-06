@@ -2,12 +2,8 @@
 
 URL_HOST="apipe-ci.gsc.wustl.edu"
 
-function fetch_status {
-    local URL_PREFIX="https://$URL_HOST/job/"
-    local URL_SUFFIX="/lastCompletedBuild/api/xml"
-    local TEST_QUERY="?xpath=/matrixBuild/result"
-    echo $(curl -sk ${URL_PREFIX}${1}${URL_SUFFIX}${TEST_QUERY} | perl -ne '/result>([^<]*)/ && print "$1";')
-}
+URL_PREFIX="https://$URL_HOST/job/"
+URL_SUFFIX="/lastCompletedBuild/api/xml"
 
 function fetch_snapshot {
     SNAPSHOT_PATH=$(readlink /gsc/scripts/opt/genome/current/user)
@@ -25,27 +21,35 @@ function color_on_status {
     echo "#[bg=$BG, fg=$FG]${1}#[default]"
 }
 
+function fetch_job_status {
+    local TEST_QUERY="?xpath=/${1}/result"
+    echo $(curl -sk ${URL_PREFIX}${2}${URL_SUFFIX}${TEST_QUERY} | perl -ne '/result>([^<]*)/ && print "$1";')
+}
+
 function job_status {
-    J="$1"
+    local TESTS
     if dig $URL_HOST +short | grep -q .; then
         if [ -n "$(which curl)" ]; then
-            STATUS=$(fetch_status "$J")
-            TEST=$(color_on_status " ${STATUS:0:1} " $STATUS)
+            STATUS=$(fetch_job_status "$@")
+            TEST=$(color_on_status "${STATUS:0:1}" $STATUS)
             if [ -z "$TESTS" ]; then
                 TESTS=$TEST
             else
                 TESTS=${TESTS}${TEST}
             fi
-            echo -n "${TESTS}"
+            echo -n "${TESTS} "
         fi
     fi
 }
 
 function count_gerrit_query {
-    echo -n "$(ssh -p 29418 apipe-review.gsc.wustl.edu gerrit query "$@" | grep ^rowCount | cut -d ' ' -f 2)"
+    echo -n "$(ssh -p 29418 apipe-review.gsc.wustl.edu gerrit query "$@" | grep ^rowCount | cut -d ' ' -f 2) "
 }
 
+echo -n '⎜'
 count_gerrit_query 'status:open'
-job_status '0-Genome-Perl-Tests-Quick'
-job_status '1-Genome-Perl-Tests'
-job_status '2-Genome-Model-Tests'
+echo -n '〉'
+job_status matrixBuild '0-Genome-Perl-Tests-Quick'
+job_status matrixBuild '1-Genome-Perl-Tests'
+job_status freeStyleBuild '2-Genome-Model-Tests'
+echo -n '〉'

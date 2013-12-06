@@ -43,7 +43,10 @@ function job_status {
 }
 
 function count_gerrit_query {
-    echo -n "$(ssh -p 29418 apipe-review.gsc.wustl.edu gerrit query "$@" | grep ^rowCount | cut -d ' ' -f 2) "
+    GERRIT_HOST=apipe-review.gsc.wustl.edu
+    if dig $GERRIT_HOST +short | grep -q .; then
+        echo -n "$(ssh -p 29418 $GERRIT_HOST gerrit query "$@" | grep ^rowCount | cut -d ' ' -f 2) "
+    fi
 }
 
 echo -n '⎜'

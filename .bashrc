@@ -1,3 +1,14 @@
+function use {
+    if [ -d "$1" ]; then
+        local SH_FILE
+        for SH_FILE in $(find -L "$1" -name '*.sh'); do
+            source "$SH_FILE"
+        done
+    else
+        [[ -r "$1" ]] && source "$1"
+    fi
+}
+
 # gapp.bashrc sources ~/.bash_profile (and shouldn't?) so trick it using LD_LIBRARY_PATH
 OLD_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
 LD_LIBRARY_PATH="FOO"

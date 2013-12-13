@@ -16,7 +16,7 @@ use "$PERLBREW_ROOT/etc/bashrc"
 
 use "$HOME/.rvm/scripts/rvm"
 
-if hash keychain; then
+if type -p keychain > /dev/null; then
     eval $(keychain --eval --quick --quiet)
 fi
 

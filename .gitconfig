@@ -31,3 +31,5 @@
     insteadOf = https://github.com/
 [url "git@bitbucket.org:"]
     insteadOf = https://bitbucket.org/
+[github]
+	user = nnutter

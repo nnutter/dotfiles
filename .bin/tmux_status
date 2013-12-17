@@ -45,7 +45,11 @@ function job_status {
 function count_gerrit_query {
     local GERRIT_HOST=apipe-review.gsc.wustl.edu
     if dig $GERRIT_HOST +short | grep -q .; then
-        echo -n "$(ssh -p 29418 $GERRIT_HOST gerrit query "$@" | grep ^rowCount | cut -d ' ' -f 2) "
+        local COUNT="$(ssh -o 'ConnectTimeout 3' -p 29418 $GERRIT_HOST gerrit query "$@" 2> /dev/null | grep ^rowCount | cut -d ' ' -f 2)"
+        if [ -z "$COUNT" ]; then
+            COUNT=$(color_on_status 'T' 'FAILURE')
+        fi
+        echo -n "$COUNT"
     fi
 }
 

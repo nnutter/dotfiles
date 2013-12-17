@@ -37,7 +37,7 @@ function job_status {
             else
                 TESTS=${TESTS}${TEST}
             fi
-            echo -n "${TESTS} "
+            echo -n "${TESTS}"
         fi
     fi
 }
@@ -49,10 +49,13 @@ function count_gerrit_query {
     fi
 }
 
-echo -n '⎜'
+function separator {
+    echo -n ' 〉'
+}
+
+separator
 count_gerrit_query 'status:open'
-echo -n '〉'
 job_status matrixBuild '0-Genome-Perl-Tests-Quick'
 job_status matrixBuild '1-Genome-Perl-Tests'
 job_status freeStyleBuild '2-Genome-Model-Tests'
-echo -n '〉'
+separator

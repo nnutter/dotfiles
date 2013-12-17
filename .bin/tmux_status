@@ -29,7 +29,7 @@ function fetch_job_status {
 function job_status {
     local TESTS
     if dig $URL_HOST +short | grep -q .; then
-        if [ -n "$(which curl)" ]; then
+        if hash curl 2> /dev/null; then
             STATUS=$(fetch_job_status "$@")
             TEST=$(color_on_status "${STATUS:0:1}" $STATUS)
             if [ -z "$TESTS" ]; then

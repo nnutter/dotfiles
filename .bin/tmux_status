@@ -13,7 +13,7 @@ function fetch_snapshot {
 function color_on_status {
     local BG, FG
     case $2 in
-        FAILURE)  BG='red';     FG='white' ;;
+        FAILURE)  BG='white';   FG='red' ;;
         UNSTABLE) BG='yellow';  FG='black' ;;
         SUCCESS)  BG='default'; FG='blue'  ;;
         ABORTED)  BG='black';   FG='white' ;;

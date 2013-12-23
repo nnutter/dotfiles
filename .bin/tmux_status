@@ -59,6 +59,7 @@ function separator {
 
 separator
 count_gerrit_query 'status:open'
+echo -n ' '
 job_status matrixBuild '0-Genome-Perl-Tests-Quick'
 job_status matrixBuild '1-Genome-Perl-Tests'
 job_status freeStyleBuild '2-Genome-Model-Tests'

@@ -1,3 +1,4 @@
+echo "ENTER .bash_profile" 1>&2
 function use {
     if [ -d "$1" ]; then
         local SH_FILE
@@ -9,7 +10,9 @@ function use {
     fi
 }
 
+echo "ENTER gapp.profile" 1>&2
 use /gapp/noarch/share/login/gapp.profile
+echo "EXIT gapp.profile" 1>&2
 
 export PERLBREW_ROOT=$HOME/.perlbrew
 use "$PERLBREW_ROOT/etc/bashrc"
@@ -21,3 +24,4 @@ if type -p keychain > /dev/null; then
 fi
 
 use "$HOME/.bashrc"
+echo "EXIT .bash_profile" 1>&2

@@ -1,3 +1,4 @@
+echo "ENTER .bashrc" 1>&2
 function use {
     if [ -d "$1" ]; then
         local SH_FILE
@@ -76,3 +77,4 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 alias ls='ls -G'
 alias ll='ls -lh'
+echo "EXIT .bashrc" 1>&2

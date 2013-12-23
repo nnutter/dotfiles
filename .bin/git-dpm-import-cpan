@@ -14,7 +14,7 @@ my $package = shift @ARGV or do {
     exit 128;
 };
 
-run('dh-make-perl', '--cpan', $package);
+run('dh-make-perl', '--cpan', $package, @ARGV);
 my $directory = directory($package) or exit 128;
 my $orig_tar_gz = orig_tar_gz($package) or exit 128;
 

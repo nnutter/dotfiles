@@ -53,14 +53,39 @@ function count_gerrit_query {
     fi
 }
 
+function cache {
+    local CACHE_DIR="$HOME/.cache/tmux_status"
+    for A in "$@"; do
+        CACHE_DIR="${CACHE_DIR}/$A"
+    done
+    mkdir -p $CACHE_DIR
+
+    local NOW=$(date +"%s")
+
+    local CACHE_FILE="${CACHE_DIR}/DATA"
+
+    local MODDATE="$NOW"
+    if [ -e "$CACHE_FILE" ]; then
+        MODDATE=$(stat -c %y "$CACHE_FILE")
+        MODDATE=${MODDATE%% *}
+    fi
+
+    if (( $MODDATE + 300 > $NOW )); then
+        local DATA=$("$@")
+        echo -n "$DATA" > "$CACHE_FILE"
+    fi
+
+    cat "$CACHE_FILE"
+}
+
 function separator {
     echo -n ' 〉'
 }
 
 separator
-count_gerrit_query 'status:open'
+cache count_gerrit_query 'status:open'
 echo -n ' '
-job_status matrixBuild '0-Genome-Perl-Tests-Quick'
-job_status matrixBuild '1-Genome-Perl-Tests'
-job_status freeStyleBuild '2-Genome-Model-Tests'
+cache job_status matrixBuild '0-Genome-Perl-Tests-Quick'
+cache job_status matrixBuild '1-Genome-Perl-Tests'
+cache job_status freeStyleBuild '2-Genome-Model-Tests'
 separator

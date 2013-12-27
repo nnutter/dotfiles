@@ -66,11 +66,11 @@ function cache {
 
     local MODDATE="$NOW"
     if [ -e "$CACHE_FILE" ]; then
-        MODDATE=$(stat -c %y "$CACHE_FILE")
+        MODDATE=$(stat -c %Y "$CACHE_FILE")
         MODDATE=${MODDATE%% *}
     fi
 
-    if (( $MODDATE + 300 > $NOW )); then
+    if (( $MODDATE + 300 < $NOW )); then
         local DATA=$("$@")
         echo -n "$DATA" > "$CACHE_FILE"
     fi

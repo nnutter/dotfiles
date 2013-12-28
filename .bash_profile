@@ -14,6 +14,12 @@ echo "ENTER gapp.profile" 1>&2
 use /gapp/noarch/share/login/gapp.profile
 echo "EXIT gapp.profile" 1>&2
 
+for script in /usr/local/etc/profile.d/*.sh; do
+    if [ -r $script ]; then
+        source $script
+    fi
+done
+
 export PERLBREW_ROOT=$HOME/.perlbrew
 use "$PERLBREW_ROOT/etc/bashrc"
 

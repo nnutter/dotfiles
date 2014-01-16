@@ -299,3 +299,5 @@ let vala_space_errors = 1
 
 " Minimum lines used for comment syncing (default 50)
 "let vala_minlines = 120
+
+set modelines=5

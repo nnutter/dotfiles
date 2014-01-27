@@ -20,7 +20,8 @@ for my $bjob (@bjobs) {
     my ($status, $submit_time, $job_id, $job_queue, $job_name) = split(/\t/, $bjob);
     next if $status eq 'RUN';
     next if $submit_time eq '-';
-    my $elapsed_seconds = capture('delta_s', $dt_pattern, '13/' . $submit_time, $now->strftime($dt_pattern));
+    my @cmd = ('delta_s', $dt_pattern, '14/' . $submit_time, $now->strftime($dt_pattern));
+    my $elapsed_seconds = capture(@cmd);
     chomp $elapsed_seconds;
     if ($elapsed_seconds >= $max_seconds) {
         push @found, join("\t", $job_id, $job_queue, $job_name);

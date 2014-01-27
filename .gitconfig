@@ -31,5 +31,7 @@
     insteadOf = https://github.com/
 [url "git@bitbucket.org:"]
     insteadOf = https://bitbucket.org/
+[url "ssh://git.gsc.wustl.edu/srv/git/"]
+    insteadOf = ssh://git/srv/git/
 [github]
 	user = nnutter

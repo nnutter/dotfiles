@@ -35,3 +35,7 @@
     insteadOf = ssh://git/srv/git/
 [github]
 	user = nnutter
+[alias]
+	branch-ages = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)' refs/heads
+[help]
+	autocorrect = 1

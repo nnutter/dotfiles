@@ -1,3 +1,4 @@
 #!/bin/bash
 
-true; while [ $? -eq 0 ]; do "$@" ; done
+LOOP_EXIT=0
+while [ $LOOP_EXIT -eq 0 ]; do "$@" ; LOOP_EXIT=$? ; sleep 1 ; done

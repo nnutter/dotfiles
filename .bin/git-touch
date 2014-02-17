@@ -1,0 +1,45 @@
+#!/bin/bash
+
+SUBDIRECTORY_OK=Yes
+OPTIONS_SPEC="\
+git touch <file>...
+
+Touch a file and add its path, but not it's content, to the index.
+--
+v,verbose       Be verbose.
+f,force         Allow adding otherwise ignored files.
+n,dry-run       Don't actually add the file(s), just show if they exist and/or will be ignored.
+"
+source "$(git --exec-path)/git-sh-setup"
+
+set -o errexit
+
+declare -a OPTS
+while test $# -gt 0; do
+    OPT="$1"
+    shift
+    case "$OPT" in
+        --)
+            break
+            ;;
+        -n)
+            DRY_RUN=1
+            OPTS=( "${OPTS[@]}" "$OPT" )
+            ;;
+        *)
+            OPTS=( "${OPTS[@]}" "$OPT" )
+            ;;
+    esac
+done
+
+for F in "$@"
+do
+    if test -n "$DRY_RUN"
+    then
+        echo "touch '$F'"
+    else
+        touch "$F"
+    fi
+done
+
+git add --intent-to-add "${OPTS[@]}" -- "$@"

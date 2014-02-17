@@ -19,6 +19,8 @@ vagrant_rebuild() {
     case $SB_MODE in
         on)
             command vagrant sandbox rollback "$@"
+            sleep 3
+            command vagrant status "$@"
             command vagrant provision "$@"
             ;;
         *)
@@ -29,14 +31,15 @@ vagrant_rebuild() {
 }
 
 vagrant() {
-    SB_MODE=$(command vagrant sandbox status | sed 's/.*snapshot mode is //')
     ACTION=$1
     shift
     case $ACTION in
-        s|sup)
+        s|sup|up)
+            SB_MODE=$(command vagrant sandbox status "$@" | sed 's/.*mode is //')
             vagrant_sup "$@"
             ;;
         r|rebuild)
+            SB_MODE=$(command vagrant sandbox status "$@" | sed 's/.*mode is //')
             vagrant_rebuild "$@"
             ;;
         -h|--help|'')

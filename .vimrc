@@ -284,6 +284,9 @@ set notimeout
 autocmd BufRead *.vala,*.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
 au BufRead,BufNewFile *.vala,*.vapi setfiletype vala
 
+" OCaml
+"au BufRead,BufNewFile *.ml,*.mli compiler ocaml
+
 " Disable valadoc syntax highlight
 "let vala_ignore_valadoc = 1
 

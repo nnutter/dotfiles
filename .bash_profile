@@ -29,3 +29,7 @@ if type -p keychain > /dev/null; then
 fi
 
 use "$HOME/.bashrc"
+
+if hash opam 2> /dev/null; then
+    eval $(opam config env)
+fi

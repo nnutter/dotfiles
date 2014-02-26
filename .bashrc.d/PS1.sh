@@ -83,6 +83,10 @@ function print_screen_title {
             TITLE=${PWD/#${HOME}/\~}
         fi
     fi
+
+    if [ -n "$LAST_EXIT_CODE" -a "$LAST_EXIT_CODE" -ne 0 ]; then
+        TITLE="$TITLE !"
+    fi
     printf "$TITLE"
 }
 
@@ -105,5 +109,5 @@ function build_title {
     set_window_title "$(print_window_title)"
 }
 
-export PROMPT_COMMAND="build_ps1; build_title; "
+export PROMPT_COMMAND="LAST_EXIT_CODE=\$?; build_ps1; build_title; "
 export PS1

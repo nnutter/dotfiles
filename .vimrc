@@ -9,11 +9,14 @@ Bundle 'gmarik/vundle'
 Bundle 'bkad/CamelCaseMotion'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'derekwyatt/vim-scala'
+Bundle 'nnutter/vim-go'
 Bundle 'godlygeek/tabular'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'kien/ctrlp.vim'
 Bundle 'klen/python-mode'
 Bundle 'rodjek/vim-puppet'
+Bundle 'Shougo/neocomplete.vim'
+Bundle 'Shougo/neosnippet.vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-dispatch'
@@ -304,3 +307,6 @@ let vala_space_errors = 1
 "let vala_minlines = 120
 
 set modelines=5
+
+" vim-go options
+let g:go_snippet_engine = "neosnippet"

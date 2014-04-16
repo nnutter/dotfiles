@@ -1,0 +1,63 @@
+#!/bin/bash
+
+VM_NAME='Ubuntu Server'
+
+usage() {
+    echo 'Subcommands:'
+    echo '  status'
+    echo '  pause'
+    echo '  start'
+    echo '  stop'
+}
+
+status() {
+    VBoxManage showvminfo "$VM_NAME" | grep ^State | sed -E -e 's/^State: +//' -e 's/ \(.*//'
+}
+
+pause() {
+    VBoxManage controlvm "$VM_NAME" pause
+}
+
+start() {
+    local STATUS="$(status)"
+    OFF="powered off"
+    case "$STATUS" in
+        $OFF)
+            VBoxManage startvm --type headless "$VM_NAME"
+            ;;
+        paused)
+            VBoxManage controlvm "$VM_NAME" resume
+            ;;
+        *)
+            echo "unknown status: $STATUS"
+            exit 1
+            ;;
+    esac
+}
+
+stop() {
+    VBoxManage controlvm "$VM_NAME" poweroff
+}
+
+case $1 in
+    status)
+        status "$@"
+        exit 0
+        ;;
+    pause)
+        pause "$@"
+        exit 0
+        ;;
+    start)
+        start "$@"
+        exit 0
+        ;;
+    stop)
+        stop "$@"
+        exit 0
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac

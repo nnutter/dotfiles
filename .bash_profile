@@ -24,7 +24,7 @@ use "$PERLBREW_ROOT/etc/bashrc"
 
 use "$HOME/.rvm/scripts/rvm"
 
-if hostname | grep -vqP '^blade[0-9-]+.gsc\.wustl\.edu' && type -p keychain > /dev/null
+if hostname | grep -vq '^blade[0-9-]+\.gsc\.wustl\.edu' && type -p keychain > /dev/null
 then
     eval $(keychain --eval --quick --quiet)
 fi

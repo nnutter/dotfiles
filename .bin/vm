@@ -1,5 +1,10 @@
 #!/bin/bash
 
+cd $HOME/Documents/Vagrant/trusty
+vagrant "$@"
+
+exit
+
 VM_NAME='Ubuntu Server'
 
 usage() {
@@ -8,6 +13,7 @@ usage() {
     echo '  pause'
     echo '  start'
     echo '  stop'
+    echo '  ssh'
 }
 
 status() {
@@ -39,7 +45,9 @@ stop() {
     VBoxManage controlvm "$VM_NAME" poweroff
 }
 
-case $1 in
+CMD="$1"
+shift
+case $CMD in
     status)
         status "$@"
         exit 0
@@ -54,6 +62,10 @@ case $1 in
         ;;
     stop)
         stop "$@"
+        exit 0
+        ;;
+    ssh)
+        ssh vm "$@"
         exit 0
         ;;
     *)

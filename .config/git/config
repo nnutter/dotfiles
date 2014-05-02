@@ -37,5 +37,4 @@
 	user = nnutter
 [alias]
 	branch-ages = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)' refs/heads
-[rebase]
-	autostash = true
+	prebase = !git fetch && git rebase --autostash --preserve-merges @{u}

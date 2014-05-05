@@ -12,8 +12,6 @@ set -o nounset
 PKG_VERSION="$SRC_VERSION-$PKG_ITERATION"
 DISTRO="ubuntu-lucid"
 
-cd ~/Code/TestTracker
-
 if (( "$(git status -s | wc -l)" )); then
     echo "Aborting, repo is not in a clean state!"
     exit 1
@@ -43,4 +41,3 @@ ssh -A -t vmpool39 /home/vmuser/tt-build "$PKG_VERSION"
 
 # Push package to repo.
 cd ~/pkg
-dput lucid-genome-development --change libtesttracker-perl_$PKG_VERSION*.changes

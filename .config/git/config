@@ -38,3 +38,5 @@
 [alias]
 	branch-ages = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)' refs/heads
 	prebase = !git fetch && git rebase --autostash --preserve-merges @{u}
+[fetch]
+	recurseSubmodules = on-demand

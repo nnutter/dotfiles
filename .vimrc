@@ -40,6 +40,8 @@ set directory=~/.vim/swap,/tmp
 set backupdir=~/.vim/backup,/tmp
 let g:notesdir="$HOME/Dropbox/Notes"
 
+set spelllang=en_us
+
 set encoding=utf-8
 set showcmd
 set showmode

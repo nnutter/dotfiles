@@ -40,3 +40,5 @@
 	prebase = !git fetch && git rebase --autostash --preserve-merges @{u}
 [fetch]
 	recurseSubmodules = on-demand
+[diff]
+	tool = vimdiff

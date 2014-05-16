@@ -109,5 +109,5 @@ function build_title {
     set_window_title "$(print_window_title)"
 }
 
-export PROMPT_COMMAND="LAST_EXIT_CODE=\$?; build_ps1; build_title; "
+export PROMPT_COMMAND="LAST_EXIT_CODE=\$?; build_ps1; "
 export PS1

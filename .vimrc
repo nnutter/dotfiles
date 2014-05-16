@@ -41,6 +41,7 @@ set backupdir=~/.vim/backup,/tmp
 let g:notesdir="$HOME/Dropbox/Notes"
 
 set spelllang=en_us
+let perl_include_pod=1
 
 set encoding=utf-8
 set showcmd

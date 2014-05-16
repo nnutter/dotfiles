@@ -1,11 +1,11 @@
 #!/bin/bash
 
-cd $HOME/Documents/Vagrant/trusty
-vagrant "$@"
+#cd $HOME/Documents/Vagrant/trusty
+#vagrant "$@"
+#
+#exit
 
-exit
-
-VM_NAME='Ubuntu Server'
+VM_NAME='dev'
 
 usage() {
     echo 'Subcommands:'

@@ -31,6 +31,9 @@ start() {
         $OFF)
             VBoxManage startvm --type headless "$VM_NAME"
             ;;
+        saved|aborted)
+            VBoxManage startvm --type headless "$VM_NAME"
+            ;;
         paused)
             VBoxManage controlvm "$VM_NAME" resume
             ;;

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+init_gitsick_dir() {
+    GITSICK_DIR="$(git config --global gitsick.dir || true)"
+    if [ -z "$GITSICK_DIR" ]; then
+        GITSICK_DIR="$HOME/.gitsick"
+    fi
+    if [ ! -d "$GITSICK_DIR" ]; then
+        mkdir "$GITSICK_DIR"
+    fi
+}
+
+main() {
+    HTTPS_URL="$1"
+    NAME="$2"
+
+    init_gitsick_dir
+    git clone --bare "$HTTPS_URL" "$GITSICK_DIR"/"$NAME".git
+    git --git-dir "$GITSICK_DIR"/"$NAME".git --work-tree $HOME checkout master
+}

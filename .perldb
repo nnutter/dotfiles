@@ -1,9 +1,5 @@
 $DB::deep = 1000;
 
-sub afterinit {
-    push @DB::typeahead, "{{v" unless $DB::already_curly_curly_v++;
-};
-
 parse_options('dumpDepth=2 NonStop=1');
 
 $DB::alias{dp} = 's/dp/DB::dp/';

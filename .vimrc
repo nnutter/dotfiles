@@ -99,6 +99,7 @@ set hlsearch
 set ignorecase
 set smartcase
 set incsearch
+set nowrapscan
 
 " center screen after match
 nnoremap n nzz

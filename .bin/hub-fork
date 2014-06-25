@@ -2,3 +2,4 @@
 hub fork
 git config --replace-all remote.pushdefault nnutter
 git config --replace-all push.default current
+git fetch --all

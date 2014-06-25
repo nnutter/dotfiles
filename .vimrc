@@ -314,3 +314,5 @@ set modelines=5
 
 " vim-go options
 let g:go_snippet_engine = "neosnippet"
+
+let g:ctrlp_cmd = 'CtrlPBuffer'

@@ -1,0 +1,2 @@
+#!/bin/bash
+git fetch origin +refs/pull/$1/merge:refs/remotes/origin/pr/$1/merge

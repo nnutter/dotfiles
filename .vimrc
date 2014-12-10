@@ -9,11 +9,12 @@ Bundle 'gmarik/vundle'
 Bundle 'bkad/CamelCaseMotion'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'derekwyatt/vim-scala'
-Bundle 'nnutter/vim-go'
 Bundle 'godlygeek/tabular'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'kien/ctrlp.vim'
 Bundle 'klen/python-mode'
+Bundle 'miyakogi/conoline.vim'
+Bundle 'nnutter/vim-go'
 Bundle 'rodjek/vim-puppet'
 Bundle 'Shougo/neocomplete.vim'
 Bundle 'Shougo/neosnippet.vim'
@@ -84,7 +85,9 @@ let g:distractfree_width = '60%'
 let g:distractfree_colorscheme = "iawriter"
 
 " Highlight Cursor
-set cursorline
+let g:conoline_auto_enable = 1
+let g:conoline_use_colorscheme_default_insert=1
+let g:conoline_use_colorscheme_default_normal=1
 
 " Extract
 vnoremap <leader>sub :! perl-extract<CR>

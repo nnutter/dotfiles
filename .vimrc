@@ -6,15 +6,16 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'benmills/vimux'
 Bundle 'bkad/CamelCaseMotion'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'derekwyatt/vim-scala'
+Bundle 'fatih/vim-go'
 Bundle 'godlygeek/tabular'
-Bundle 'jnwhiteh/vim-golang'
+Bundle 'janko-m/vim-test'
 Bundle 'kien/ctrlp.vim'
 Bundle 'klen/python-mode'
 Bundle 'miyakogi/conoline.vim'
-Bundle 'nnutter/vim-go'
 Bundle 'rodjek/vim-puppet'
 Bundle 'Shougo/neocomplete.vim'
 Bundle 'Shougo/neosnippet.vim'
@@ -319,3 +320,9 @@ set modelines=5
 let g:go_snippet_engine = "neosnippet"
 
 let g:ctrlp_cmd = 'CtrlPBuffer'
+
+let g:test#strategy = 'vimux'
+let g:test#runners = ['TestTracker']
+nmap <silent> <leader>t :TestFile --lsf<CR>
+nmap <silent> <leader>T :TestNearest --lsf<CR>
+nmap <silent> <leader>r :TestSuite --lsf<CR>

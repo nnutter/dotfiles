@@ -42,17 +42,6 @@ function job_status {
     fi
 }
 
-function count_gerrit_query {
-    local GERRIT_HOST=apipe-review.gsc.wustl.edu
-    if dig $GERRIT_HOST +short | grep -q .; then
-        local COUNT="$(ssh -o 'ConnectTimeout 3' -p 29418 $GERRIT_HOST gerrit query "$@" 2> /dev/null | grep ^rowCount | cut -d ' ' -f 2)"
-        if [ -z "$COUNT" ]; then
-            COUNT=$(color_on_status 'T' 'FAILURE')
-        fi
-        echo -n "$COUNT"
-    fi
-}
-
 function cache {
     local CACHE_DIR="$HOME/.cache/tmux_status"
     for A in "$@"; do
@@ -83,7 +72,6 @@ function separator {
 }
 
 separator
-cache count_gerrit_query 'status:open'
 echo -n ' '
 cache job_status matrixBuild '0-Genome-Perl-Tests-Quick'
 cache job_status matrixBuild '1-Genome-Perl-Tests'

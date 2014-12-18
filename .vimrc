@@ -188,10 +188,10 @@ function! ResCur()
     endif
 endfunction
 
-augroup vimrc_autocmds
-    autocmd BufEnter * highlight OverLength ctermbg=magenta ctermfg=white
-    autocmd BufEnter * match OverLength /\%81v./
-augroup END
+"augroup vimrc_autocmds
+"    autocmd BufEnter * highlight OverLength ctermbg=magenta ctermfg=white
+"    autocmd BufEnter * match OverLength /\%81v./
+"augroup END
 
 augroup resCur
     autocmd!

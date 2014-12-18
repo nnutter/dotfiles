@@ -8,7 +8,8 @@ function! test#testtracker#build_position(type, position) abort
   elseif a:type == 'nearest'
     return ['--git']
   else
-    return ['-r']
+    let cdup = system('git rev-parse --show-cdup')
+    return ['-r ' . cdup . 'lib/perl/Genome']
   endif
 endfunction
 
@@ -17,5 +18,5 @@ function! test#testtracker#build_args(args) abort
 endfunction
 
 function! test#testtracker#executable() abort
-  return "genome-test-env test-tracker prove --lsf"
+  return 'genome-test-env test-tracker prove'
 endfunction

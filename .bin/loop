@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if test -z "$LOOP_SLEEP"
+then
+    LOOP_SLEEP=1
+fi
+
 LOOP_EXIT=0
-while [ $LOOP_EXIT -eq 0 ]; do "$@" ; LOOP_EXIT=$? ; sleep 1 ; done
+while [ $LOOP_EXIT -eq 0 ]; do "$@" ; LOOP_EXIT=$? ; sleep $LOOP_SLEEP ; done
 exit $LOOP_EXIT

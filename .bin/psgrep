@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ps axo pid,ppid,user,command | grep "$1" | grep -v "grep $1"

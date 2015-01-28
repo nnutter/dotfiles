@@ -4,7 +4,7 @@ up_with_sandbox() {
     command vagrant provision "$@"
 }
 
-vagrant_sup() {
+vagrant_up() {
     case $SB_MODE in
         on)
             command vagrant up "$@"
@@ -20,7 +20,7 @@ vagrant_rebuild() {
         on)
             command vagrant sandbox rollback "$@"
             sleep 3
-            command vagrant status "$@"
+            command vagrant reload "$@"
             command vagrant provision "$@"
             ;;
         *)
@@ -34,9 +34,9 @@ vagrant() {
     ACTION=$1
     shift
     case $ACTION in
-        s|sup|up)
+        s|up|up)
             SB_MODE=$(command vagrant sandbox status "$@" | sed 's/.*mode is //')
-            vagrant_sup "$@"
+            vagrant_up "$@"
             ;;
         r|rebuild)
             SB_MODE=$(command vagrant sandbox status "$@" | sed 's/.*mode is //')
@@ -44,8 +44,8 @@ vagrant() {
             ;;
         -h|--help|'')
             command vagrant help "$@"
-            echo -e "\nAdditional Subcommands:"
-            echo -e "\tsup - bring vagrant up but ensure sandbox is enabled before provisioning"
+            echo -e "\nMods:"
+            echo -e "\tup - bring vagrant up but ensure sandbox is enabled before provisioning"
             echo -e "\trebuild - rollback (or destroy) and re-provision"
             ;;
         p)

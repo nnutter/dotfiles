@@ -139,3 +139,6 @@ tm-window() {
     echo -n $winname
   fi
 }
+
+alias linus264="mosh linus264.gsc.wustl.edu -- /bin/bash -l -c 'tm mosh'"
+alias ssh-jump="ssh -t sshjump.gsc.wustl.edu open64"

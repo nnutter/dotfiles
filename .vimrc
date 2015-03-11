@@ -8,6 +8,7 @@ Bundle 'gmarik/vundle'
 
 Bundle 'benmills/vimux'
 Bundle 'bkad/CamelCaseMotion'
+Bundle 'chrisbra/vim-diff-enhanced'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'fatih/vim-go'

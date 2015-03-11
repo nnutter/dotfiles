@@ -1,4 +1,7 @@
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if type -p rbenv > /dev/null
+then
+    eval "$(rbenv init -)"
+fi
 
 function erb-c {
     if [ -f "$1" ]; then

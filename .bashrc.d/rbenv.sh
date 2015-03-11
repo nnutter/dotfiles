@@ -3,7 +3,7 @@ then
     export RBENV_ROOT=/usr/local/var/rbenv
 fi
 
-if which rbenv > /dev/null
+if type -p rbenv > /dev/null
 then
     eval "$(rbenv init -)"
 fi

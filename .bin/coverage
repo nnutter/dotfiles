@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PATTERN="$(git diff --name-only @{u}... \
+    | grep '\.pm$' \
+    | sed "s|^|$(git rev-parse --show-toplevel)/|" \
+    | sed "s|^$PWD/||" \
+    | tr '\n' '|' \
+    | sed 's/|$//' \
+    | sed -e 's/^/^(/' -e 's/$/)$/')"
+HARNESS_PERL_SWITCHES="-MDevel::Cover=-ignore,.*,-select,$PATTERN" "$@"

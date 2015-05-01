@@ -1,35 +1,28 @@
-" Tomorrow Night - Full Colour and 256 Colour
+" Tomorrow - Full Colour and 256 Colour
 " http://chriskempson.com
 "
 " Hex colour conversion functions borrowed from the theme "Desert256""
 
 " Default GUI Colours
-let s:foreground = "c5c8c6"
-let s:background = "1d1f21"
-let s:selection = "373b41"
-let s:line = "282a2e"
-let s:comment = "969896"
-let s:red = "cc6666"
-let s:orange = "de935f"
-let s:yellow = "f0c674"
-let s:green = "b5bd68"
-let s:aqua = "8abeb7"
-let s:blue = "81a2be"
-let s:purple = "b294bb"
-let s:window = "4d5057"
+let s:foreground = "4d4d4c"
+let s:background = "ffffff"
+let s:selection = "d6d6d6"
+let s:line = "efefef"
+let s:comment = "8e908c"
+let s:red = "c82829"
+let s:orange = "f5871f"
+let s:yellow = "eab700"
+let s:green = "718c00"
+let s:aqua = "3e999f"
+let s:blue = "4271ae"
+let s:purple = "8959a8"
+let s:window = "efefef"
 
-" Console 256 Colours
-if !has("gui_running")
-	let s:background = "303030"
-	let s:window = "5e5e5e"
-	let s:line = "3a3a3a"
-	let s:selection = "585858"
-end
-
+set background=light
 hi clear
 syntax reset
 
-let g:colors_name = "Tomorrow-Night"
+let g:colors_name = "Tomorrow"
 
 if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	" Returns an approximate grey index for the given grey level
@@ -241,10 +234,10 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 
 	" Vim Highlighting
 	call <SID>X("Normal", s:foreground, s:background, "")
-	call <SID>X("LineNr", s:selection, "", "")
+	highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 	call <SID>X("NonText", s:selection, "", "")
 	call <SID>X("SpecialKey", s:selection, "", "")
-	call <SID>X("Search", s:background, s:yellow, "")
+	call <SID>X("Search", s:foreground, s:yellow, "")
 	call <SID>X("TabLine", s:window, s:foreground, "reverse")
 	call <SID>X("TabLineFill", s:window, s:foreground, "reverse")
 	call <SID>X("StatusLine", s:window, s:yellow, "reverse")
@@ -372,12 +365,6 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	call <SID>X("htmlArg", s:red, "", "")
 	call <SID>X("htmlScriptTag", s:red, "", "")
 
-	" Diff Highlighting
-	call <SID>X("diffAdd", "", "4c4e39", "")
-	call <SID>X("diffDelete", s:background, s:red, "")
-	call <SID>X("diffChange", "", "2B5B77", "")
-	call <SID>X("diffText", s:line, s:blue, "")
-
 	" ShowMarks Highlighting
 	call <SID>X("ShowMarksHLl", s:orange, s:background, "none")
 	call <SID>X("ShowMarksHLo", s:purple, s:background, "none")
@@ -493,5 +480,3 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	delf <SID>grey_level
 	delf <SID>grey_number
 endif
-
-set background=dark

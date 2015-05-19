@@ -26,7 +26,7 @@ if [ -n "$XDG_CACHE_HOME" ]; then
     HISTFILE="$BASHBASEDIR/history"
 fi
 
-if [ "$COLORTERM" == "gnome-terminal" ] && [ "$TERM" == "xterm" ]; then
+if test \( -n "$VTE_VERSION" -o "$COLORTERM" == "gnome-terminal" \) -a "$TERM" == "xterm"; then
     export TERM="xterm-256color"
 fi
 

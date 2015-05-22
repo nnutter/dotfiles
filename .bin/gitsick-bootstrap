@@ -14,8 +14,11 @@ init_gitsick_dir() {
 }
 
 main() {
-    HTTPS_URL="$1"
-    NAME="$2"
+    local HTTPS_URL="$1" NAME="$2" WORK_TREE="$3"
+
+    if test -z "$WORK_TREE"; then
+        WORK_TREE="$HOME"
+    fi
 
     init_gitsick_dir
     local GIT_DIR="$GITSICK_DIR"/"$NAME".git
@@ -25,7 +28,7 @@ main() {
     fi
     (
         cd "$GIT_DIR"
-        git --work-tree $HOME checkout master
+        git --work-tree $WORK_TREE checkout master
     )
 }
 

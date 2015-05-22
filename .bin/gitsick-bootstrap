@@ -18,11 +18,15 @@ main() {
     NAME="$2"
 
     init_gitsick_dir
-    if ! test -d "$GITSICK_DIR"/"$NAME".git
+    local GIT_DIR="$GITSICK_DIR"/"$NAME".git
+    if ! test -d "$GIT_DIR"
     then
-        git clone --bare "$HTTPS_URL" "$GITSICK_DIR"/"$NAME".git
+        git clone --bare "$HTTPS_URL" "$GIT_DIR"
     fi
-    git --git-dir "$GITSICK_DIR"/"$NAME".git --work-tree $HOME checkout master
+    (
+        cd "$GIT_DIR"
+        git --work-tree $HOME checkout master
+    )
 }
 
 main "$@"

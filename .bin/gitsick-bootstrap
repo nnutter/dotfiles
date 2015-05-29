@@ -27,10 +27,23 @@ main() {
     then
         git clone --bare "$HTTPS_URL" "$GIT_DIR"
     fi
+
     (
-        cd "$GIT_DIR"
-        git --work-tree "$WORK_TREE" ls-files --others -z | xargs -0 -n 1 -I % mv --no-clobber "$WORK_TREE/%" "$WORK_TREE/%.bak"
-        git --work-tree "$WORK_TREE" checkout master
+        git --work-tree "$WORK_TREE" --git-dir "$GIT_DIR" reset --mixed master > /dev/null
+        git --work-tree "$WORK_TREE" --git-dir "$GIT_DIR" ls-files --modified -z | while read -d $'\0' -r FILE
+        do
+            FILE="$WORK_TREE/$FILE"
+            if test -f "$FILE"
+            then
+                if test -f "$FILE.bak"
+                then
+                    echo "$0: cannot backup file: $File"
+                    exit 1
+                fi
+                mv --verbose --no-clobber "$FILE" "$FILE.bak"
+            fi
+        done
+        git --work-tree "$WORK_TREE" --git-dir "$GIT_DIR" reset --hard master > /dev/null
     )
 }
 

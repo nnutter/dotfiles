@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -o errexit
-set -o nounset
 
 init_gitsick_dir() {
     GITSICK_DIR="$(git config --global gitsick.dir || true)"
@@ -19,6 +18,8 @@ main() {
     if test -z "$WORK_TREE"; then
         WORK_TREE="$HOME"
     fi
+
+    set -o nounset
 
     init_gitsick_dir
     local GIT_DIR="$GITSICK_DIR"/"$NAME".git

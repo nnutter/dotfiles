@@ -1,4 +1,0 @@
----
-encrypt_method: 'gpg'
-gpg_gnupghome: '/Users/nnutter/.gnupg'
-gpg_recipients: 'puppetmaster@genome.wustl.edu'

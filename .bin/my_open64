@@ -1,6 +1,0 @@
-#!/bin/sh
-
-echo "bsub -M 16000000 -Is -q interactive -R 'select[type==LINUX64 && mem>16000 && tmp>15000] rusage[mem=16000, tmp=15000]' $SHELL"
-bsub -M 16000000 -Is -q interactive -R 'select[type==LINUX64 && mem>16000 && tmp>15000] rusage[mem=16000, tmp=15000]' $SHELL 
-
-#bsub -q long -R 'select[type==LINUX64 && mem>8000 && tmp>15000] rusage[mem=8000, tmp=15000]' 'cd ~adukes/svn/perl_modules/Genome/ && genome model build start adukes_test10 >> ~nnutter/logs/2010-07-13-1200.log 2>&1'

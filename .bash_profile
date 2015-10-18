@@ -9,8 +9,6 @@ function use {
     fi
 }
 
-use /gapp/noarch/share/login/gapp.profile
-
 if hash brew 2> /dev/null; then
     for script in $(brew --prefix)/etc/profile.d/*.sh; do
         if [ -r $script ]; then
@@ -19,18 +17,6 @@ if hash brew 2> /dev/null; then
     done
 fi
 
-export PERLBREW_ROOT=$HOME/.perlbrew
-use "$PERLBREW_ROOT/etc/bashrc"
-
-use "$HOME/.rvm/scripts/rvm"
-
-if hostname | grep -vq '^blade[0-9-]+\.gsc\.wustl\.edu' && type -p keychain > /dev/null
-then
-    eval $(keychain --eval --quick --quiet)
-fi
+eval $(keychain --eval --quick --quiet)
 
 use "$HOME/.bashrc"
-
-if hash opam 2> /dev/null; then
-    eval $(opam config env)
-fi

@@ -17,6 +17,6 @@ if hash brew 2> /dev/null; then
     done
 fi
 
-eval $(keychain --eval --quick --quiet)
+hash keychain 2> /dev/null && eval $(keychain --eval --quick --quiet)
 
 use "$HOME/.bashrc"

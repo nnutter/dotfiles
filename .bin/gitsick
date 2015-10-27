@@ -7,9 +7,9 @@ GITSICK=$(basename $0)
 
 usage() {
     echo -n "\
-$GITSICK <name> init
-$GITSICK <name> clone <repository>
-$GITSICK <name> ...
+$GITSICK init [NAME]
+$GITSICK clone <name> <url>
+$GITSICK <name> <subcommand>
 "
 }
 
@@ -23,16 +23,28 @@ main() {
         esac
     done
 
-    # for debugging
-    if [ "$1" == "--work-tree" ]; then
-        GIT_WORK_TREE="$2";
-        shift;
-        shift;
-    fi
-
     init_git_work_tree
 
     set -o nounset
+
+    case "$1" in
+        init)
+            shift
+            local NAME="$1"
+            shift
+            init_git_dir "$NAME"
+            git_init "$@"
+            exit $?
+            ;;
+        clone)
+            shift
+            local NAME="$1"
+            shift
+            init_git_dir "$NAME"
+            git_clone "$1"
+            exit $?
+            ;;
+    esac
 
     local NAME="$1"
     shift
@@ -42,8 +54,6 @@ main() {
     command="$1"
     shift
     case "$command" in
-        init) git_init "$@" ;;
-        clone) git_clone "$@" ;;
         *) git_cmd "$command" "$@" ;;
     esac
 }
@@ -55,6 +65,10 @@ die() {
 
 init_git_work_tree() {
     if [ -z "$GIT_WORK_TREE" ]; then
+        GIT_WORK_TREE="$GITSICK_HOME"
+    fi
+
+    if [ -z "$GIT_WORK_TREE" ]; then
         GIT_WORK_TREE="$HOME"
     fi
 
@@ -64,10 +78,14 @@ init_git_work_tree() {
 }
 
 init_gitsick_dir() {
-    GITSICK_DIR="$(git config --global gitsick.dir || true)"
+    if [ -z "$GITSICK_DIR" ]; then
+        GITSICK_DIR="$(git config --global gitsick.dir || true)"
+    fi
+
     if [ -z "$GITSICK_DIR" ]; then
         GITSICK_DIR="$HOME/.gitsick"
     fi
+
     if [ ! -d "$GITSICK_DIR" ]; then
         mkdir "$GITSICK_DIR"
     fi
@@ -80,25 +98,36 @@ init_git_dir() {
 
 git_init() {
     git init --separate-git-dir "$GIT_DIR" "$GIT_WORK_TREE" "$@"
-    git config --file "$GIT_DIR"/config core.worktree $GIT_WORK_TREE
     if [ -f "$GIT_WORK_TREE/.git" ]; then
         rm "$GIT_WORK_TREE/.git"
     fi
 }
 
 git_clone() {
-    local CLONE_DIR
-    OS="$(uname -s)"
-    case "$OS" in
-        Linux) CLONE_DIR="$(mktemp --tmpdir --directory $GITSICK.XXX)" ;;
-        Darwin) CLONE_DIR="$(mktemp -d -t $GITSICK)" ;;
-        *) die "ERROR: Unknown OS: $OS" ;;
-    esac
-    git clone --no-checkout --separate-git-dir "$GIT_DIR" "$@" "$CLONE_DIR"
-    git config --file "$GIT_DIR"/config core.worktree $GIT_WORK_TREE
-    rm "$CLONE_DIR"/.git
-    rmdir "$CLONE_DIR"
-    git_cmd checkout
+    local HTTPS_URL="$1"
+
+    if ! test -d "$GIT_DIR"
+    then
+        git clone --bare "$HTTPS_URL" "$GIT_DIR"
+    fi
+
+    (
+        git --work-tree "$GIT_WORK_TREE" --git-dir "$GIT_DIR" reset --mixed master > /dev/null
+        git --work-tree "$GIT_WORK_TREE" --git-dir "$GIT_DIR" ls-files --modified -z | while read -d $'\0' -r FILE
+        do
+            FILE="$GIT_WORK_TREE/$FILE"
+            if test -f "$FILE"
+            then
+                if test -f "$FILE.bak"
+                then
+                    echo "$0: cannot backup file: $File"
+                    exit 1
+                fi
+                mv --verbose --no-clobber "$FILE" "$FILE.bak"
+            fi
+        done
+        git --work-tree "$GIT_WORK_TREE" --git-dir "$GIT_DIR" reset --hard master > /dev/null
+    )
 }
 
 git_cmd() {

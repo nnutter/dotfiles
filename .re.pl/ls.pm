@@ -176,15 +176,8 @@ sub get_method_and_property_info {
     my $tp = $result{this_property_names_set};
     my $pp = $result{parent_property_names_set};
 
-    if($target->can('__meta__')) {
-        # Since UR properties automatically create a method for get/set, remove those from the
-        # methods sets.
-        $tm = $tm - $tp - $pp;
-        $pm = $pm - $tp - $pp;
-    } else {
-        $tp = $tp - $tm - $pm;
-        $pp = $pp - $tm - $pm;
-    }
+    $tp = $tp - $tm - $pm;
+    $pp = $pp - $tm - $pm;
 
     $result{new_methods} = $tm - $pm;
     $result{new_properties} = $tp - $pp;

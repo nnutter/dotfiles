@@ -7,12 +7,6 @@ use Sys::Hostname qw(hostname);
 BEGIN { push(@INC, $ENV{HOME} . '/.re.pl'); };
 use ls qw(ls);
 
-BEGIN {
-    if (hostname() =~ /gsc.wustl.edu/) {
-        eval 'use above q(Genome)';
-    }
-};
-
 printf("\tUsing perl v%vd at %s\n", $PERL_VERSION, $EXECUTABLE_NAME);
 
 # needs to be done before load_plugin

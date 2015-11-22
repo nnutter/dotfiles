@@ -47,18 +47,6 @@ build_ps1 () {
 #    [ "$(in_svn)" ] && svn_ps1
 
     local -a TAGS
-    if [ -n "$WF_USE_FLOW" ]; then
-        TAGS+=('FLOW')
-    fi
-    if [ -n "$GENOME_QUERY_POSTGRES" ]; then
-        TAGS+=('GQP')
-    fi
-    if [ -n "$GENOME_SOFTWARE_RESULT_TEST_NAME" ]; then
-        TAGS+=('GST')
-    fi
-    if [ -n "$UR_DBI_NO_COMMIT" ]; then
-        TAGS+=('NO_COMMIT')
-    fi
     if [ ${#TAGS[@]} -gt 0 ]; then
         PS1="${PS1} (${TAGS[@]})"
     fi

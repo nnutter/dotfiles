@@ -2,7 +2,7 @@ if [ "$OS" == "Darwin" ]; then
     alias ls='\ls -G'
 fi
 if [ "$OS" == "Linux" ]; then
-    alias ls='\ls --color'
+    alias ls='\ls --color=auto'
 fi
 
 alias ll='ls -lh'

@@ -11,8 +11,7 @@ complete -F _tmuxs_complete tmuxs
 function tmuxs {
     session_name=$1
     if [ -z "$session_name" ]; then
-        echo "ERROR: Must provide session name as argument."
-        return 1
+        session_name='default'
     fi
     if tmux has-session -t "$session_name"; then
         command tmux attach -t $session_name

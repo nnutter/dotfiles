@@ -53,49 +53,5 @@ build_ps1 () {
     PS1="${PS1}\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
 }
 
-function print_screen_title {
-    local TITLE
-    if git rev-parse --git-dir 1> /dev/null 2> /dev/null ; then
-        local REPO="$(git config branchdir.name)"
-        if [ -z "$REPO" ]; then
-            REPO="$(basename "$(git rev-parse --show-toplevel 2> /dev/null)")"
-        fi
-        local BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
-        TITLE="$REPO/$BRANCH"
-    fi
-
-    if [ -z "$TITLE" ]; then
-        if [ -n "$SUDO_USER" ]; then
-            TITLE=${PWD/#${HOME}/\~${USER}}
-        else
-            TITLE=${PWD/#${HOME}/\~}
-        fi
-    fi
-
-    if [ -n "$LAST_EXIT_CODE" -a "$LAST_EXIT_CODE" -ne 0 ]; then
-        TITLE="$TITLE !"
-    fi
-    printf "$TITLE"
-}
-
-function print_window_title {
-    printf "${USER}@${HOSTNAME%%.*}:${PWD/#${HOME}/~}"
-}
-
-function set_screen_title {
-    printf "\033k$1\033\\"
-}
-
-function set_window_title {
-    printf "\033]0;$1\007"
-}
-
-function build_title {
-    if [ "$TERM" == "screen" ] || [ "$TERM" == "screen-256color" ]; then
-        set_screen_title "$(print_screen_title)"
-    fi
-    set_window_title "$(print_window_title)"
-}
-
 export PROMPT_COMMAND="LAST_EXIT_CODE=\$?; build_ps1; "
 export PS1

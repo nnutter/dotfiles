@@ -31,13 +31,14 @@ Bundle 'Syntastic'
 filetype plugin indent on
 syntax enable
 
+let g:xdg_cache_home = $XDG_CACHE_HOME == "" ? $HOME . '/.cache' : $XDG_CACHE_HOME
+let g:cache_home = xdg_cache_home . '/vim'
+
 "set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
-"set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
-"set directory=$XDG_CACHE_HOME/vim,~/,/tmp
 "let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
-set directory=~/.vim/swap,/tmp
-set backupdir=~/.vim/backup,/tmp
+let &backupdir = g:cache_home
+let &directory = g:cache_home
 let g:notesdir="$HOME/Dropbox/Notes"
 
 set spelllang=en_us

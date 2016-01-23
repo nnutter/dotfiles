@@ -41,6 +41,9 @@ let &backupdir = g:cache_home
 let &directory = g:cache_home
 let g:notesdir="$HOME/Dropbox/Notes"
 
+let &undodir = g:cache_home
+set undofile
+
 set spelllang=en_us
 let perl_include_pod=1
 

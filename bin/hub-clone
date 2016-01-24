@@ -5,7 +5,7 @@ set -o errexit
 REPO_NAME="$1"
 shift
 
-REPO_BASE_DIR="$HOME/github.com"
+REPO_BASE_DIR="$HOME/src/github.com"
 REPO_DIR="$REPO_BASE_DIR/$REPO_NAME"
 REPO_URL="https://github.com/$REPO_NAME"
 

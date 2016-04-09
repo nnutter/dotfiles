@@ -1,3 +1,9 @@
-[[ -d "/usr/local/share/python" ]] && export PATH="/usr/local/share/python:$PATH"
-
-[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
+PYENV_ROOT="$HOME/src/github.com/yyuu/pyenv"
+if test -d "$PYENV_ROOT"
+then
+    export PYENV_ROOT
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+else
+    unset PYENV_ROOT
+fi

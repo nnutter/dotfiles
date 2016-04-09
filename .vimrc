@@ -190,6 +190,17 @@ function! ResCur()
     endif
 endfunction
 
+function! Rustfmt()
+    let l:curw=winsaveview()
+    execute "%!rustfmt"
+    call winrestview(l:curw)
+endfunction
+
+augroup rust
+    autocmd!
+    autocmd BufWritePre *.rs call Rustfmt()
+augroup END
+
 "augroup vimrc_autocmds
 "    autocmd BufEnter * highlight OverLength ctermbg=magenta ctermfg=white
 "    autocmd BufEnter * match OverLength /\%81v./

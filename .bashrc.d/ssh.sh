@@ -9,3 +9,11 @@ function ssh-reagent {
     done
     echo Cannot find ssh agent - maybe you should reconnect and forward it?
 }
+
+alias dv01='ssh -t dc2gochugedv01.it.savvis.net sudo -i'
+alias qa01='ssh -t dc2gochugeqa01.it.savvis.net sudo -i'
+alias pd01='ssh -t dc2gochugepd01.it.savvis.net sudo -i'
+alias pd02='ssh -t dc2gochugepd02.it.savvis.net sudo -i'
+alias pd03='ssh -t dc2gochugepd03.it.savvis.net sudo -i'
+alias dr01='ssh -t uk6gochugepd01.it.savvis.net sudo -i'
+alias dr02='ssh -t uk6gochugepd02.it.savvis.net sudo -i'

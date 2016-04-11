@@ -206,6 +206,11 @@ augroup END
 "    autocmd BufEnter * match OverLength /\%81v./
 "augroup END
 
+augroup javascript
+    autocmd!
+    autocmd FileType javascript set ts=2 sw=2 sts=2
+augroup END
+
 augroup resCur
     autocmd!
     autocmd BufWinEnter * call ResCur()

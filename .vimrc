@@ -211,6 +211,18 @@ augroup javascript
     autocmd FileType javascript set ts=2 sw=2 sts=2
 augroup END
 
+augroup huge-perl
+    autocmd!
+    autocmd BufWritePre *.pm call Perltidy()
+    autocmd BufWritePre *.t call Perltidy()
+augroup END
+
+function! Perltidy()
+    let l:curw=winsaveview()
+    execute "%!perltidy -q -st"
+    call winrestview(l:curw)
+endfunction
+
 augroup resCur
     autocmd!
     autocmd BufWinEnter * call ResCur()

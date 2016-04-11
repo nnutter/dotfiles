@@ -217,6 +217,9 @@ augroup huge-perl
     autocmd BufWritePre *.t call Perltidy()
 augroup END
 
+vnoremap t :!perltidy -q<CR>
+noremap T :call Perltidy()<CR>
+
 function! Perltidy()
     let l:curw=winsaveview()
     execute "%!perltidy -q -st"

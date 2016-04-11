@@ -20,3 +20,4 @@ fi
 hash keychain 2> /dev/null && eval $(keychain --eval --quick --quiet)
 
 use "$HOME/.bashrc"
+use "/usr/local/etc/profile.d"

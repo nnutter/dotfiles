@@ -1,2 +1,5 @@
 ANDROID_SDK_ROOT='/usr/local/Cellar/android-sdk'
-[ -d "$ANDROID_SDK_ROOT" ] && export ANDROID_SDK_ROOT
+if test -d "$ANDROID_SDK_ROOT"
+then
+    export ANDROID_SDK_ROOT
+fi

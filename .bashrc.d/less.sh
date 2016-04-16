@@ -1,5 +1,9 @@
-if [ -n "$XDG_CACHE_HOME" ]; then
+if test -n "$XDG_CACHE_HOME"
+then
     LESSBASEDIR="$XDG_CACHE_HOME/less"
-    [ ! -d "$LESSBASEDIR" ] && mkdir "$LESSBASEDIR"
+    if ! test -d "$LESSBASEDIR"
+    then
+        mkdir "$LESSBASEDIR"
+    fi
     LESSHISTFILE="$LESSBASEDIR/history"
 fi

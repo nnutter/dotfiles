@@ -1,7 +1,22 @@
-test -d "/usr/local/share/perlbrew/bin" && export PERLBREW_ROOT="/usr/local/share/perlbrew"
-test -d "$HOME/.perlbrew/bin" && export PERLBREW_ROOT="$HOME/.perlbrew"
+if test -d "/usr/local/share/perlbrew/bin"
+then
+    export PERLBREW_ROOT="/usr/local/share/perlbrew"
+fi
+if test -d "$HOME/.perlbrew/bin"
+then
+    export PERLBREW_ROOT="$HOME/.perlbrew"
+fi
 
-test -s "$PERLBREW_ROOT/etc/perlbrew-completion.bash" && source "$PERLBREW_ROOT/etc/perlbrew-completion.bash"
-test -s "$PERLBREW_ROOT/etc/bashrc" && source "$PERLBREW_ROOT/etc/bashrc"
-test -d "$PERLBREW_ROOT/bin" && export PATH="$PATH:$PERLBREW_ROOT/bin"
+if test -s "$PERLBREW_ROOT/etc/perlbrew-completion.bash"
+then
+    source "$PERLBREW_ROOT/etc/perlbrew-completion.bash"
+fi
+if test -s "$PERLBREW_ROOT/etc/bashrc"
+then
+    source "$PERLBREW_ROOT/etc/bashrc"
+fi
+if test -d "$PERLBREW_ROOT/bin"
+then
+    export PATH="$PATH:$PERLBREW_ROOT/bin"
+fi
 alias cpanm='cpanm --prompt'

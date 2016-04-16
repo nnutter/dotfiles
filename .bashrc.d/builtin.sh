@@ -1,7 +1,10 @@
-if [ "$OS" == "Darwin" ]; then
+if test "$OS" == "Darwin"
+then
     alias ls='\ls -G'
 fi
-if [ "$OS" == "Linux" ]; then
+
+if test "$OS" == "Linux"
+then
     alias ls='\ls --color=auto'
 fi
 

@@ -8,10 +8,6 @@ alias gr='git pull --rebase'
 alias gt='git-todo'
 alias gw='git diff --color-words'
 
-if [ -f "/usr/share/doc/git-core/contrib/gitview/gitview" ]; then
-    alias gitview='python /usr/share/doc/git-core/contrib/gitview/gitview &'
-fi
-
 export LESS='-eriMXR'
 GIT_PS1_SHOWDIRTYSTATE=1
 
@@ -21,16 +17,19 @@ function _git_base_dir {
 
 function git-dir {
     local GIT_DIR=$(git rev-parse --show-toplevel)
-    if [ -d "$GIT_DIR" ]; then
+    if test -d "$GIT_DIR"
+    then
         cd "$GIT_DIR"
     fi
 }
 
 function git-todo {
     local GIT_DIR=$(git rev-parse --show-toplevel)
-    if [ -d "$GIT_DIR" ]; then
+    if test -d "$GIT_DIR"
+    then
         local TODO="$GIT_DIR/TODO.taskpaper"
-        if [ "$1" == "cat" ]; then
+        if test "$1" == "cat"
+        then
             cat "$TODO"
         else
             vim -p "$TODO" $*
@@ -60,15 +59,6 @@ function git-dirty {
     fi
 }
 
-## This require Bash 4?
-#function git-unpushed {
-#    brinfo=$(git branch -v | grep git-branch-name)
-#    if [[ $brinfo =~ ("[ahead "([[:digit:]]*)]) ]]
-#    then
-#        echo "(${BASH_REMATCH[2]})"
-#    fi
-#}
-
 function gitify {
     status=$(git status 2>/dev/null | tail -n 1)
     if [[ $status == "" ]]
@@ -91,5 +81,4 @@ ${GREEN} \w\
 ${RED} \$(gitify)\
 ${GREEN} >\
 ${LIGHT_GRAY} "
-
 }

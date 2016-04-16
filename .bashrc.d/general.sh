@@ -1,5 +1,6 @@
 # disable flow control (^s and ^q)
-if [ -t 0 ]; then
+if test -t 0
+then
     stty -ixon
 fi
 

@@ -9,7 +9,8 @@ function use {
     fi
 }
 
-if hash brew 2> /dev/null; then
+if hash brew 2> /dev/null
+then
     for script in $(brew --prefix)/etc/profile.d/*.sh; do
         if [ -r $script ]; then
             source $script
@@ -17,7 +18,10 @@ if hash brew 2> /dev/null; then
     done
 fi
 
-hash keychain 2> /dev/null && eval $(keychain --eval --quick --quiet)
+if hash keychain 2> /dev/null
+then
+    eval $(keychain --eval --quick --quiet)
+fi
 
 use "$HOME/.bashrc"
 use "/usr/local/etc/profile.d"

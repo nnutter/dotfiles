@@ -1,11 +1,18 @@
 function use {
-    if [ -d "$1" ]; then
+    if test -d "$1"
+    then
         local SH_FILE
-        for SH_FILE in $(find -L "$1" -name '*.sh'); do
+        for SH_FILE in $(find -L "$1" -name '*.sh')
+        do
             source "$SH_FILE"
         done
-    else
-        [[ -r "$1" ]] && source "$1"
+        return
+    fi
+
+    if test -r "$1" -a -f "$1"
+    then
+        source "$1"
+        return
     fi
 }
 

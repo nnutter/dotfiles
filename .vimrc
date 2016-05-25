@@ -190,48 +190,11 @@ function! ResCur()
     endif
 endfunction
 
-function! Rustfmt()
-    let l:curw=winsaveview()
-    execute "%!rustfmt"
-    call winrestview(l:curw)
-endfunction
-
-augroup rust
-    autocmd!
-    autocmd BufWritePre *.rs call Rustfmt()
-augroup END
-
 "augroup vimrc_autocmds
 "    autocmd BufEnter * highlight OverLength ctermbg=magenta ctermfg=white
 "    autocmd BufEnter * match OverLength /\%81v./
 "augroup END
 
-"augroup javascript
-"    autocmd!
-"    autocmd FileType javascript set ts=2 sw=2 sts=2
-"augroup END
-"
-"augroup huge-perl
-"    autocmd!
-"    autocmd BufWritePre *.cfg call Perltidy()
-"    autocmd BufWritePre *.pm call Perltidy()
-"    autocmd BufWritePre *.t call Perltidy()
-"    "autocmd BufWritePre *.cfg vnoremap t :!perltidy -q<CR>
-"    autocmd FileType perl <buffer> vnoremap t :!perltidy -q -st<CR>
-"augroup END
-"
-"augroup huge-python
-"    autocmd!
-"    autocmd BufWritePre *.py call Yapf()
-"    "autocmd BufWritePre *.py vnoremap t :!yapf<CR>
-"augroup END
-"
-"augroup huge-js
-"    autocmd!
-"    autocmd BufWritePre *.js silent %!standard-format --stdin
-"    autocmd FileType perl <buffer> vnoremap t :!standard-format --stdin<CR>
-"augroup END
-"
 augroup autoformat
     autocmd!
     " Setup a dummy Autoformat so we can clear it out if no FileType is
@@ -239,19 +202,19 @@ augroup autoformat
     autocmd FileType * command! Autoformat echo 'dummy command'
     autocmd FileType * delcommand Autoformat
 
+    autocmd FileType * set ts=4 sw=4 sts=4
+    autocmd FileType javascript,yaml set ts=2 sw=2 sts=2
+
     autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard-format --stdin 2> /dev/null"|call winrestview(curw)
     autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
     autocmd FileType python command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!yapf"|call winrestview(curw)
+    autocmd FileType rust command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!rustfmt"|call winrestview(curw)
+
+    autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat
 augroup END
 autocmd WinEnter * doautocmd autoformat FileType
 vnoremap <C-f> :Autoformat<CR>
-
-"
-"function! Yapf()
-"    let l:curw=winsaveview()
-"    execute "%!yapf"
-"    call winrestview(l:curw)
-"endfunction
+noremap <C-f> :Autoformat<CR>
 
 augroup resCur
     autocmd!

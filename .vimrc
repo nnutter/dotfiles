@@ -206,25 +206,52 @@ augroup END
 "    autocmd BufEnter * match OverLength /\%81v./
 "augroup END
 
-augroup javascript
+"augroup javascript
+"    autocmd!
+"    autocmd FileType javascript set ts=2 sw=2 sts=2
+"augroup END
+"
+"augroup huge-perl
+"    autocmd!
+"    autocmd BufWritePre *.cfg call Perltidy()
+"    autocmd BufWritePre *.pm call Perltidy()
+"    autocmd BufWritePre *.t call Perltidy()
+"    "autocmd BufWritePre *.cfg vnoremap t :!perltidy -q<CR>
+"    autocmd FileType perl <buffer> vnoremap t :!perltidy -q -st<CR>
+"augroup END
+"
+"augroup huge-python
+"    autocmd!
+"    autocmd BufWritePre *.py call Yapf()
+"    "autocmd BufWritePre *.py vnoremap t :!yapf<CR>
+"augroup END
+"
+"augroup huge-js
+"    autocmd!
+"    autocmd BufWritePre *.js silent %!standard-format --stdin
+"    autocmd FileType perl <buffer> vnoremap t :!standard-format --stdin<CR>
+"augroup END
+"
+augroup autoformat
     autocmd!
-    autocmd FileType javascript set ts=2 sw=2 sts=2
+    " Setup a dummy Autoformat so we can clear it out if no FileType is
+    " matched below for a real Autoformat command.
+    autocmd FileType * command! Autoformat echo 'dummy command'
+    autocmd FileType * delcommand Autoformat
+
+    autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard-format --stdin 2> /dev/null"|call winrestview(curw)
+    autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
+    autocmd FileType python command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!yapf"|call winrestview(curw)
 augroup END
+autocmd WinEnter * doautocmd autoformat FileType
+vnoremap <C-f> :Autoformat<CR>
 
-augroup huge-perl
-    autocmd!
-    autocmd BufWritePre *.pm call Perltidy()
-    autocmd BufWritePre *.t call Perltidy()
-augroup END
-
-vnoremap t :!perltidy -q<CR>
-noremap T :call Perltidy()<CR>
-
-function! Perltidy()
-    let l:curw=winsaveview()
-    execute "%!perltidy -q -st"
-    call winrestview(l:curw)
-endfunction
+"
+"function! Yapf()
+"    let l:curw=winsaveview()
+"    execute "%!yapf"
+"    call winrestview(l:curw)
+"endfunction
 
 augroup resCur
     autocmd!

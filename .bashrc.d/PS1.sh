@@ -54,6 +54,11 @@ build_ps1 () {
 
 if ! echo "$PROMPT_COMMAND" | grep -q 'build_ps1'
 then
-  export PROMPT_COMMAND="build_ps1;$PROMPT_COMMAND";
+    if test -z "$PROMPT_COMMAND"
+    then
+        export PROMPT_COMMAND="build_ps1";
+    else
+        export PROMPT_COMMAND="$PROMPT_COMMAND;build_ps1";
+    fi
 fi
 export PS1

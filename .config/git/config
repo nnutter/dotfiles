@@ -42,3 +42,5 @@
 	recurseSubmodules = on-demand
 [diff]
 	tool = vimdiff
+[diff "vault"]
+	textconv = ansible-vault view

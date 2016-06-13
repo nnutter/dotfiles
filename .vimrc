@@ -213,8 +213,9 @@ augroup autoformat
     autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat
 augroup END
 autocmd WinEnter * doautocmd autoformat FileType
-vnoremap <C-f> :Autoformat<CR>
-noremap <C-f> :Autoformat<CR>
+autocmd FileType * doautocmd autoformat FileType
+vnoremap <F8> :Autoformat<CR>
+noremap <F8> :Autoformat<CR>
 
 augroup resCur
     autocmd!

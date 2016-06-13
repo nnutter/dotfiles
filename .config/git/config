@@ -44,3 +44,7 @@
 	tool = vimdiff
 [diff "vault"]
 	textconv = ansible-vault view
+[http]
+	proxy = http://10.12.134.32:8080
+[https]
+	proxy = http://10.12.134.32:8080

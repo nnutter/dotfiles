@@ -207,7 +207,6 @@ augroup autoformat
 
     autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard-format --stdin 2> /dev/null"|call winrestview(curw)
     autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
-    autocmd FileType python command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!yapf"|call winrestview(curw)
     autocmd FileType rust command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!rustfmt"|call winrestview(curw)
 
     autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat

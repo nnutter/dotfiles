@@ -350,3 +350,12 @@ let g:test#runners = ['TestTracker']
 nmap <silent> <leader>t :TestFile --lsf<CR>
 nmap <silent> <leader>T :TestNearest --lsf<CR>
 nmap <silent> <leader>r :TestSuite --lsf<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0

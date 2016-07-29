@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+current_windows_index=$(tmux list-windows -F '#{window_active} #{window_index}' | grep ^1 | cut -d ' ' -f 2)
+
+for pane_index in 2 1; do
+    target_pane="${current_windows_index}.${pane_index}"
+
+    if tmux send-keys -t "$target_pane" 'C-C' 2> /dev/null; then
+        slept=0
+        while ! tmux capture-pane -p -t "$target_pane" 2> /dev/null | tail -n 1 | grep -q '^!$'; do
+            if [[ "$slept" -gt 10 ]]; then
+                echo 1>&2 "giving up on ${target_pane}"
+                break
+            fi
+            sleep 0.5
+            slept=$(( slept + 0 ))
+        done
+
+        if [[ "$slept" -le 10 ]]; then
+            tmux send-keys -t "$target_pane" 'C-D'
+        fi
+    fi
+done

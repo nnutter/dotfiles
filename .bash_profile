@@ -26,10 +26,10 @@ then
     done
 fi
 
-if hash keychain 2> /dev/null
-then
-    eval $(keychain --eval --quick --quiet)
-fi
+#if hash keychain 2> /dev/null
+#then
+#    eval $(keychain --eval --quick --quiet)
+#fi
 
 use "$HOME/.bashrc"
 use "/usr/local/etc/profile.d"

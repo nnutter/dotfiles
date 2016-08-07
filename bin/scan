@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail -o nounset
+
+# shellcheck disable=SC2034
+NONGIT_OK=1
+# shellcheck disable=SC2034
+OPTIONS_SPEC="\
+scan [-p profile]
+--
+h,help      show the help
+p,profile=  select profile: simplex, duplex
+"
+
+main() {
+    local out_dir="${HOME}/Dropbox/Documents/File Cabinet/Inbox/"
+    local device_name="epjitsu:libusb:002:003"
+
+    set +o nounset
+    source "$(git --exec-path)/git-sh-setup"
+    set -o nounset
+
+    local profile opt
+    while [ $# -gt 0 ]; do
+        opt="$1"
+        shift
+        case $opt in
+            --) break ;;
+            -p) profile="$1"; shift ;;
+        esac
+    done
+
+    local scan_options=(
+        --device-name "$device_name"
+        --mode Color
+        --format=tiff
+        --resolution 300
+        --page-height 0
+    )
+    case $profile in
+        simplex)
+            scan_options+=(--source "ADF Front")
+            scan-to-pdf "$out_dir" "${scan_options[@]}"
+            ;;
+        duplex)
+            scan_options+=(--source "ADF Duplex")
+            scan-to-pdf "$out_dir" "${scan_options[@]}"
+            ;;
+        check)
+            scan_options+=(--source "ADF Duplex")
+            scan-to-jpg "$out_dir" "${scan_options[@]}"
+            ;;
+        *)
+            usage
+            ;;
+    esac
+
+}
+
+scan-text() {
+    local tmp_dir="$1" scan_options
+    shift
+    scan_options=("$@")
+
+    (
+        cd "$tmp_dir"
+        scanimage "${scan_options[@]}" --batch=scan_%03d.tiff
+
+        local sleep_count=0
+        while [[ ! -s "scan_001.tiff" && "$sleep_count" -lt 100 ]]; do
+            sleep 0.1
+            sleep_count=$(( sleep_count + 1 ))
+        done
+        if [[ ! -s "scan_001.tiff"  ]]; then
+            echo 1>&2 "no scanned images found"
+            exit 1
+        fi
+
+        for file in scan_*.tiff; do
+            local crop_file clean_file
+            crop_file=crop_${file/scan_}
+            clean_file=clean_${file/scan_}
+            multicrop2 -d 100000 -t 1 "${file}" "${crop_file}"
+            crop_file=${crop_file/.tiff}-000.tiff
+            textcleaner -g -o 15 "${crop_file}" "${clean_file}"
+        done
+        # convert -quiet -level 0%,77% -normalize ./*.jpg combo.tiff
+    )
+}
+
+scan-to-pdf() {
+    local out_dir="$1" scan_options
+    shift
+    scan_options=("$@")
+
+    local tmp_dir
+    tmp_dir=$(mktemp -d)
+    # shellcheck disable=SC2064
+    trap "rm -rf '$tmp_dir'" exit
+
+    scan-text "$tmp_dir" "${scan_options[@]}"
+
+    (
+        cd "$tmp_dir"
+        convert clean_*.tiff combo.tiff
+        tesseract "combo.tiff" "output" -l eng pdf
+        cp "output.pdf" "$out_dir/$(date --utc +'%Y_%m_%d_%H_%M_%S').pdf"
+    )
+}
+
+scan-to-jpg() {
+    local out_dir="$1" scan_options
+    shift
+    scan_options=("$@")
+
+    local tmp_dir
+    tmp_dir=$(mktemp -d)
+    # shellcheck disable=SC2064
+    trap "rm -rf '$tmp_dir'" exit
+    scan-text "$tmp_dir" "${scan_options[@]}"
+
+    (
+        cd "$tmp_dir"
+        local timestamp count count_pad
+        timestamp=$(date --utc +'%Y_%m_%d_%H_%M_%S')
+        count=0
+        for file in clean_*.tiff; do
+            count=$(( count + 1 ))
+            count_pad=$(printf "%03d" "${count}")
+            convert "${file}" "${timestamp}-${count_pad}.jpg"
+        done
+        cp ./*.jpg "$out_dir/"
+    )
+}
+
+main "$@"

@@ -42,6 +42,9 @@ build_ps1 () {
     if git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then git_ps1; fi
 
     local -a TAGS
+    if [ -n "$MOJO_MODE" ]; then
+        TAGS+=("MOJO_MODE=${MOJO_MODE}")
+    fi
     if test ${#TAGS[@]} -gt 0
     then
         PS1="${PS1} (${TAGS[@]})"

@@ -204,7 +204,7 @@ augroup autoformat
     autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
     autocmd FileType rust command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!rustfmt"|call winrestview(curw)
 
-    autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat
+    " autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat
 augroup END
 autocmd WinEnter * doautocmd autoformat FileType
 autocmd FileType * doautocmd autoformat FileType

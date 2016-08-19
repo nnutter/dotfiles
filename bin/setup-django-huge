@@ -6,7 +6,7 @@ set -o pipefail
 
 cd "$(git rev-parse --show-toplevel)"/python
 
-source env.sh
+source ./env.sh
 tox -r -e manage -- migrate
 tox -e manage loaddata -- gocmat/fixtures/team_auth_users.json
 tox -e manage runserver 0.0.0.0:8000

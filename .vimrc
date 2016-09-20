@@ -12,3 +12,5 @@ augroup indentation
     autocmd FileType javascript set ts=2 sw=2 sts=2 expandtab
     autocmd FileType yaml       set ts=2 sw=2 sts=2 expandtab
 augroup END
+
+set hlsearch ignorecase smartcase incsearch

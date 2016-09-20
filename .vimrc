@@ -4,13 +4,15 @@ colorscheme Tomorrow-Night
 set splitbelow
 set splitright
 
+set list
 filetype plugin indent on
 augroup indentation
     autocmd!
 
-    autocmd FileType *          set ts=4 sw=4 sts=4 expandtab
-    autocmd FileType javascript set ts=2 sw=2 sts=2 expandtab
-    autocmd FileType yaml       set ts=2 sw=2 sts=2 expandtab
+    autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·
+    autocmd FileType javascript set ts=2 sw=2 sts=2
+    autocmd FileType yaml       set ts=2 sw=2 sts=2
+    autocmd FileType go         set                 noexpandtab listchars=tab:\ \ ,trail:·
 augroup END
 
 set hlsearch ignorecase smartcase incsearch

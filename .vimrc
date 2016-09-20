@@ -14,3 +14,5 @@ augroup indentation
 augroup END
 
 set hlsearch ignorecase smartcase incsearch
+
+set backspace=indent,eol,start

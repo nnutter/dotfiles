@@ -26,3 +26,8 @@ if has("wildmenu")
     set wildignore+=.DS_Store,.git,.hg,.svn
     set wildignore+=*~,*.swp,*.tmp
 endif
+
+if has("mouse")
+    set mouse=a
+    set mousehide
+endif

@@ -31,3 +31,6 @@ if has("mouse")
     set mouse=a
     set mousehide
 endif
+
+vnoremap < <gv
+vnoremap > >gv

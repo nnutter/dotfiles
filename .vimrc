@@ -34,3 +34,6 @@ endif
 
 vnoremap < <gv
 vnoremap > >gv
+
+nnoremap <leader>b :buffer <C-d>
+nnoremap <leader>q :buffer#<CR>

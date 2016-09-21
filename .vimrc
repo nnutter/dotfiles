@@ -9,7 +9,7 @@ filetype plugin indent on
 augroup indentation
     autocmd!
 
-    autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·
+    autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·,extends:▸ nowrap
     autocmd FileType javascript set ts=2 sw=2 sts=2
     autocmd FileType yaml       set ts=2 sw=2 sts=2
     autocmd FileType go         set                 noexpandtab listchars=tab:\ \ ,trail:·

@@ -15,6 +15,8 @@ fi
 
 set -o nounset
 
+HUGE_WORK_TREE=$(git rev-parse --show-toplevel)
+
 tmux split-window -bv -l 4
 
 tmux split-window -h -p 50
@@ -23,12 +25,15 @@ tmux select-pane -t 0
 
 sleep 1
 
-tmux send-keys -t 1 "dev -m ${MOJO_MODE} servers" Enter
-
+tmux send-keys -t 1 "cd \"${HUGE_WORK_TREE}\"" Enter
 tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} postgres_shell setup-django-huge" Enter
+
+while ! tmux capture-pane -p -t 1 -S - | tail -n 1 | grep -q '^\$'; do
+    sleep 0.5
+done
+tmux send-keys -t 1 "dev -m ${MOJO_MODE} servers" Enter
 
 while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_DJANGO_DB_URL; do
     sleep 0.5
 done
-
 ( sleep 1; tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE_DJANGO_DB_URL); MOJO_MODE=${MOJO_MODE} source '$(git rev-parse --show-toplevel)/python/env.sh'" Enter )&

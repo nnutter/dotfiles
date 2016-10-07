@@ -26,7 +26,7 @@ tmux select-pane -t 0
 sleep 1
 
 tmux send-keys -t 1 "cd \"${HUGE_WORK_TREE}\"" Enter
-tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} postgres_shell setup-django-huge" Enter
+tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} start_dev_containers -s postgres -s elasticsearch setup-django-huge" Enter
 
 while ! tmux capture-pane -p -t 1 -S - | tail -n 1 | grep -q '^\$'; do
     sleep 0.5

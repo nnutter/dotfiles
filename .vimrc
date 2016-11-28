@@ -198,7 +198,7 @@ augroup autoformat
     autocmd FileType * delcommand Autoformat
 
     autocmd FileType * set ts=4 sw=4 sts=4
-    autocmd FileType javascript,yaml set ts=2 sw=2 sts=2
+    autocmd FileType elixir,javascript,yaml set ts=2 sw=2 sts=2
 
     autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard-format --stdin 2> /dev/null"|call winrestview(curw)
     autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)

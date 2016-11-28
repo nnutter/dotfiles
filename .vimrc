@@ -335,7 +335,6 @@ let vala_space_errors = 1
 set modelines=5
 
 " vim-go options
-let g:go_snippet_engine = "neosnippet"
 let g:go_fmt_command = "goimports"
 
 let g:ctrlp_cmd = 'CtrlPBuffer'
@@ -355,25 +354,11 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:neocomplete#enable_at_startup = 1
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
 endfunction
-
-imap <expr><TAB>
- \ neosnippet#expandable_or_jumpable() ?
- \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
 if has('conceal')

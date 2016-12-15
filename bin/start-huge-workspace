@@ -18,29 +18,37 @@ set -o nounset
 HUGE_WORK_TREE=$(git rev-parse --show-toplevel)
 
 tmux split-window -bv -l 4
-
 tmux split-window -h -p 50
-
 tmux select-pane -t 0
 
 sleep 1
 
+wait_for_prompt() {
+    local pane="$1"
+    while ! tmux capture-pane -p -t "$pane" -S - | grep -v '^$' | tail -n 1 | grep -q '^\$$'; do
+        sleep 0.25
+    done
+}
+
 tmux send-keys -t 1 "cd \"${HUGE_WORK_TREE}\"" Enter
-tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} start_dev_containers -s postgres -s elasticsearch setup-django-huge" Enter
-
-while ! tmux capture-pane -p -t 1 -S - | tail -n 1 | grep -q '^\$'; do
-    sleep 0.5
-done
+tmux send-keys -t 2 "cd \"${HUGE_WORK_TREE}\"/python" Enter
+wait_for_prompt 1
+wait_for_prompt 2
 tmux send-keys -t 1 "dev -m ${MOJO_MODE} servers" Enter
-
-while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_DJANGO_DB_URL; do
-    sleep 0.5
-done
+tmux send-keys -t 2 "start_dev_containers -s postgres -s elasticsearch" Enter
+while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_DJANGO_DB_URL; do sleep 0.25; done
 tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE_DJANGO_DB_URL)" Enter
-
-while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_ELASTICSEARCH_URL; do
-    sleep 0.5
-done
+while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_ELASTICSEARCH_URL; do sleep 0.25; done
 tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE_ELASTICSEARCH_URL)" Enter
-
-( sleep 1; tmux send-keys -t 0 'C-u' " MOJO_MODE=${MOJO_MODE} source '$(git rev-parse --show-toplevel)/python/env.sh'" Enter )&
+wait_for_prompt 0
+tmux send-keys -t 0 " MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh" Enter
+wait_for_prompt 2
+tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh" Enter
+wait_for_prompt 2
+tmux send-keys -t 2 "tox -r -e manage -- migrate" Enter
+wait_for_prompt 2
+tmux send-keys -t 2 "tox -r -e manage -- elasticsearchmigrate" Enter
+wait_for_prompt 2
+tmux send-keys -t 2 "tox -e manage loaddata -- gocmat/fixtures/team_auth_users.json" Enter
+wait_for_prompt 2
+tmux send-keys -t 2 "tox -e manage runserver 0.0.0.0:8000" Enter

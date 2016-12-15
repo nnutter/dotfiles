@@ -21,6 +21,12 @@ for pane_index in 2 1; do
 
         if [[ "$slept" -le 10 ]]; then
             tmux send-keys -t "$target_pane" 'C-D'
+            while ! tmux capture-pane -p -t "$pane" -S - | tail -n 1 | grep -q '^!$'; do
+                sleep 0.25
+            done
+            tmux send-keys -t "$target_pane" 'C-D'
         fi
     fi
 done
+
+( sleep 1; tmux send-keys -t 0 'C-u' ' unset $(env | grep ^HUGE | cut -d = -f 1)' Enter )&

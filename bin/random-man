@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+import itertools
+import os
+import random
+import re
+
+man_dirs = ['/usr/share/man/man' + str(i) for i in range(1, 9)]
+man_pages = list(itertools.chain(*[os.listdir(path) for path in man_dirs]))
+rand_man_page = man_pages[random.randint(0, len(man_pages))]
+(name, section, ext) = rand_man_page.split('.')
+p = re.compile('\D+')
+section = p.sub('', section)
+os.system(' '.join(['man', section, name]))

@@ -19,6 +19,7 @@ Bundle 'tpope/vim-dispatch'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-pandoc/vim-pandoc'
+Bundle 'vimwiki/vimwiki'
 Bundle 'wting/rust.vim'
 
 Bundle 'Syntastic'
@@ -364,3 +365,5 @@ endfunction
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
+
+let g:vimwiki_list = [{'path': '~/Dropbox/Notes/', 'path_html': '/dev/null', 'ext': '.md'}]

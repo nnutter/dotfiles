@@ -6,7 +6,6 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
-Bundle 'davidhalter/jedi-vim'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'fatih/vim-go'

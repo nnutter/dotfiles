@@ -18,6 +18,7 @@ Bundle 'tpope/vim-dispatch'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-pandoc/vim-pandoc'
+Bundle 'vimwiki/vimwiki'
 Bundle 'wting/rust.vim'
 
 Bundle 'Syntastic'
@@ -375,3 +376,5 @@ endif
 
 nnoremap <leader>b :buffer <C-d>
 nnoremap <leader>q :buffer#<CR>
+
+let g:vimwiki_list = [{'path': '~/shared/notes', 'ext': '.md', 'diary_rel_path': 'journal', 'diary_index': 'journal', 'auto_toc': 1}]

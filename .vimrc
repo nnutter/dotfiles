@@ -6,11 +6,13 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'Shougo/neocomplete.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'fatih/vim-go'
 Bundle 'godlygeek/tabular'
-Bundle 'kien/ctrlp.vim'
+Bundle 'majutsushi/tagbar'
 Bundle 'miyakogi/conoline.vim'
 Bundle 'rodjek/vim-puppet'
 Bundle 'tpope/vim-commentary'

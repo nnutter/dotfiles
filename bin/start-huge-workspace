@@ -41,9 +41,9 @@ tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE
 while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_ELASTICSEARCH_URL; do sleep 0.25; done
 tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE_ELASTICSEARCH_URL)" Enter
 wait_for_prompt 0
-tmux send-keys -t 0 " MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh" Enter
+tmux send-keys -t 0 " MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh; export HUGE_BASE_URL='http://localhost/'" Enter
 wait_for_prompt 2
-tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh" Enter
+tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh; export HUGE_BASE_URL='http://localhost/'" Enter
 wait_for_prompt 2
 tmux send-keys -t 2 "tox -r -e manage -- migrate" Enter
 wait_for_prompt 2

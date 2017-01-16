@@ -375,4 +375,4 @@ endif
 nnoremap <leader>b :buffer <C-d>
 nnoremap <leader>q :buffer#<CR>
 
-let g:vimwiki_list = [{'path': '~/shared/notes', 'ext': '.md', 'diary_rel_path': 'journal', 'diary_index': 'journal', 'auto_toc': 1}]
+let g:vimwiki_list = [{'path': '~/shared/notes', 'ext': '.md', 'diary_rel_path': 'journal', 'diary_index': 'journal', 'auto_toc': 1, 'syntax': 'markdown'}]

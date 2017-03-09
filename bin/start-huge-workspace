@@ -9,11 +9,15 @@ else
     MOJO_MODE="stage"
 fi
 
-if ! git rev-parse --is-inside-work-tree 2> /dev/null; then
+if ! git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then
     exit 1
 fi
 
 set -o nounset
+
+set +o errexit
+psgrep start-huge-workspace | awk '{print $1}' | grep -v "^$$$" | xargs --no-run-if-empty kill
+set -o errexit
 
 HUGE_WORK_TREE=$(git rev-parse --show-toplevel)
 
@@ -25,25 +29,41 @@ sleep 1
 
 wait_for_prompt() {
     local pane="$1"
-    while ! tmux capture-pane -p -t "$pane" -S - | grep -v '^$' | tail -n 1 | grep -q '^\$$'; do
+    while ! tmux capture-pane -t "$pane" -pJ -S - -E - | tac | perl -ne 'use v5.10; chomp; if (length) { exit($_ eq q($) ? 0 : 1) }'; do
         sleep 0.25
     done
 }
 
-tmux send-keys -t 1 "cd \"${HUGE_WORK_TREE}\"" Enter
-tmux send-keys -t 2 "cd \"${HUGE_WORK_TREE}\"/python" Enter
+for pane in 0 1 2; do
+    wait_for_prompt "$pane"
+    tmux send-keys -t "$pane" " export MOJO_MODE=${MOJO_MODE}" Enter
+done
+
+wait_for_prompt 2
+tmux send-keys -t 2 "start_dev_containers" Enter
+
+set +o nounset +o errexit +o pipefail
+while test -z "$START_DEV_CONTAINERS_ENV_FILE"; do
+    START_DEV_CONTAINERS_ENV_FILE=$(tmux capture-pane -t 2 -pJ -S - | grep '^START_DEV_CONTAINERS_ENV_FILE' | cut -d = -f 1 --complement)
+    sleep 0.25
+done
+set -o nounset -o errexit -o pipefail
+
+
+for pane in 0 1 2; do
+    wait_for_prompt "$pane"
+    tmux send-keys -t "$pane" " source \"${START_DEV_CONTAINERS_ENV_FILE}\"" Enter
+    wait_for_prompt "$pane"
+    tmux send-keys -t "$pane" " source \"${HUGE_WORK_TREE}\"/python/env.sh" Enter
+done
+
 wait_for_prompt 1
-wait_for_prompt 2
+tmux send-keys -t 1 "cd \"${HUGE_WORK_TREE}\"" Enter
+wait_for_prompt 1
 tmux send-keys -t 1 "dev -m ${MOJO_MODE} servers" Enter
-tmux send-keys -t 2 "start_dev_containers -s postgres -s elasticsearch" Enter
-while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_DJANGO_DB_URL; do sleep 0.25; done
-tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE_DJANGO_DB_URL)" Enter
-while ! tmux capture-pane -p -t 2 -S - | grep -q ^HUGE_ELASTICSEARCH_URL; do sleep 0.25; done
-tmux send-keys -t 0 'C-u' " export $(tmux capture-pane -p -t 2 -S - | grep ^HUGE_ELASTICSEARCH_URL)" Enter
-wait_for_prompt 0
-tmux send-keys -t 0 " MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh; export HUGE_BASE_URL='http://localhost/'" Enter
+
 wait_for_prompt 2
-tmux send-keys -t 2 "MOJO_MODE=${MOJO_MODE} source \"${HUGE_WORK_TREE}\"/python/env.sh; export HUGE_BASE_URL='http://localhost/'" Enter
+tmux send-keys -t 2 "cd \"${HUGE_WORK_TREE}\"/python" Enter
 wait_for_prompt 2
 tmux send-keys -t 2 "tox -r -e manage -- migrate" Enter
 wait_for_prompt 2

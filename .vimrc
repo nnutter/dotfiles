@@ -72,9 +72,6 @@ syntax enable
 colorscheme Tomorrow-Night
 set nowrap                      " disable line wrapping
 set number                      " enable line numbers
-if v:version >= 703
-    set relativenumber
-endif
 
 " DistractFree
 let g:distractfree_width = '60%'

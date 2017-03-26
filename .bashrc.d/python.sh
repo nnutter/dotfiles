@@ -1,4 +1,4 @@
-PYENV_ROOT="$HOME/src/github.com/yyuu/pyenv"
+PYENV_ROOT="$HOME/src/github.com/pyenv/pyenv"
 if test -d "$PYENV_ROOT"
 then
     export PYENV_ROOT

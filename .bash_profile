@@ -28,7 +28,7 @@ fi
 
 if hash keychain 2> /dev/null
 then
-    eval $(keychain --eval --quick --quiet)
+    eval $(keychain --eval --quick --quiet --agents gpg,ssh)
 fi
 
 use "$HOME/.bashrc"

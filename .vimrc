@@ -11,6 +11,7 @@ Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'davidoc/taskpaper.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'fatih/vim-go'
+Bundle 'fisadev/vim-isort'
 Bundle 'godlygeek/tabular'
 Bundle 'majutsushi/tagbar'
 Bundle 'miyakogi/conoline.vim'
@@ -372,3 +373,6 @@ let g:ale_sign_column_always = 1
 let g:ale_lint_delay = 750
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+let g:vim_isort_map = '<C-i>'
+let g:vim_isort_python_version = 'python3'

@@ -21,9 +21,8 @@ Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-pandoc/vim-pandoc'
 Bundle 'vimwiki/vimwiki'
+Bundle 'w0rp/ale'
 Bundle 'wting/rust.vim'
-
-Bundle 'Syntastic'
 
 filetype plugin indent on
 syntax enable
@@ -345,7 +344,7 @@ nmap <silent> <leader>T :TestNearest --lsf<CR>
 nmap <silent> <leader>r :TestSuite --lsf<CR>
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%{ALEGetStatusLine()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
@@ -365,3 +364,11 @@ if has('conceal')
 endif
 
 let g:vimwiki_list = [{'path': '~/Dropbox/Notes/', 'path_html': '/dev/null', 'ext': '.md'}]
+
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 1
+let g:ale_sign_column_always = 1
+let g:ale_lint_delay = 750
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)

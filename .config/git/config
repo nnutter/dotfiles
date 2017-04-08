@@ -1,7 +1,7 @@
 [user]
 	name = Nathaniel Nutter
 	email = iam@nnutter.com
-	signingkey = 6A4DDCEA
+	signingKey = 4C33CFFE
 [color]
 	branch = auto
 	diff = auto
@@ -40,7 +40,12 @@
 	prebase = !git fetch && git rebase --autostash --preserve-merges @{u}
 [fetch]
 	recurseSubmodules = on-demand
+	prune = true
 [diff]
 	tool = vimdiff
 [diff "vault"]
 	textconv = ansible-vault view
+[commit]
+	gpgSign = true
+[transfer]
+	fsckObjects = true

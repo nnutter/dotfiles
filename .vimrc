@@ -27,7 +27,7 @@ filetype plugin indent on
 syntax enable
 
 let g:xdg_cache_home = $XDG_CACHE_HOME == "" ? $HOME . '/.cache' : $XDG_CACHE_HOME
-let g:cache_home = xdg_cache_home . '/vim'
+let g:cache_home = xdg_cache_home . '/vim//'
 
 "set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
 "let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
@@ -189,6 +189,7 @@ augroup indentation
     autocmd!
 
     autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·,extends:▸ nowrap
+    autocmd FileType css        set ts=2 sw=2 sts=2
     autocmd FileType elixir     set ts=2 sw=2 sts=2
     autocmd FileType html       set ts=2 sw=2 sts=2
     autocmd FileType javascript set ts=2 sw=2 sts=2
@@ -203,7 +204,7 @@ augroup autoformat
     autocmd FileType * command! Autoformat echo 'dummy command'
     autocmd FileType * delcommand Autoformat
 
-    autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard-format --stdin 2> /dev/null"|call winrestview(curw)
+    autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard --stdin 2> /dev/null"|call winrestview(curw)
     autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
     autocmd FileType rust command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!rustfmt"|call winrestview(curw)
 

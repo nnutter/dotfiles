@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -o errexit -o nounset -o pipefail
+
+ssh -L 9906:127.0.0.1:3306 -N pd01 2>/dev/null &
+SSH_PID=$(jobs -p | tail -n 1)
+trap "kill ${SSH_PID}" EXIT
+
+export MOJO_MODE=production
+export HUGE_DB_HOSTNAME=127.0.0.1
+export HUGE_DB_PORT=9906
+
+unset HUGE_DB_DATABASE
+unset HUGE_DB_USERNAME
+unset HUGE_DB_PASSWORD
+
+dev -m production servers

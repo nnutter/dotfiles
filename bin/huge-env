@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+env | grep HUGE | tr '\n' ' ' | sed 's/^/export /' && echo

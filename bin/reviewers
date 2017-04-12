@@ -1,0 +1,16 @@
+#!/home/nnutter/.pyenv/versions/3.5.1/bin/python
+
+import random
+
+message = "@{} and @{}, please review.  In person or online is your choice."
+
+developers = [
+    'David.Morton1',
+    'Karl.Boehnker',
+    'Mark.Burnett',
+    'mclaypool',
+    'sam',
+]
+
+random.shuffle(developers)
+print(message.format(developers[0], developers[1]))

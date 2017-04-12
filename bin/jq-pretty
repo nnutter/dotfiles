@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+
+TMP_FILE=$(mktemp)
+INPUT_FILE="$1"
+
+PERMS=$(stat -c %a "$INPUT_FILE")
+USER=$(stat -c %U "$INPUT_FILE")
+GROUP=$(stat -c %G "$INPUT_FILE")
+
+jq . < "$INPUT_FILE" > "$TMP_FILE"
+chmod $PERMS "$TMP_FILE"
+mv "$TMP_FILE" "$INPUT_FILE"
+chown "$USER":"$GROUP" "$INPUT_FILE"

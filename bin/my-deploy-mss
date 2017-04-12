@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+sudo mount ~/windows
+for FILE in $(ls ~/windows/Downloads/activedevices-*.csv); do
+    deploy-mss "$FILE"
+    sudo rm -f "$FILE"
+done

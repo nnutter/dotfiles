@@ -74,6 +74,10 @@ OS=$(uname -s)
 
 # export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+    source /etc/profile.d/vte.sh
+fi
+
 use ${HOME}/.bash_completion.d
 use ${HOME}/.bashrc.d
 

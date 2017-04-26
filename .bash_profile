@@ -32,4 +32,3 @@ then
 fi
 
 use "$HOME/.bashrc"
-use "/usr/local/etc/profile.d"

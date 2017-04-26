@@ -254,11 +254,6 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-" use sane regexes
-" http://vimbits.com/bits/17
-nnoremap / /\v
-vnoremap / /\v
-
 " make Y behave like other capitals
 " http://vimbits.com/bits/11
 noremap Y y$

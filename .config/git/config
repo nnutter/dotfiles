@@ -1,7 +1,7 @@
 [user]
-	name = Nathaniel Nutter
-	email = iam@nnutter.com
-	signingKey = 4C33CFFE
+	name = Nathan Nutter
+	email = nnutter@wustl.edu
+	signingkey = 1F7F2AE5
 [color]
 	branch = auto
 	diff = auto
@@ -49,3 +49,5 @@
 	gpgSign = true
 [transfer]
 	fsckObjects = true
+[gpg]
+	program = /usr/local/bin/gpg2

@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+if [[ -n "$1" ]]; then
+    MOJO_MODE="$1"
+else
+    MOJO_MODE="stage"
+fi
+
+if ! git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then
+    exit 1
+fi
+
+set -o nounset
+
+set +o errexit
+psgrep start-huge-workspace | awk '{print $1}' | grep -v "^$$$" | xargs --no-run-if-empty kill
+set -o errexit
+
+HUGE_WORK_TREE=$(git rev-parse --show-toplevel)
+
+tmux select-pane -t 0
+tmux split-window -bv -l 4
+tmux split-window -h -p 50
+tmux select-pane -t 0
+
+sleep 1
+
+wait_for_prompt() {
+    local pane="$1"
+    set +o pipefail
+    while ! tmux capture-pane -t "$pane" -pJ -S - -E - | tac | \
+            perl -ne 'use v5.10; chomp; if (length) {my $x = ($_ eq q($) ? 0 : 1); say STDERR qq(Exit: $x, Line: >$_<) if $ENV{DEBUG}; exit($x)}'; do
+        sleep 0.25
+    done
+    set -o pipefail
+}
+
+for pane in 0 1 2; do
+    wait_for_prompt "$pane" && tmux send-keys -t "$pane" " export MOJO_MODE=${MOJO_MODE}" Enter
+done
+
+wait_for_prompt 2 && tmux send-keys -t 2 "start_dev_containers" Enter
+
+set +o nounset +o errexit +o pipefail
+while test -z "$START_DEV_CONTAINERS_ENV_FILE"; do
+    START_DEV_CONTAINERS_ENV_FILE=$(tmux capture-pane -t 2 -pJ -S - | grep '^START_DEV_CONTAINERS_ENV_FILE' | cut -d = -f 1 --complement)
+    sleep 0.25
+done
+set -o nounset -o errexit -o pipefail
+
+
+for pane in 0 1 2; do
+    wait_for_prompt "$pane" && tmux send-keys -t "$pane" " source \"${START_DEV_CONTAINERS_ENV_FILE}\"" Enter
+    wait_for_prompt "$pane" && tmux send-keys -t "$pane" " source \"${HUGE_WORK_TREE}\"/python/env.sh" Enter
+done
+
+wait_for_prompt 1 && tmux send-keys -t 1 "cd \"${HUGE_WORK_TREE}\"" Enter
+wait_for_prompt 1 && tmux send-keys -t 1 "dev -m ${MOJO_MODE} servers" Enter
+
+wait_for_prompt 2 && tmux send-keys -t 2 "cd \"${HUGE_WORK_TREE}\"/python" Enter
+wait_for_prompt 2 && tmux send-keys -t 2 "tox -r -e manage -- migrate" Enter
+wait_for_prompt 2 && tmux send-keys -t 2 "tox -e manage -- elasticsearchmigrate" Enter
+wait_for_prompt 2 && tmux send-keys -t 2 "tox -e manage loaddata -- gocmat/fixtures/team_auth_users.json" Enter
+wait_for_prompt 2 && tmux send-keys -t 2 "tox -e manage runserver 0.0.0.0:8000" Enter

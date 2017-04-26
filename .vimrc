@@ -26,10 +26,9 @@ Bundle 'w0rp/ale'
 Bundle 'wting/rust.vim'
 
 filetype plugin indent on
-syntax enable
 
 let g:xdg_cache_home = $XDG_CACHE_HOME == "" ? $HOME . '/.cache' : $XDG_CACHE_HOME
-let g:cache_home = xdg_cache_home . '/vim'
+let g:cache_home = xdg_cache_home . '/vim//'
 
 "set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
 "let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
@@ -74,11 +73,6 @@ syntax enable
 colorscheme Tomorrow-Night
 set nowrap                      " disable line wrapping
 set number                      " enable line numbers
-if v:version >= 703
-    set relativenumber
-endif
-set ts=4 sts=4 sw=4             " default to a 4-space tab
-set expandtab                   " use spaces instead of tabs
 
 " DistractFree
 let g:distractfree_width = '60%'
@@ -192,6 +186,18 @@ endfunction
 "    autocmd BufEnter * match OverLength /\%81v./
 "augroup END
 
+augroup indentation
+    autocmd!
+
+    autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·,extends:▸ nowrap
+    autocmd FileType css        set ts=2 sw=2 sts=2
+    autocmd FileType elixir     set ts=2 sw=2 sts=2
+    autocmd FileType html       set ts=2 sw=2 sts=2
+    autocmd FileType javascript set ts=2 sw=2 sts=2
+    autocmd FileType yaml       set ts=2 sw=2 sts=2
+    autocmd FileType go         set                 noexpandtab listchars=tab:\ \ ,trail:·
+augroup END
+
 augroup autoformat
     autocmd!
     " Setup a dummy Autoformat so we can clear it out if no FileType is
@@ -199,11 +205,11 @@ augroup autoformat
     autocmd FileType * command! Autoformat echo 'dummy command'
     autocmd FileType * delcommand Autoformat
 
-    autocmd FileType * set ts=4 sw=4 sts=4
-    autocmd FileType elixir,javascript,yaml set ts=2 sw=2 sts=2
-
-    autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard-format --stdin 2> /dev/null"|call winrestview(curw)
+    autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard --stdin 2> /dev/null"|call winrestview(curw)
     autocmd FileType rust command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!rustfmt"|call winrestview(curw)
+    autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
+
+    " autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat
 augroup END
 autocmd WinEnter * doautocmd autoformat FileType
 autocmd FileType * doautocmd autoformat FileType
@@ -343,11 +349,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{ALEGetStatusLine()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
@@ -359,7 +360,7 @@ if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 
-let g:vimwiki_list = [{'path': '~/Dropbox/Notes/', 'path_html': '/dev/null', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/Dropbox/Notes/', 'path_html': '/dev/null', 'ext': '.md', 'diary_rel_path': 'journal', 'diary_index': 'journal', 'auto_toc': 1, 'syntax': 'markdown'}]
 
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -371,3 +372,6 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 let g:vim_isort_map = '<C-i>'
 let g:vim_isort_python_version = 'python3'
+
+nnoremap <leader>b :buffer <C-d>
+nnoremap <leader>q :buffer#<CR>

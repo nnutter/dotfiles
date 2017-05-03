@@ -1,7 +1,7 @@
 [user]
 	name = Nathan Nutter
 	email = nnutter@wustl.edu
-	signingkey = 1F7F2AE5
+	signingkey = 4C33CFFE
 [color]
 	branch = auto
 	diff = auto

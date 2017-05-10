@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+for BRANCH in $(git branch --list | sed 's/^..//'); do
+    UPSTREAM=$(git rev-parse --symbolic-full-name "${BRANCH}@{u}")
+    if ! [[ "$UPSTREAM" =~ "$BRANCH" ]] && git merge-base --is-ancestor "$BRANCH" "${BRANCH}@{u}"; then
+        echo "=> $BRANCH: delete"
+        git branch -d "$BRANCH"
+    else
+        echo "=> $BRANCH: keep"
+    fi
+done

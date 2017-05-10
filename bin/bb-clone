@@ -6,7 +6,7 @@ REPO_NAME="$1"
 shift
 
 REPO_BASE_DIR="$HOME/src/bitbucket.gsc.wustl.edu"
-REPO_DIR="$REPO_BASE_DIR/$REPO_NAME"
+REPO_DIR=$(echo "$REPO_BASE_DIR/$REPO_NAME" | sed 's/~//')
 REPO_URL="ssh://git@bitbucket.gsc.wustl.edu:7999/${REPO_NAME}.git"
 
 mkdir -p "$REPO_DIR"

@@ -192,10 +192,14 @@ augroup indentation
     autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·,extends:▸ nowrap
     autocmd FileType css        set ts=2 sw=2 sts=2
     autocmd FileType elixir     set ts=2 sw=2 sts=2
+    autocmd FileType erb        set ts=2 sw=2 sts=2
+    autocmd FileType go         set ts=4 sw=4 sts=4 noexpandtab listchars=tab:\ \ ,trail:·
     autocmd FileType html       set ts=2 sw=2 sts=2
     autocmd FileType javascript set ts=2 sw=2 sts=2
+    autocmd FileType json       set ts=2 sw=2 sts=2
+    autocmd FileType puppet     set ts=2 sw=2 sts=2
+    autocmd FileType ruby       set ts=2 sw=2 sts=2
     autocmd FileType yaml       set ts=2 sw=2 sts=2
-    autocmd FileType go         set                 noexpandtab listchars=tab:\ \ ,trail:·
 augroup END
 
 augroup autoformat

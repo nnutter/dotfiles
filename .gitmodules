@@ -7,3 +7,6 @@
 [submodule "/home/nnutter/.vim/pack/vim-puppet/start/vim-puppet"]
 	path = /home/nnutter/.vim/pack/vim-puppet/start/vim-puppet
 	url = git@github.com:rodjek/vim-puppet.git
+[submodule "/home/nnutter/.vim/pack/tabular/start/tabular"]
+	path = /home/nnutter/.vim/pack/tabular/start/tabular
+	url = git@github.com:godlygeek/tabular.git

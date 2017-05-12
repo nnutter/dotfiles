@@ -37,3 +37,6 @@
 [submodule "/home/nnutter/.vim/pack/vimwiki/start/vimwiki"]
 	path = /home/nnutter/.vim/pack/vimwiki/start/vimwiki
 	url = git@github.com:vimwiki/vimwiki.git
+[submodule "/home/nnutter/.vim/pack/surround/start/surround"]
+	path = /home/nnutter/.vim/pack/surround/start/surround
+	url = git@github.com:tpope/vim-surround.git

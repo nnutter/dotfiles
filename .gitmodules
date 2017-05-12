@@ -19,3 +19,6 @@
 [submodule "/home/nnutter/.vim/pack/vim-elixir/start/vim-elixir"]
 	path = /home/nnutter/.vim/pack/vim-elixir/start/vim-elixir
 	url = git@github.com:elixir-lang/vim-elixir.git
+[submodule "/home/nnutter/.vim/pack/taskpaper/start/taskpaper"]
+	path = /home/nnutter/.vim/pack/taskpaper/start/taskpaper
+	url = git@github.com:davidoc/taskpaper.vim.git

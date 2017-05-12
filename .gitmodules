@@ -22,3 +22,6 @@
 [submodule "/home/nnutter/.vim/pack/taskpaper/start/taskpaper"]
 	path = /home/nnutter/.vim/pack/taskpaper/start/taskpaper
 	url = git@github.com:davidoc/taskpaper.vim.git
+[submodule "/home/nnutter/.vim/pack/ctrlp/start/ctrlp"]
+	path = /home/nnutter/.vim/pack/ctrlp/start/ctrlp
+	url = git@github.com:kien/ctrlp.vim.git

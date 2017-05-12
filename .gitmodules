@@ -34,3 +34,6 @@
 [submodule "/home/nnutter/.vim/pack/rust/start/rust"]
 	path = /home/nnutter/.vim/pack/rust/start/rust
 	url = git@github.com:rust-lang/rust.vim.git
+[submodule "/home/nnutter/.vim/pack/vimwiki/start/vimwiki"]
+	path = /home/nnutter/.vim/pack/vimwiki/start/vimwiki
+	url = git@github.com:vimwiki/vimwiki.git

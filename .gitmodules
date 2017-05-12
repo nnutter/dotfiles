@@ -31,3 +31,6 @@
 [submodule "/home/nnutter/.vim/pack/ale/start/ale"]
 	path = /home/nnutter/.vim/pack/ale/start/ale
 	url = git@github.com:w0rp/ale.git
+[submodule "/home/nnutter/.vim/pack/rust/start/rust"]
+	path = /home/nnutter/.vim/pack/rust/start/rust
+	url = git@github.com:rust-lang/rust.vim.git

@@ -8,4 +8,4 @@ set -o errexit -o nounset -o pipefail
 PACKPATH=$HOME/.vim/pack
 
 gitsick dotfiles submodule add "$GIT_URL" "${PACKPATH}/${PACKNAME}/start"
-gitsick dotfiles commit -v -- "$HOME/.gitmodules" "${PACKPATH}/${PACKNAME}/start"
+gitsick dotfiles commit --edit --message "add ${PACKNAME} vim pack" -- "$HOME/.gitmodules" "${PACKPATH}/${PACKNAME}/start"

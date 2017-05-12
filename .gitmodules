@@ -25,3 +25,6 @@
 [submodule "/home/nnutter/.vim/pack/ctrlp/start/ctrlp"]
 	path = /home/nnutter/.vim/pack/ctrlp/start/ctrlp
 	url = git@github.com:kien/ctrlp.vim.git
+[submodule "/home/nnutter/.vim/pack/neocomplete/start/neocomplete"]
+	path = /home/nnutter/.vim/pack/neocomplete/start/neocomplete
+	url = git@github.com:Shougo/neocomplete.vim.git

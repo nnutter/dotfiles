@@ -13,3 +13,6 @@
 [submodule "/home/nnutter/.vim/pack/isort/start/isort"]
 	path = /home/nnutter/.vim/pack/isort/start/isort
 	url = git@github.com:fisadev/vim-isort.git
+[submodule "/home/nnutter/.vim/pack/vim-go/start/vim-go"]
+	path = /home/nnutter/.vim/pack/vim-go/start/vim-go
+	url = git@github.com:fatih/vim-go.git

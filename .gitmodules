@@ -16,3 +16,6 @@
 [submodule "/home/nnutter/.vim/pack/vim-go/start/vim-go"]
 	path = /home/nnutter/.vim/pack/vim-go/start/vim-go
 	url = git@github.com:fatih/vim-go.git
+[submodule "/home/nnutter/.vim/pack/vim-elixir/start/vim-elixir"]
+	path = /home/nnutter/.vim/pack/vim-elixir/start/vim-elixir
+	url = git@github.com:elixir-lang/vim-elixir.git

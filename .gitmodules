@@ -4,3 +4,6 @@
 [submodule "/home/nnutter/.vim/pack/vim-crystal/start/vim-crystal"]
 	path = /home/nnutter/.vim/pack/vim-crystal/start/vim-crystal
 	url = git@github.com:rhysd/vim-crystal.git
+[submodule "/home/nnutter/.vim/pack/vim-puppet/start/vim-puppet"]
+	path = /home/nnutter/.vim/pack/vim-puppet/start/vim-puppet
+	url = git@github.com:rodjek/vim-puppet.git

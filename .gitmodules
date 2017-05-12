@@ -4,6 +4,3 @@
 [submodule "/home/nnutter/.vim/pack/vim-crystal/start/vim-crystal"]
 	path = /home/nnutter/.vim/pack/vim-crystal/start/vim-crystal
 	url = git@github.com:rhysd/vim-crystal.git
-[submodule "/home/nnutter/.vim/pack/vim-pandoc-syntax/start/vim-pandoc-syntax"]
-	path = /home/nnutter/.vim/pack/vim-pandoc-syntax/start/vim-pandoc-syntax
-	url = git@github.com:vim-pandoc/vim-pandoc-syntax.git

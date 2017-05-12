@@ -10,3 +10,6 @@
 [submodule "/home/nnutter/.vim/pack/tabular/start/tabular"]
 	path = /home/nnutter/.vim/pack/tabular/start/tabular
 	url = git@github.com:godlygeek/tabular.git
+[submodule "/home/nnutter/.vim/pack/isort/start/isort"]
+	path = /home/nnutter/.vim/pack/isort/start/isort
+	url = git@github.com:fisadev/vim-isort.git

@@ -1,29 +1,6 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-
-Bundle 'Shougo/neocomplete.vim'
-Bundle 'ctrlpvim/ctrlp.vim'
-Bundle 'davidoc/taskpaper.vim'
-Bundle 'elixir-lang/vim-elixir'
-Bundle 'fatih/vim-go'
-Bundle 'fisadev/vim-isort'
-Bundle 'godlygeek/tabular'
-Bundle 'majutsushi/tagbar'
-Bundle 'miyakogi/conoline.vim'
-Bundle 'rodjek/vim-puppet'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-dispatch'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'vimwiki/vimwiki'
-Bundle 'w0rp/ale'
-Bundle 'wting/rust.vim'
-
 filetype plugin indent on
 
 let g:xdg_cache_home = $XDG_CACHE_HOME == "" ? $HOME . '/.cache' : $XDG_CACHE_HOME

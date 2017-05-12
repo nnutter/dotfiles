@@ -40,3 +40,6 @@
 [submodule "/home/nnutter/.vim/pack/surround/start/surround"]
 	path = /home/nnutter/.vim/pack/surround/start/surround
 	url = git@github.com:tpope/vim-surround.git
+[submodule "/home/nnutter/.vim/pack/commentary/start/commentary"]
+	path = /home/nnutter/.vim/pack/commentary/start/commentary
+	url = git@github.com:tpope/vim-commentary.git

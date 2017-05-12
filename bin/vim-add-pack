@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+PACKNAME="$1"
+GIT_URL="$2"
+
+set -o errexit -o nounset -o pipefail
+
+PACKPATH=$HOME/.vim/pack
+
+gitsick dotfiles submodule add "$GIT_URL" "${PACKPATH}/${PACKNAME}/start"
+gitsick dotfiles commit -v -- "$HOME/.gitmodules" "${PACKPATH}/${PACKNAME}/start"

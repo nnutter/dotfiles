@@ -50,9 +50,6 @@ build_ps1 () {
         PS1="${PS1} (${TAGS[@]})"
     fi
     PS1="${PS1}\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
-
-    VTE_PWD_THING="$(__vte_osc7 2> /dev/null)"
-    PS1="$PS1$VTE_PWD_THING"
 }
 
 if ! echo "$PROMPT_COMMAND" | grep -q 'build_ps1'

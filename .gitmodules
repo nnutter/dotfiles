@@ -1,3 +1,6 @@
 [submodule "/home/nnutter/.vim/bundle/vundle"]
 	path = /home/nnutter/.vim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
+[submodule "/home/nnutter/.vim/pack/vim-crystal/start"]
+	path = /home/nnutter/.vim/pack/vim-crystal/start
+	url = git@github.com:rhysd/vim-crystal.git

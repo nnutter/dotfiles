@@ -378,3 +378,8 @@ let g:vim_isort_python_version = 'python3'
 
 nnoremap <leader>b :buffer <C-d>
 nnoremap <leader>q :buffer#<CR>
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
+  set grepformat^=%f:%l:%c:%m
+endif

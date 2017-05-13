@@ -7,5 +7,5 @@ set -o errexit -o nounset -o pipefail
 
 PACKPATH=$HOME/.vim/pack
 
-gitsick dotfiles submodule add "$GIT_URL" "${PACKPATH}/${PACKNAME}/start/${PACKNAME}"
-gitsick dotfiles commit --edit --message "add ${PACKNAME} vim pack" -- "$HOME/.gitmodules" "${PACKPATH}/${PACKNAME}/start/${PACKNAME}"
+gitsick dotfiles submodule add "$GIT_URL" "${PACKPATH}/plugins/start/${PACKNAME}"
+gitsick dotfiles commit --edit --message "add ${PACKNAME} vim pack" -- "$HOME/.gitmodules" "${PACKPATH}/plugins/start/${PACKNAME}"

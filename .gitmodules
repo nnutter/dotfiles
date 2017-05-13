@@ -1,45 +1,45 @@
-[submodule "/home/nnutter/.vim/pack/vim-crystal/start/vim-crystal"]
-	path = /home/nnutter/.vim/pack/vim-crystal/start/vim-crystal
+[submodule ".vim/pack/plugins/start/crystal"]
+	path = .vim/pack/plugins/start/crystal
 	url = git@github.com:rhysd/vim-crystal.git
-[submodule "/home/nnutter/.vim/pack/vim-puppet/start/vim-puppet"]
-	path = /home/nnutter/.vim/pack/vim-puppet/start/vim-puppet
+[submodule ".vim/pack/plugins/start/puppet"]
+	path = .vim/pack/plugins/start/puppet
 	url = git@github.com:rodjek/vim-puppet.git
-[submodule "/home/nnutter/.vim/pack/tabular/start/tabular"]
-	path = /home/nnutter/.vim/pack/tabular/start/tabular
+[submodule ".vim/pack/plugins/start/tabular"]
+	path = .vim/pack/plugins/start/tabular
 	url = git@github.com:godlygeek/tabular.git
-[submodule "/home/nnutter/.vim/pack/isort/start/isort"]
-	path = /home/nnutter/.vim/pack/isort/start/isort
+[submodule ".vim/pack/plugins/start/isort"]
+	path = .vim/pack/plugins/start/isort
 	url = git@github.com:fisadev/vim-isort.git
-[submodule "/home/nnutter/.vim/pack/vim-go/start/vim-go"]
-	path = /home/nnutter/.vim/pack/vim-go/start/vim-go
+[submodule ".vim/pack/plugins/start/go"]
+	path = .vim/pack/plugins/start/go
 	url = git@github.com:fatih/vim-go.git
-[submodule "/home/nnutter/.vim/pack/vim-elixir/start/vim-elixir"]
-	path = /home/nnutter/.vim/pack/vim-elixir/start/vim-elixir
+[submodule ".vim/pack/plugins/start/elixir"]
+	path = .vim/pack/plugins/start/elixir
 	url = git@github.com:elixir-lang/vim-elixir.git
-[submodule "/home/nnutter/.vim/pack/taskpaper/start/taskpaper"]
-	path = /home/nnutter/.vim/pack/taskpaper/start/taskpaper
+[submodule ".vim/pack/plugins/start/taskpaper"]
+	path = .vim/pack/plugins/start/taskpaper
 	url = git@github.com:davidoc/taskpaper.vim.git
-[submodule "/home/nnutter/.vim/pack/ctrlp/start/ctrlp"]
-	path = /home/nnutter/.vim/pack/ctrlp/start/ctrlp
+[submodule ".vim/pack/plugins/start/ctrlp"]
+	path = .vim/pack/plugins/start/ctrlp
 	url = git@github.com:kien/ctrlp.vim.git
-[submodule "/home/nnutter/.vim/pack/neocomplete/start/neocomplete"]
-	path = /home/nnutter/.vim/pack/neocomplete/start/neocomplete
+[submodule ".vim/pack/plugins/start/neocomplete"]
+	path = .vim/pack/plugins/start/neocomplete
 	url = git@github.com:Shougo/neocomplete.vim.git
-[submodule "/home/nnutter/.vim/pack/ale/start/ale"]
-	path = /home/nnutter/.vim/pack/ale/start/ale
+[submodule ".vim/pack/plugins/start/ale"]
+	path = .vim/pack/plugins/start/ale
 	url = git@github.com:w0rp/ale.git
-[submodule "/home/nnutter/.vim/pack/rust/start/rust"]
-	path = /home/nnutter/.vim/pack/rust/start/rust
+[submodule ".vim/pack/plugins/start/rust"]
+	path = .vim/pack/plugins/start/rust
 	url = git@github.com:rust-lang/rust.vim.git
-[submodule "/home/nnutter/.vim/pack/vimwiki/start/vimwiki"]
-	path = /home/nnutter/.vim/pack/vimwiki/start/vimwiki
+[submodule ".vim/pack/plugins/start/vimwiki"]
+	path = .vim/pack/plugins/start/vimwiki
 	url = git@github.com:vimwiki/vimwiki.git
-[submodule "/home/nnutter/.vim/pack/surround/start/surround"]
-	path = /home/nnutter/.vim/pack/surround/start/surround
+[submodule ".vim/pack/plugins/start/surround"]
+	path = .vim/pack/plugins/start/surround
 	url = git@github.com:tpope/vim-surround.git
-[submodule "/home/nnutter/.vim/pack/commentary/start/commentary"]
-	path = /home/nnutter/.vim/pack/commentary/start/commentary
+[submodule ".vim/pack/plugins/start/commentary"]
+	path = .vim/pack/plugins/start/commentary
 	url = git@github.com:tpope/vim-commentary.git
-[submodule "/home/nnutter/.vim/pack/repeat/start/repeat"]
-	path = /home/nnutter/.vim/pack/repeat/start/repeat
+[submodule ".vim/pack/plugins/start/repeat"]
+	path = .vim/pack/plugins/start/repeat
 	url = git@github.com:tpope/vim-repeat.git

@@ -22,9 +22,6 @@
 [submodule ".vim/pack/plugins/start/ctrlp"]
 	path = .vim/pack/plugins/start/ctrlp
 	url = git@github.com:kien/ctrlp.vim.git
-[submodule ".vim/pack/plugins/start/neocomplete"]
-	path = .vim/pack/plugins/start/neocomplete
-	url = git@github.com:Shougo/neocomplete.vim.git
 [submodule ".vim/pack/plugins/start/ale"]
 	path = .vim/pack/plugins/start/ale
 	url = git@github.com:w0rp/ale.git

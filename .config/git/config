@@ -53,3 +53,5 @@
 	fsckObjects = true
 [gpg]
 	program = /usr/local/bin/gpg2
+[diff "gpg"]
+	textconv = gpg -d

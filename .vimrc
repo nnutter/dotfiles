@@ -162,6 +162,12 @@ endfunction
 "    autocmd BufEnter * match OverLength /\%81v./
 "augroup END
 
+augroup filetypes
+    autocmd!
+
+    autocmd BufNewFile,BufRead *.pp :set filetype=puppet
+augroup END
+
 augroup indentation
     autocmd!
 

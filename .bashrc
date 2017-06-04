@@ -1,20 +1,4 @@
-function use {
-    if test -d "$1"
-    then
-        local SH_FILE
-        for SH_FILE in $(find -L "$1" -name '*.sh')
-        do
-            source "$SH_FILE"
-        done
-        return
-    fi
-
-    if test -r "$1" -a -f "$1"
-    then
-        source "$1"
-        return
-    fi
-}
+source "$HOME/.bash_stdlib"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"

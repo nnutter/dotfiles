@@ -83,6 +83,6 @@ use ${HOME}/.bashrc.d
 
 export GPG_TTY=$(tty)
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH${PATH:+:}$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 alias ll='ls -lh'

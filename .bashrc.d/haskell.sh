@@ -1,6 +1,6 @@
 if test -d "$HOME/.cabal/bin"
 then
-    export PATH="$PATH:$HOME/.cabal/bin"
+    export PATH="$PATH${PATH:+:}$HOME/.cabal/bin"
 fi
 
 if type -p stack > /dev/null

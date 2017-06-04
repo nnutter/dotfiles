@@ -17,6 +17,6 @@ then
 fi
 if test -d "$PERLBREW_ROOT/bin"
 then
-    export PATH="$PATH:$PERLBREW_ROOT/bin"
+    export PATH="$PATH${PATH:+:}$PERLBREW_ROOT/bin"
 fi
 alias cpanm='cpanm --prompt'

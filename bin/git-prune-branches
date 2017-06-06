@@ -1,11 +1,40 @@
 #!/usr/bin/env bash
 
-for BRANCH in $(git branch --list | sed 's/^..//'); do
-    UPSTREAM=$(git rev-parse --symbolic-full-name "${BRANCH}@{u}")
-    if ! [[ "$UPSTREAM" =~ "$BRANCH" ]] && git merge-base --is-ancestor "$BRANCH" "${BRANCH}@{u}"; then
-        echo "=> $BRANCH: delete"
-        git branch -d "$BRANCH"
-    else
-        echo "=> $BRANCH: keep"
+upstream_missing() {
+    # If `remote` and `merge` are not set then an upstream was never specified.
+    if ! git config branch."${1}".remote 1>/dev/null
+    then
+        return 1
     fi
-done
+    if ! git config branch."${1}".merge 1>/dev/null
+    then
+        return 1
+    fi
+
+    # However, if an upstream was specified and we can't resolve it then it has
+    # gone missing.
+    if git rev-parse --symbolic-full-name "${1}@{u}" 1>/dev/null 2>/dev/null
+    then
+        return 1
+    fi
+
+    return 0
+}
+
+main() {
+    set -o errexit -o nounset -o pipefail
+
+    git fetch --quiet
+
+    BRANCHES=($(git branch --list | sed 's/^..//'))
+    for BRANCH in "${BRANCHES[@]}"
+    do
+        if upstream_missing "$BRANCH"
+        then
+            echo "=> $BRANCH: delete"
+            git branch -d "$BRANCH"
+        fi
+    done
+}
+
+main "$@"

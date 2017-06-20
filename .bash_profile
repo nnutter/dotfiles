@@ -12,6 +12,7 @@ fi
 
 if hash keychain 2> /dev/null
 then
+    export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
     eval $(keychain --eval --quick --quiet --agents gpg,ssh)
 fi
 

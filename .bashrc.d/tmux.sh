@@ -18,7 +18,7 @@ function tmuxs {
     if tmux has-session -t "$session_name"; then
         command tmux attach -t $session_name
     else
-        command tmux new -s $session_name
+        command tmux new -s $session_name -n ''
     fi
 }
 

@@ -23,7 +23,7 @@ main() {
 
     local UPSTREAM_BRANCH
     UPSTREAM_BRANCH="$(upstream-branch "$1")"
-    if test "$?" -ne "0"
+    if test -z "$UPSTREAM_BRANCH"
     then
         UPSTREAM_BRANCH="$1"
     fi
@@ -46,7 +46,7 @@ main() {
 }
 
 upstream-branch() {
-    git rev-parse --symbolic-full-name "${1}@{u}"
+    git rev-parse --symbolic-full-name "${1}@{u}" 2>/dev/null || true
 }
 
 # `rev-contains()` checks that the source branch is contained in the

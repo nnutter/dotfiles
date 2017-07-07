@@ -17,18 +17,11 @@ main() {
         usage
     fi
 
-    local ORIG_UPSTREAM_BRANCH="$1"
+    local UPSTREAM_BRANCH="$1"
 
     set -o errexit -o nounset -o pipefail
 
     git fetch --quiet
-
-    local UPSTREAM_BRANCH
-    UPSTREAM_BRANCH="$(upstream-branch "$ORIG_UPSTREAM_BRANCH")"
-    if test -z "$UPSTREAM_BRANCH"
-    then
-        UPSTREAM_BRANCH="$ORIG_UPSTREAM_BRANCH"
-    fi
 
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
@@ -37,7 +30,7 @@ main() {
         then
             if ! branch-is-checked-out "$BRANCH"
             then
-                if test "$BRANCH" '!=' "$ORIG_UPSTREAM_BRANCH"
+                if test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
                 then
                     echo "=> $BRANCH: delete"
                     if test -z "$DRY_RUN"
@@ -48,10 +41,6 @@ main() {
             fi
         fi
     done
-}
-
-upstream-branch() {
-    git rev-parse --symbolic-full-name "${1}@{u}" 2>/dev/null || true
 }
 
 # `rev-contains()` checks that the source branch is contained in the

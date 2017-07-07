@@ -17,15 +17,17 @@ main() {
         usage
     fi
 
+    local ORIG_UPSTREAM_BRANCH="$1"
+
     set -o errexit -o nounset -o pipefail
 
     git fetch --quiet
 
     local UPSTREAM_BRANCH
-    UPSTREAM_BRANCH="$(upstream-branch "$1")"
+    UPSTREAM_BRANCH="$(upstream-branch "$ORIG_UPSTREAM_BRANCH")"
     if test -z "$UPSTREAM_BRANCH"
     then
-        UPSTREAM_BRANCH="$1"
+        UPSTREAM_BRANCH="$ORIG_UPSTREAM_BRANCH"
     fi
 
     BRANCHES=($(git branch --list | sed 's/^..//'))
@@ -35,10 +37,13 @@ main() {
         then
             if ! branch-is-checked-out "$BRANCH"
             then
-                echo "=> $BRANCH: delete"
-                if test -z "$DRY_RUN"
+                if test "$BRANCH" '!=' "$ORIG_UPSTREAM_BRANCH"
                 then
-                    git branch -d "$BRANCH"
+                    echo "=> $BRANCH: delete"
+                    if test -z "$DRY_RUN"
+                    then
+                        git branch -d "$BRANCH"
+                    fi
                 fi
             fi
         fi

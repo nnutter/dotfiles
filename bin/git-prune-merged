@@ -71,7 +71,11 @@ branch-is-checked-out() {
 
 SUBDIRECTORY_OK=1
 OPTIONS_SPEC="\
-    git prune-merged <target>
+git prune-merged <target>
+
+Most often the usage would be \`git prune-merged master' which would remove
+branches that have been merged into \`master' (or more specifically its
+upstream if it has one, e.g. \`origin/master').
 --
 h,help     show the help
 n,dry-run  dry run

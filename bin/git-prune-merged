@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+main() {
+    local OPT DRY_RUN=""
+    source "$(git --exec-path)/git-sh-setup"
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -n) DRY_RUN=1 ;;
+        esac
+    done
+
+    if test -z "$1"
+    then
+        usage
+    fi
+
+    set -o errexit -o nounset -o pipefail
+
+    git fetch --quiet
+
+    local UPSTREAM_BRANCH
+    UPSTREAM_BRANCH="$(upstream-branch "$1")"
+    if test "$?" -ne "0"
+    then
+        UPSTREAM_BRANCH="$1"
+    fi
+
+    BRANCHES=($(git branch --list | sed 's/^..//'))
+    for BRANCH in "${BRANCHES[@]}"
+    do
+        if rev-contains "$BRANCH" "$UPSTREAM_BRANCH"
+        then
+            if ! branch-is-checked-out "$BRANCH"
+            then
+                echo "=> $BRANCH: delete"
+                if test -z "$DRY_RUN"
+                then
+                    git branch -d "$BRANCH"
+                fi
+            fi
+        fi
+    done
+}
+
+upstream-branch() {
+    git rev-parse --symbolic-full-name "${1}@{u}"
+}
+
+# `rev-contains()` checks that the source branch is contained in the
+# destination branch and that the source branch isn't a fresh fork of the
+# destination branch.
+rev-contains() {
+    local SRC="$1" DST="$2"
+
+    if git merge-base --is-ancestor "$SRC" "$DST"
+    then
+        if test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
+        then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+branch-is-checked-out() {
+    git branch --list "$1" | grep -q '^\*'
+}
+
+SUBDIRECTORY_OK=1
+OPTIONS_SPEC="\
+    git prune-merged <target>
+--
+h,help     show the help
+n,dry-run  dry run
+"
+
+main "$@"

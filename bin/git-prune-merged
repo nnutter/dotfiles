@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 main() {
-    local OPT DRY_RUN=""
+    local OPT DRY_RUN="" RM_FRESH=""
 
     # shellcheck disable=1090
     source "$(git --exec-path)/git-sh-setup"
@@ -12,6 +12,7 @@ main() {
         case $OPT in
             --) break ;;
             -n) DRY_RUN=1 ;;
+            -b) RM_FRESH=1 ;;
         esac
     done
 
@@ -54,9 +55,12 @@ rev-contains() {
 
     if git merge-base --is-ancestor "$SRC" "$DST"
     then
-        if test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
+        if test -n "$RM_FRESH"
         then
-            return 0
+            if test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
+            then
+                return 0
+            fi
         fi
     fi
     return 1
@@ -81,6 +85,7 @@ upstream if it has one, e.g. \`origin/master').
 --
 h,help     show the help
 n,dry-run  dry run
+b          include undiverged branches, e.g. fresh branches
 "
 
 main "$@"

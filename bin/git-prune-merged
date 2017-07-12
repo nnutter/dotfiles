@@ -2,7 +2,10 @@
 
 main() {
     local OPT DRY_RUN=""
+
+    # shellcheck disable=1090
     source "$(git --exec-path)/git-sh-setup"
+
     while [ $# -gt 0 ]; do
         OPT="$1"
         shift
@@ -63,7 +66,12 @@ branch-is-checked-out() {
     git branch --list "$1" | grep -q '^\*'
 }
 
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
 SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
 OPTIONS_SPEC="\
 git prune-merged <target>
 

@@ -157,7 +157,7 @@ Any branches in \`/.gitkeep' (one per line) will be preserved.
 h,help     show the help
 n,dry-run  dry run
 b          include undiverged branches, e.g. fresh branches
-x=         explain branch
+x=         explain branch (implies dry-run)
 "
 
 main "$@"

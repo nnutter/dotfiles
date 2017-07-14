@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 main() {
-    local OPT DRY_RUN="" RM_FRESH=""
+    local OPT DRY_RUN="" RM_FRESH="" EXPLAIN=""
 
     # shellcheck disable=1090
     source "$(git --exec-path)/git-sh-setup"
@@ -13,6 +13,7 @@ main() {
             --) break ;;
             -n) DRY_RUN=1 ;;
             -b) RM_FRESH=1 ;;
+            -x) EXPLAIN="$1"; shift; DRY_RUN=1 ;;
         esac
     done
 
@@ -36,18 +37,74 @@ main() {
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
     do
-        if rev-contains "$BRANCH" "$UPSTREAM_BRANCH" && test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
+        if test -n "$EXPLAIN" && test "$BRANCH" != "$EXPLAIN"
         then
-            if ! branch-is-checked-out "$BRANCH" && ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
+            continue
+        fi
+
+        local SKIP=""
+
+        if git merge-base --is-ancestor "$BRANCH" "$UPSTREAM_BRANCH"
+        then
+            explain 'OK: Upstream branch contains the branch'
+        else
+            explain 'SKIP: Upstream branch does not contain the branch.'
+            SKIP=1
+        fi
+
+        if test -z "$RM_FRESH"
+        then
+            if ! is-on-merge-base "$BRANCH" "$UPSTREAM_BRANCH"
             then
-                echo "=> $BRANCH: delete"
-                if test -z "$DRY_RUN"
-                then
-                    git branch -d "$BRANCH"
-                fi
+                explain 'OK: Branch is not a fresh branch.'
+            else
+                explain 'SKIP: Branch is a fresh branch.'
+                SKIP=1
             fi
         fi
+
+        if test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
+        then
+            explain 'OK: Branch is not the specified upstream branch.'
+        else
+            explain 'SKIP: Branch is the specified upstream branch.'
+            SKIP=1
+        fi
+
+        if ! branch-is-checked-out "$BRANCH"
+        then
+            explain 'OK: Branch is not checked out.'
+        else
+            explain 'SKIP: Branch is checked out.'
+            SKIP=1
+        fi
+
+        if ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
+        then
+            explain 'OK: Branch is not in /.gitkeep.'
+        else
+            explain 'SKIP: Branch is in /.gitkeep.'
+            SKIP=1
+        fi
+
+        if test -n "$SKIP"
+        then
+            continue
+        fi
+
+        echo "=> $BRANCH: delete"
+        if test -z "$DRY_RUN"
+        then
+            git branch -d "$BRANCH"
+        fi
     done
+}
+
+explain() {
+    if test "$BRANCH" == "$EXPLAIN"
+    then
+        echo 2>&1 "$@"
+    fi
 }
 
 is-keep-branch() {
@@ -66,23 +123,9 @@ is-keep-branch() {
     return 1
 }
 
-# `rev-contains()` checks that the source branch is contained in the
-# destination branch and that the source branch isn't a fresh fork of the
-# destination branch.
-rev-contains() {
+is-on-merge-base() {
     local SRC="$1" DST="$2"
-
-    if git merge-base --is-ancestor "$SRC" "$DST"
-    then
-        if test -n "$RM_FRESH"
-        then
-            if test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
-            then
-                return 0
-            fi
-        fi
-    fi
-    return 1
+    test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
 }
 
 branch-is-checked-out() {
@@ -107,6 +150,7 @@ Any branches in \`/.gitkeep' (one per line) will be preserved.
 h,help     show the help
 n,dry-run  dry run
 b          include undiverged branches, e.g. fresh branches
+x=         explain branch
 "
 
 main "$@"

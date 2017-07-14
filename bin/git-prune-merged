@@ -30,24 +30,40 @@ main() {
         git fetch --quiet
     fi
 
+    HEAD=$(git symbolic-ref HEAD)
+    KEEP_BRANCHES=($(git show "$HEAD":.gitkeep 2> /dev/null || true))
+
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
     do
-        if rev-contains "$BRANCH" "$UPSTREAM_BRANCH"
+        if rev-contains "$BRANCH" "$UPSTREAM_BRANCH" && test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
         then
-            if ! branch-is-checked-out "$BRANCH"
+            if ! branch-is-checked-out "$BRANCH" && ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
             then
-                if test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
+                echo "=> $BRANCH: delete"
+                if test -z "$DRY_RUN"
                 then
-                    echo "=> $BRANCH: delete"
-                    if test -z "$DRY_RUN"
-                    then
-                        git branch -d "$BRANCH"
-                    fi
+                    git branch -d "$BRANCH"
                 fi
             fi
         fi
     done
+}
+
+is-keep-branch() {
+    local BRANCH="$1"
+    shift
+    local -a KEEP_BRANCHES=("$@")
+
+    for KEEP_BRANCH in "${KEEP_BRANCHES[@]}"
+    do
+        if test "$BRANCH" == "$KEEP_BRANCH"
+        then
+            return 0
+        fi
+    done
+
+    return 1
 }
 
 # `rev-contains()` checks that the source branch is contained in the
@@ -85,6 +101,8 @@ git prune-merged <target>
 Most often the usage would be \`git prune-merged master' which would remove
 branches that have been merged into \`master' (or more specifically its
 upstream if it has one, e.g. \`origin/master').
+
+Any branches in \`/.gitkeep' (one per line) will be preserved.
 --
 h,help     show the help
 n,dry-run  dry run

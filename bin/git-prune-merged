@@ -79,12 +79,19 @@ main() {
             SKIP=1
         fi
 
-        if ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
+        set +o nounset
+        if test "${#KEEP_BRANCHES[@]}" -gt 0
         then
-            explain 'OK: Branch is not in /.gitkeep.'
+            set -o nounset
+            if ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
+            then
+                explain 'OK: Branch is not in /.gitkeep.'
+            else
+                explain 'SKIP: Branch is in /.gitkeep.'
+                SKIP=1
+            fi
         else
-            explain 'SKIP: Branch is in /.gitkeep.'
-            SKIP=1
+            set -o nounset
         fi
 
         if test -n "$SKIP"

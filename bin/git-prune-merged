@@ -25,7 +25,10 @@ main() {
 
     set -o errexit -o nounset -o pipefail
 
-    git fetch --quiet
+    if git remote | grep -q .
+    then
+        git fetch --quiet
+    fi
 
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"

@@ -366,3 +366,11 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
   set grepformat^=%f:%l:%c:%m
 endif
+
+if has('gui_running')
+    " set guioptions-=T  " no toolbar
+    " colorscheme elflord
+    " set lines=60 columns=108 linespace=0
+    set macligatures
+    set guifont=Fira\ Code:h12
+endif

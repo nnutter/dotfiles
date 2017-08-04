@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+git ls [<start_point>]
+
+List files that exist in the working directory and have changed since the
+\`start_point', which defaults to HEAD.
+
+--
+h,help
+u,untracked     suppress untracked files
+s,staged        suppress staged files
+w,working       suppress working files
+"
+
+main() {
+    local OPT='' UNTRACKED='' STAGED='' WORKING='' START_POINT=''
+
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -u) UNTRACKED=1 ;;
+            -s) STAGED=1 ;;
+            -w) WORKING=1 ;;
+        esac
+    done
+
+    START_POINT="$1"
+
+    set -o errexit -o nounset -o pipefail
+
+    local FILES=()
+
+    if test -z "$UNTRACKED"
+    then
+        while IFS='' read -r FILE
+        do
+            FILES=("${FILES[@]}" "$FILE")
+        done < <(git ls-files --exclude-standard --others)
+    fi
+
+    if test -z "$STAGED"
+    then
+        while IFS='' read -r FILE
+        do
+            FILES=("${FILES[@]}" "$FILE")
+        done < <(git diff --diff-filter=d --name-only --staged)
+    fi
+
+    if test -z "$WORKING"
+    then
+        while IFS='' read -r FILE
+        do
+            FILES=("${FILES[@]}" "$FILE")
+        done < <(git diff --diff-filter=d --name-only)
+    fi
+
+    if test -n "$START_POINT"
+    then
+        while IFS='' read -r FILE
+        do
+            FILES=("${FILES[@]}" "$FILE")
+        done < <(git diff --diff-filter=d --name-only "$START_POINT"...HEAD)
+    fi
+
+    for FILE in "${FILES[@]}"
+    do
+        echo "$FILE"
+    done | sort -u
+}
+
+main "$@"

@@ -31,6 +31,12 @@ main() {
         git fetch --quiet
     fi
 
+    if ! git rev-parse --verify "$UPSTREAM_BRANCH" 1> /dev/null 2> /dev/null
+    then
+        echo 1>&2 "ERROR: Upstream target not found: $UPSTREAM_BRANCH."
+        exit 1
+    fi
+
     HEAD=$(git symbolic-ref HEAD)
     KEEP_BRANCHES=($(git show "$HEAD":.gitkeep 2> /dev/null || true))
 

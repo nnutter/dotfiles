@@ -1,7 +1,9 @@
+$include /etc/inputrc
+
 set completion-ignore-case on
 
 # hide the common part of the matches behind ellipsis
-set completion-prefix-display-length 2
+set completion-prefix-display-length 3
 
 # navigate possible completions
 Control-j: menu-complete
@@ -16,3 +18,12 @@ set completion-query-items 150
 # up/down searches history starting with what's been typed
 "\e[A": history-search-backward
 "\e[B": history-search-forward
+# and Vim-style
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+
+set colored-stats On
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
+set show-all-if-unmodified On
+set visible-stats On

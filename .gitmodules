@@ -40,3 +40,6 @@
 [submodule ".vim/pack/plugins/start/repeat"]
 	path = .vim/pack/plugins/start/repeat
 	url = git@github.com:tpope/vim-repeat.git
+[submodule "/home/nnutter/.nvm"]
+	path = /home/nnutter/.nvm
+	url = git@github.com:creationix/nvm.git

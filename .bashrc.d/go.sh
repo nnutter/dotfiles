@@ -7,5 +7,5 @@ then
     export PATH="${PATH}${PATH:+:}/usr/local/go/bin"
 fi
 
-export GOPATH="${HOME}/go"
+export GOPATH="${HOME}/go:${HOME}"
 export PATH="${HOME}/go/bin${PATH:+:}${PATH}"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+function main() {
+    local COMMAND=($(basename "$0") "$@")
+    echo "${COMMAND[@]}" | ssh -qt nnutter@ssh-jump-1.gsc.wustl.edu
+}
+
+main "$@"

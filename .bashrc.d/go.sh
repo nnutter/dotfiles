@@ -7,5 +7,5 @@ do
     fi
 done
 
-export GOPATH="${HOME}/go:${HOME}"
-export PATH="${HOME}/go/bin${PATH:+:}${PATH}"
+export GOPATH="${HOME}/.go:${HOME}"
+export PATH="${HOME}/.go/bin${PATH:+:}${PATH}"

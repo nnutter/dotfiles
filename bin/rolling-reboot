@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Usage:
+#   rolling-reboot ITDEV-5388
+#
+# Record the hosts that are rebooted (STDOUT) so you can run Puppet and
+# Serverspec Checks afterwards before opening them.
+
+set -o errexit -o nounset -o pipefail
+
+main() {
+    local CLOSE_COMMENT="$1"
+
+    set +o nounset
+    local MAX_REBOOT="$2"
+    if test -z "$MAX_REBOOT"
+    then
+        MAX_REBOOT=10
+    fi
+    set -o nounset
+
+    local COUNT_REBOOT=0
+
+    for HOST in $(bhosts -w | awk '/closed_Adm/ { print $1 }' | gsort -V)
+    do
+        if bhosts -l "$HOST" | grep -q 'ADMIN ACTION COMMENT: "'"$CLOSE_COMMENT"'"'
+        then
+            if test "$(bhosts -w "$HOST" | awk '/'"$HOST"'/ { print $5 }')" -eq "0"
+            then
+                if test "$COUNT_REBOOT" -lt "$MAX_REBOOT"
+                then
+                    COUNT_REBOOT=$((COUNT_REBOOT+1))
+                    echo ssh "$HOST" /sbin/reboot -f 1>&2
+                    echo "$HOST"
+                else
+                    echo 1>&2 "Rebooted $COUNT_REBOOT/$MAX_REBOOT nodes, exiting."
+                    exit
+                fi
+            else
+                echo 1>&2 "Skipping $HOST because it's still has jobs running."
+            fi
+        else
+            echo 1>&2 "Skipping $HOST because it's closed for a different reason."
+        fi
+    done
+
+    echo 1>&2 "Rebooted $COUNT_REBOOT/$MAX_REBOOT nodes, exiting."
+    exit
+}
+
+main "$@"

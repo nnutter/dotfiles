@@ -36,12 +36,12 @@ main() {
                     set -o errexit
                     case $EXITCODE in
                         0)
-                            echo "HOST" ;;
+                            echo "$HOST" ;;
                         124)
                             # When `gtimeout` kills which we will have to
                             # assume means the reboot -f worked and then rely
                             # on Puppet and Serverspec Checks to catch failures.
-                            echo "HOST" ;;
+                            echo "$HOST" ;;
                         *)
                             echo 1>&2 "WARNING: Unknown state ($EXITCODE) for $HOST because SSH failed." ;;
                     esac

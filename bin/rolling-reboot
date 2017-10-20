@@ -29,18 +29,19 @@ main() {
             then
                 if test "$COUNT_REBOOT" -lt "$MAX_REBOOT"
                 then
-                    COUNT_REBOOT=$((COUNT_REBOOT+1))
                     set +o errexit
                     gtimeout 5 ssh -o ConnectTimeout=3 "$HOST" /sbin/reboot -f 1>&2
                     local EXITCODE=$?
                     set -o errexit
                     case $EXITCODE in
                         0)
+                            COUNT_REBOOT=$((COUNT_REBOOT+1))
                             echo "$HOST" ;;
                         124)
                             # When `gtimeout` kills which we will have to
                             # assume means the reboot -f worked and then rely
                             # on Puppet and Serverspec Checks to catch failures.
+                            COUNT_REBOOT=$((COUNT_REBOOT+1))
                             echo "$HOST" ;;
                         *)
                             echo 1>&2 "WARNING: Unknown state ($EXITCODE) for $HOST because SSH failed." ;;

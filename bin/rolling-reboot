@@ -30,7 +30,7 @@ main() {
                 if test "$COUNT_REBOOT" -lt "$MAX_REBOOT"
                 then
                     COUNT_REBOOT=$((COUNT_REBOOT+1))
-                    echo ssh "$HOST" /sbin/reboot -f 1>&2
+                    ssh "$HOST" /sbin/reboot -f 1>&2
                     echo "$HOST"
                 else
                     echo 1>&2 "Rebooted $COUNT_REBOOT/$MAX_REBOOT nodes, exiting."

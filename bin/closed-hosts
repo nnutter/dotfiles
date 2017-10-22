@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Usage:
+#   closed-hosts ITDEV-5388
+#
+# Record the hosts that are rebooted (STDOUT) so you can run Puppet and
+# Serverspec Checks afterwards before opening them.
+
+set -o errexit -o nounset -o pipefail
+
+main() {
+    local CLOSE_COMMENT="$1"
+
+    for HOST in $(bhosts -w | awk '/closed_Adm/ { print $1 }' | gsort -V)
+    do
+        if bhosts -l "$HOST" | grep -q 'ADMIN ACTION COMMENT: "'"$CLOSE_COMMENT"'"'
+        then
+            echo "$HOST"
+        fi
+    done
+}
+
+main "$@"

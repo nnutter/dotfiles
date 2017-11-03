@@ -1,3 +1,8 @@
+function ssh {
+    kinit
+    command ssh "$@"
+}
+
 function ssh-reagent {
     for agent in /tmp/ssh-*/agent.*; do
         export SSH_AUTH_SOCK=$agent

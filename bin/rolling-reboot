@@ -39,7 +39,7 @@ main() {
                             # assume the reboot -f worked and then rely on
                             # Puppet and Serverspec Checks to catch failures.
                             COUNT_REBOOT=$((COUNT_REBOOT+1))
-                            node_state --force --action close --host "${HOST%.gsc.wustl.edu}" --comment "$CLOSE_COMMENT: rebooted"
+                            node_state --force --action close --host "${HOST%.gsc.wustl.edu}" --comment "$CLOSE_COMMENT:rebooted"
                             echo "$HOST" ;;
                         *)
                             echo 1>&2 "WARNING: Unknown state ($EXITCODE) for $HOST because SSH failed." ;;

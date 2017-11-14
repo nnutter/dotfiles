@@ -17,17 +17,17 @@ kinit() {
 }
 
 __no_krb5_ticket_cache() {
-    ! klist --cache="$KRB5CCNAME" 1>/dev/null 2>/dev/null
+    ! klist -c "$KRB5CCNAME" 1>/dev/null 2>/dev/null
 }
 
 __expired_krb5_tgt() {
-    klist --cache="$KRB5CCNAME" 2>/dev/null | grep 'krbtgt/GSC.WUSTL.EDU@GSC.WUSTL.EDU' | grep -q Expired
+    klist -c "$KRB5CCNAME" 2>/dev/null | grep 'krbtgt/GSC.WUSTL.EDU@GSC.WUSTL.EDU' | grep -q Expired
 }
 
 __missing_mgi_tgt() {
-    ! klist --cache="$KRB5CCNAME" 2>/dev/null | grep -q 'krbtgt/GSC.WUSTL.EDU@GSC.WUSTL.EDU'
+    ! klist -c "$KRB5CCNAME" 2>/dev/null | grep -q 'krbtgt/GSC.WUSTL.EDU@GSC.WUSTL.EDU'
 }
 
 __krb5_login() {
-    command kinit --cache="$KRB5CCNAME"
+    command kinit -c "$KRB5CCNAME"
 }

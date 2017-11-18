@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+test -z "$NOTES_DIR" && export NOTES_DIR=$HOME/Dropbox/Notes
+
+if test "$#" -eq 0; then
+    cd "$NOTES_DIR"
+    exec vim
+fi
+
+PATTERN="$1"
+
+set -o errexit -o nounset -o pipefail
+cd "$NOTES_DIR"
+find * -name "*${PATTERN}*" | sed 's/$/:0:1:/'
+ag --nogroup --nocolor --vimgrep "$PATTERN"

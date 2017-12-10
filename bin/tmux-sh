@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if test -x "/usr/local/bin/reattach-to-user-namespace"
+then
+    exec /usr/local/bin/reattach-to-user-namespace -l /usr/local/bin/bash -- "$@"
+else
+    exec bash "$@"
+fi

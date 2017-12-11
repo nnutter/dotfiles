@@ -1,5 +1,39 @@
+# Secrets
+/.gnupg/
+!/.gnupg/gpg.conf
+/.op/config
+/.ssh/
+!/.ssh/config
+
+# History
+/.bash_history
+/.julia_history
+/.lesshst
+/.ssh/known_hosts
+/.ssh/known_hosts.old
+/.viminfo
+
+# Cache Directories
+/.bundle/cache/
 /.cache/
+/.cpanm/
+/.dotfiles.git/
 /.dropbox-dist/
 /.dropbox/
+/.gem/
+/.go/
+/.kube/
+/.macromedia/
+/.minikube/
+/.minishift/
+/.mozilla/
+/.npm/
+/.pkg-cache/
+/.plenv/
+/.rbenv/
 /.tldr/cache/
+/.vim/.netrwhist
+/.vscode/
+/.wine/
+/.wine_YNAB4/
 /Dropbox/

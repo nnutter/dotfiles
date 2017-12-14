@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+NAME="$1"
+shift
+COMMAND=("$@")
+
+echo -n "$NAME: " && "${COMMAND[@]}" 2>/dev/null

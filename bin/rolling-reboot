@@ -21,7 +21,7 @@ main() {
 
     local COUNT_REBOOT=0
 
-    for HOST in $(bhosts -w | awk '/closed_Adm/ { print $1 }' | gsort -V)
+    for HOST in $(bhosts -w | awk '/closed_Adm/ { print $1 }' | sort -V)
     do
         if bhosts -l "$HOST" | grep -q 'ADMIN ACTION COMMENT: "'"$CLOSE_COMMENT"'"'
         then

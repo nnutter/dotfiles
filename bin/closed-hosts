@@ -5,7 +5,7 @@ set -o errexit -o nounset -o pipefail
 main() {
     local CLOSE_COMMENT HOST_INFO JOB_COUNT
 
-    for HOST in $(bhosts -w | awk '/closed_Adm/ { print $1 }' | gsort -V)
+    for HOST in $(bhosts -w | awk '/closed_Adm/ { print $1 }' | sort -V)
     do
         HOST_INFO="$(bhosts -l "$HOST")"
         JOB_COUNT="$(echo "$HOST_INFO" | awk '/closed_Adm/ { print $5 }')"

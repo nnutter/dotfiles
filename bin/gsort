@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if test -x "/usr/local/bin/gsort"
-then
-    exec /usr/local/bin/gsort "$@"
-else
-    exec sort "$@"
-fi

@@ -4,6 +4,8 @@
 /.op/config
 /.ssh/
 !/.ssh/config
+/.jenkins_pass
+/.ansible/playbooks-vault-pass
 
 # History
 /.bash_history

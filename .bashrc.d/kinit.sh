@@ -21,7 +21,7 @@ __no_krb5_ticket_cache() {
 }
 
 __expired_krb5_tgt() {
-    klist -c "$KRB5CCNAME" 2>/dev/null | grep 'krbtgt/GSC.WUSTL.EDU@GSC.WUSTL.EDU' | grep -q Expired
+    ! klist -s
 }
 
 __missing_mgi_tgt() {

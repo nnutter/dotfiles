@@ -4,4 +4,5 @@ NAME="$1"
 shift
 COMMAND=("$@")
 
-echo -n "$NAME: " && "${COMMAND[@]}" 2>/dev/null
+OUTPUT=$("${COMMAND[@]}" 2>/dev/null)
+echo "$NAME: $OUTPUT"

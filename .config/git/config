@@ -54,7 +54,7 @@
 [transfer]
 	fsckObjects = true
 [gpg]
-	program = /usr/local/bin/gpg2
+	program = gpg2
 [diff "gpg"]
 	textconv = gpg -d
 [pager]

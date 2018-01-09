@@ -1,5 +1,4 @@
-if test -d "$HOME/.rbenv/bin"
+if type -p rbenv 1>/dev/null
 then
-    export PATH="$HOME/.rbenv/bin${PATH:+:}$PATH"
     eval "$(rbenv init -)"
 fi

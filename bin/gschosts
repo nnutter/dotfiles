@@ -4,4 +4,4 @@ set -o errexit
 
 cd ~/src/bitbucket.gsc.wustl.edu/ic/gschosts
 git pull --ff-only 1>/dev/null || echo 1>&2 'WARNING: Failed to update gschosts repo.'
-grep "$@" -- gschosts
+grep "$@" gschosts

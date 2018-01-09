@@ -18,11 +18,6 @@ then
     export PATH=${HOME}/bin${PATH:+:}${PATH}
 fi
 
-if test -d /usr/local/share/python
-then
-    export PATH=/usr/local/share/python${PATH:+:}${PATH}
-fi
-
 if test -d /usr/local/bin
 then
     export PATH=/usr/local/bin${PATH:+:}${PATH}

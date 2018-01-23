@@ -46,6 +46,11 @@ demote_gsc_paths() {
 
 export PATH=$(demote_gsc_paths)
 
+prepend_path() {
+    local NEW_BIN="$1"
+    export PATH=${NEW_BIN}${PATH:+:}${PATH}
+}
+
 export CLICOLOR=1
 OS=$(uname -s)
 

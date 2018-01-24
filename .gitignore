@@ -24,10 +24,12 @@
 /.dropbox/
 /.gem/
 /.go/
+/.hex/
 /.kube/
 /.macromedia/
 /.minikube/
 /.minishift/
+/.mix/
 /.mozilla/
 /.npm/
 /.pkg-cache/
@@ -39,3 +41,12 @@
 /.wine/
 /.wine_YNAB4/
 /Dropbox/
+
+# Other
+/.config/evolution/
+/.config/google-chrome/
+/.local/share/evolution/
+/.local/share/gnome-shell/extensions/
+/.local/share/Trash/
+/src/
+/tmp/

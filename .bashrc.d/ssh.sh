@@ -1,5 +1,12 @@
+if test -z "$SSH_AUTH_SOCK"; then
+    eval "$(ssh-agent -s)" 1>/dev/null
+fi
+
 function ssh {
-    kinit
+    if which kinit 1>/dev/null
+    then
+        kinit
+    fi
     command ssh "$@"
 }
 

@@ -27,16 +27,6 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
-[url "git@github.com:"]
-	insteadOf = git@github.com/
-[url "git@github.com:"]
-    insteadOf = https://github.com/
-[url "git@bitbucket.org:"]
-    insteadOf = https://bitbucket.org/
-[url "ssh://git@bitbucket.gsc.wustl.edu:7999/"]
-    insteadOf = https://bitbucket.gsc.wustl.edu/scm/
-[url "ssh://git.gsc.wustl.edu/srv/git/"]
-    insteadOf = ssh://git/srv/git/
 [github]
 	user = nnutter
 [alias]

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-NAME="$1"
+PREFIX="$1"
 shift
 COMMAND=("$@")
 
 OUTPUT=$("${COMMAND[@]}" 2>/dev/null)
-echo "$NAME: $OUTPUT"
+echo "$PREFIX: $OUTPUT"

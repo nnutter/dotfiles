@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-NAME="$1"
+PREFIX="$1"
 shift
 COMMAND=("$@")
 
 STATUS=$("${COMMAND[@]}" 1>/dev/null 2>/dev/null && echo yes || echo no)
-echo "$NAME: $STATUS"
+echo "$PREFIX: $STATUS"

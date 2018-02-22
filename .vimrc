@@ -34,12 +34,6 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
-" Mouse
-if has("mouse")
-    set mouse=a
-    set mousehide
-endif
-
 set errorformat=%f
 
 set virtualedit=block

@@ -3,7 +3,7 @@ if test -z "$SSH_AUTH_SOCK"; then
 fi
 
 function ssh {
-    if which kinit 1>/dev/null
+    if /usr/bin/which kinit 1>/dev/null 2>/dev/null
     then
         kinit
     fi

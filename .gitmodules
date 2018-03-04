@@ -1,45 +1,45 @@
 [submodule ".vim/pack/plugins/start/crystal"]
 	path = .vim/pack/plugins/start/crystal
-	url = git@github.com:rhysd/vim-crystal.git
+	url = https://github.com/rhysd/vim-crystal.git
 [submodule ".vim/pack/plugins/start/puppet"]
 	path = .vim/pack/plugins/start/puppet
-	url = git@github.com:rodjek/vim-puppet.git
+	url = https://github.com/rodjek/vim-puppet.git
 [submodule ".vim/pack/plugins/start/tabular"]
 	path = .vim/pack/plugins/start/tabular
-	url = git@github.com:godlygeek/tabular.git
+	url = https://github.com/godlygeek/tabular.git
 [submodule ".vim/pack/plugins/start/isort"]
 	path = .vim/pack/plugins/start/isort
-	url = git@github.com:fisadev/vim-isort.git
+	url = https://github.com/fisadev/vim-isort.git
 [submodule ".vim/pack/plugins/start/go"]
 	path = .vim/pack/plugins/start/go
-	url = git@github.com:fatih/vim-go.git
+	url = https://github.com/fatih/vim-go.git
 [submodule ".vim/pack/plugins/start/elixir"]
 	path = .vim/pack/plugins/start/elixir
-	url = git@github.com:elixir-lang/vim-elixir.git
+	url = https://github.com/elixir-lang/vim-elixir.git
 [submodule ".vim/pack/plugins/start/taskpaper"]
 	path = .vim/pack/plugins/start/taskpaper
-	url = git@github.com:davidoc/taskpaper.vim.git
+	url = https://github.com/davidoc/taskpaper.vim.git
 [submodule ".vim/pack/plugins/start/ctrlp"]
 	path = .vim/pack/plugins/start/ctrlp
-	url = git@github.com:kien/ctrlp.vim.git
+	url = https://github.com/kien/ctrlp.vim.git
 [submodule ".vim/pack/plugins/start/ale"]
 	path = .vim/pack/plugins/start/ale
-	url = git@github.com:w0rp/ale.git
+	url = https://github.com/w0rp/ale.git
 [submodule ".vim/pack/plugins/start/rust"]
 	path = .vim/pack/plugins/start/rust
-	url = git@github.com:rust-lang/rust.vim.git
+	url = https://github.com/rust-lang/rust.vim.git
 [submodule ".vim/pack/plugins/start/vimwiki"]
 	path = .vim/pack/plugins/start/vimwiki
-	url = git@github.com:vimwiki/vimwiki.git
+	url = https://github.com/vimwiki/vimwiki.git
 [submodule ".vim/pack/plugins/start/surround"]
 	path = .vim/pack/plugins/start/surround
-	url = git@github.com:tpope/vim-surround.git
+	url = https://github.com/tpope/vim-surround.git
 [submodule ".vim/pack/plugins/start/commentary"]
 	path = .vim/pack/plugins/start/commentary
-	url = git@github.com:tpope/vim-commentary.git
+	url = https://github.com/tpope/vim-commentary.git
 [submodule ".vim/pack/plugins/start/repeat"]
 	path = .vim/pack/plugins/start/repeat
-	url = git@github.com:tpope/vim-repeat.git
+	url = https://github.com/tpope/vim-repeat.git
 [submodule ".nvm"]
 	path = .nvm
-	url = git@github.com:creationix/nvm.git
+	url = https://github.com/creationix/nvm.git

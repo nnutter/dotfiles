@@ -180,21 +180,15 @@ augroup END
 
 augroup autoformat
     autocmd!
+
     " Setup a dummy Autoformat so we can clear it out if no FileType is
     " matched below for a real Autoformat command.
     autocmd FileType * command! Autoformat echo 'dummy command'
     autocmd FileType * delcommand Autoformat
 
-    autocmd FileType javascript command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!standard --stdin 2> /dev/null"|call winrestview(curw)
-    autocmd FileType rust command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!rustfmt"|call winrestview(curw)
-    autocmd FileType perl command! -range=% Autoformat let curw=winsaveview()|execute "<line1>,<line2>!perltidy -q -st"|call winrestview(curw)
-
-    " autocmd BufWritePre *.pm,*.pl,*.t,*.cfg Autoformat
+    autocmd FileType elixir command Autoformat execute "%!mix format -"
 augroup END
-autocmd WinEnter * doautocmd autoformat FileType
-autocmd FileType * doautocmd autoformat FileType
-vnoremap <F8> :Autoformat<CR>
-noremap <F8> :Autoformat<CR>
+nnoremap <C-f> :Autoformat<CR>
 
 augroup resCur
     autocmd!

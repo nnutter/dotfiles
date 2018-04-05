@@ -2,4 +2,5 @@
 
 set -o errexit
 
-git fetch && git rebase --preserve-merges @{u}
+git fetch
+git prune-merged -rb origin/HEAD

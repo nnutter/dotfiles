@@ -52,16 +52,25 @@ main() {
         REMOTE_BRANCHES=($(git branch --list --remotes | grep -v '^  origin/HEAD' | grep -v "^  ${UPSTREAM_BRANCH}" | grep "^  origin/$USER" | sed 's|^  origin/||'))
         for REMOTE_BRANCH in "${REMOTE_BRANCHES[@]}"
         do
+            local SKIP=""
+
             if git merge-base --is-ancestor origin/"$REMOTE_BRANCH" "$UPSTREAM_BRANCH"
             then
                 explain "$REMOTE_BRANCH" "OK: Remote branch merged to ${UPSTREAM_BRANCH}."
-                echo "=> remote: $REMOTE_BRANCH: delete"
-                if test -z "$DRY_RUN"
-                then
-                    git push --delete origin "$REMOTE_BRANCH"
-                fi
             else
                 explain "$REMOTE_BRANCH" "SKIP: Remote branch not merged to ${UPSTREAM_BRANCH}."
+                SKIP=1
+            fi
+
+            if test -n "$SKIP"
+            then
+                continue
+            fi
+
+            echo "=> remote: $REMOTE_BRANCH: delete"
+            if test -z "$DRY_RUN"
+            then
+                git push --delete origin "$REMOTE_BRANCH"
             fi
         done
     fi

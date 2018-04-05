@@ -47,16 +47,16 @@ main() {
         REMOTE_BRANCHES=($(git branch --list --remotes | grep -v '^  origin/HEAD' | grep "^  origin/$USER" | sed 's|^  origin/||'))
         for REMOTE_BRANCH in "${REMOTE_BRANCHES[@]}"
         do
-            if git rev-parse "$REMOTE_BRANCH" -- 1>/dev/null 2>/dev/null
+            if git merge-base --is-ancestor origin/"$REMOTE_BRANCH" "$UPSTREAM_BRANCH"
             then
-                explain "$REMOTE_BRANCH" 'SKIP: Remote branch still exists locally.'
-            else
-                explain "$REMOTE_BRANCH" 'OK: Remote branch does not exist locally.'
+                explain "$REMOTE_BRANCH" "OK: Remote branch merged to ${UPSTREAM_BRANCH}."
                 echo "=> remote: $REMOTE_BRANCH: delete"
                 if test -z "$DRY_RUN"
                 then
                     git push --delete origin "$REMOTE_BRANCH"
                 fi
+            else
+                explain "$REMOTE_BRANCH" "SKIP: Remote branch not merged to ${UPSTREAM_BRANCH}."
             fi
         done
     fi

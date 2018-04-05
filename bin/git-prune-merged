@@ -39,6 +39,11 @@ main() {
         exit 1
     fi
 
+    if test "$UPSTREAM_BRANCH" = "origin/HEAD"
+    then
+        UPSTREAM_BRANCH=$(git rev-parse --symbolic-full-name "$UPSTREAM_BRANCH" | sed 's|^refs/remotes/||')
+    fi
+
     HEAD=$(git symbolic-ref HEAD)
     KEEP_BRANCHES=($(git show "$HEAD":.gitkeep 2> /dev/null || true))
 

@@ -52,9 +52,9 @@ main() {
 
         if git merge-base --is-ancestor "$BRANCH" "$UPSTREAM_BRANCH"
         then
-            explain 'OK: Upstream branch contains the branch'
+            explain "$BRANCH" 'OK: Upstream branch contains the branch'
         else
-            explain 'SKIP: Upstream branch does not contain the branch.'
+            explain "$BRANCH" 'SKIP: Upstream branch does not contain the branch.'
             SKIP=1
         fi
 
@@ -62,26 +62,26 @@ main() {
         then
             if ! is-on-merge-base "$BRANCH" "$UPSTREAM_BRANCH"
             then
-                explain 'OK: Branch is not a fresh branch.'
+                explain "$BRANCH" 'OK: Branch is not a fresh branch.'
             else
-                explain 'SKIP: Branch is a fresh branch.'
+                explain "$BRANCH" 'SKIP: Branch is a fresh branch.'
                 SKIP=1
             fi
         fi
 
         if test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
         then
-            explain 'OK: Branch is not the specified upstream branch.'
+            explain "$BRANCH" 'OK: Branch is not the specified upstream branch.'
         else
-            explain 'SKIP: Branch is the specified upstream branch.'
+            explain "$BRANCH" 'SKIP: Branch is the specified upstream branch.'
             SKIP=1
         fi
 
         if ! branch-is-checked-out "$BRANCH"
         then
-            explain 'OK: Branch is not checked out.'
+            explain "$BRANCH" 'OK: Branch is not checked out.'
         else
-            explain 'SKIP: Branch is checked out.'
+            explain "$BRANCH" 'SKIP: Branch is checked out.'
             SKIP=1
         fi
 
@@ -91,9 +91,9 @@ main() {
             set -o nounset
             if ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
             then
-                explain 'OK: Branch is not in /.gitkeep.'
+                explain "$BRANCH" 'OK: Branch is not in /.gitkeep.'
             else
-                explain 'SKIP: Branch is in /.gitkeep.'
+                explain "$BRANCH" 'SKIP: Branch is in /.gitkeep.'
                 SKIP=1
             fi
         else
@@ -114,6 +114,7 @@ main() {
 }
 
 explain() {
+    local BRANCH="$1"
     if test "$BRANCH" == "$EXPLAIN"
     then
         echo 2>&1 "$@"

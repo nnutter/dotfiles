@@ -11,8 +11,8 @@ main() {
         shift
         case $OPT in
             --) break ;;
-            -n) DRY_RUN=1 ;;
             -b) RM_FRESH=1 ;;
+            -n) DRY_RUN=1 ;;
             -x) EXPLAIN="$1"; shift; DRY_RUN=1 ;;
         esac
     done
@@ -161,8 +161,8 @@ upstream if it has one, e.g. \`origin/master').
 Any branches in \`/.gitkeep' (one per line) will be preserved.
 --
 h,help     show the help
-n,dry-run  dry run
 b          include undiverged branches, e.g. fresh branches
+n,dry-run  dry run
 x=         explain branch (implies dry-run)
 "
 

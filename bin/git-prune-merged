@@ -44,7 +44,7 @@ main() {
 
     if test -n "$REMOTE"
     then
-        REMOTE_BRANCHES=($(git branch --list --remotes | grep "^  origin/$USER" | sed 's|^  origin/||'))
+        REMOTE_BRANCHES=($(git branch --list --remotes | grep -v '^  origin/HEAD' | grep "^  origin/$USER" | sed 's|^  origin/||'))
         for REMOTE_BRANCH in "${REMOTE_BRANCHES[@]}"
         do
             if git rev-parse "$REMOTE_BRANCH" -- 1>/dev/null 2>/dev/null

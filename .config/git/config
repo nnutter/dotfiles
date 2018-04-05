@@ -21,6 +21,8 @@
 	default = current
 [url "git://github.com/"]
 	insteadOf = gh:
+[url "git@github.com:genome-vendor"]
+	insteadOf = https://github.com/genome-vendor
 [url "git@github.com:nnutter"]
 	insteadOf = https://github.com/nnutter
 [difftool "sourcetree"]

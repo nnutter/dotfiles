@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 main() {
-    local OPT DRY_RUN="" RM_FRESH="" EXPLAIN=""
+    local OPT DRY_RUN="" REMOTE="" RM_FRESH="" EXPLAIN=""
 
     # shellcheck disable=1090
     source "$(git --exec-path)/git-sh-setup"
@@ -13,6 +13,8 @@ main() {
             --) break ;;
             -b) RM_FRESH=1 ;;
             -n) DRY_RUN=1 ;;
+            -r) REMOTE=1 ;;
+            -u) USER="$1"; shift ;;
             -x) EXPLAIN="$1"; shift; DRY_RUN=1 ;;
         esac
     done
@@ -39,6 +41,25 @@ main() {
 
     HEAD=$(git symbolic-ref HEAD)
     KEEP_BRANCHES=($(git show "$HEAD":.gitkeep 2> /dev/null || true))
+
+    if test -n "$REMOTE"
+    then
+        REMOTE_BRANCHES=($(git branch --list --remotes | grep "^  origin/$USER" | sed 's|^  origin/||'))
+        for REMOTE_BRANCH in "${REMOTE_BRANCHES[@]}"
+        do
+            if git rev-parse "$REMOTE_BRANCH" -- 1>/dev/null 2>/dev/null
+            then
+                explain "$REMOTE_BRANCH" 'SKIP: Remote branch still exists locally.'
+            else
+                explain "$REMOTE_BRANCH" 'OK: Remote branch does not exist locally.'
+                echo "=> remote: $REMOTE_BRANCH: delete"
+                if test -z "$DRY_RUN"
+                then
+                    git push --delete origin "$REMOTE_BRANCH"
+                fi
+            fi
+        done
+    fi
 
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
@@ -105,7 +126,7 @@ main() {
             continue
         fi
 
-        echo "=> $BRANCH: delete"
+        echo "=> local: $BRANCH: delete"
         if test -z "$DRY_RUN"
         then
             git branch -d "$BRANCH"
@@ -164,6 +185,8 @@ Any branches in \`/.gitkeep' (one per line) will be preserved.
 h,help     show the help
 b          include undiverged branches, e.g. fresh branches
 n,dry-run  dry run
+r,remotes  prune orphaned remote branch
+u,user     username branch prefix if not \$USER
 x=         explain branch (implies dry-run)
 "
 

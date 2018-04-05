@@ -200,7 +200,7 @@ h,help     show the help
 b          include undiverged branches, e.g. fresh branches
 n,dry-run  dry run
 r,remotes  prune orphaned remote branch
-u,user=s     username branch prefix if not \$USER
+u,user=    username branch prefix if not \$USER
 x=         explain branch (implies dry-run)
 "
 

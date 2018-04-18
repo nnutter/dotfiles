@@ -46,3 +46,6 @@
 [submodule ".asdf"]
 	path = .asdf
 	url = https://github.com/asdf-vm/asdf.git
+[submodule "src/github.com/pyenv/pyenv"]
+	path = src/github.com/pyenv/pyenv
+	url = https://github.com/pyenv/pyenv.git

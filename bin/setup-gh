@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail -o xtrace
+
+gh() {
+  git --git-dir "$HOME/.dotfiles.git" --work-tree "$HOME" "$@"
+}
+
+gh init
+gh config status.showUntrackedFiles no
+gh remote add -f origin git@github.com:nnutter/dotfiles.git
+gh checkout -f master
+git config --file ~/.config/git/config transfer.fsckobjects false
+git config --file ~/.config/git/config commit.gpgsign false
+gh submodule update --init
+git config --file ~/.config/git/config transfer.fsckobjects true

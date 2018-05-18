@@ -49,3 +49,6 @@
 [submodule "src/github.com/pyenv/pyenv"]
 	path = src/github.com/pyenv/pyenv
 	url = https://github.com/pyenv/pyenv.git
+[submodule "/home/nnutter/.vim/pack/plugins/start/splitjoin"]
+	path = /home/nnutter/.vim/pack/plugins/start/splitjoin
+	url = git@github.com:AndrewRadev/splitjoin.vim.git

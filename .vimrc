@@ -336,11 +336,18 @@ endif
 
 let g:vimwiki_list = [{'path': '~/Dropbox/Notes/', 'path_html': '/dev/null', 'ext': '.md', 'diary_rel_path': 'journal', 'diary_index': 'journal', 'auto_toc': 1, 'syntax': 'markdown'}]
 
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   'python': ['isort', 'yapf'],
+\}
+let g:ale_lint_delay = 750
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
+let g:ale_linters = {
+\   'python': ['mypy', 'pyflakes'],
+\}
 let g:ale_sign_column_always = 1
-let g:ale_lint_delay = 750
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 

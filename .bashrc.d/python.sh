@@ -4,6 +4,7 @@ then
     export PYENV_ROOT
     export PATH="$PYENV_ROOT/bin${PATH:+:}$PATH"
     eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 else
     unset PYENV_ROOT
 fi

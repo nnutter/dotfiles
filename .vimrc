@@ -308,9 +308,6 @@ let vala_space_errors = 1
 
 set modelines=5
 
-" vim-go options
-let g:go_fmt_command = "goimports"
-
 let g:ctrlp_cmd = 'CtrlPBuffer'
 
 let g:test#strategy = 'vimux'
@@ -383,6 +380,7 @@ function! s:build_go_files()
   endif
 endfunction
 
+let g:go_fmt_command = "goimports"
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
 let mapleader = ","

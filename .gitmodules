@@ -61,3 +61,6 @@
 [submodule "/home/nnutter/.vim/pack/plugins/start/hug-neovim-rpc"]
 	path = /home/nnutter/.vim/pack/plugins/start/hug-neovim-rpc
 	url = git@github.com:roxma/vim-hug-neovim-rpc.git
+[submodule "/home/nnutter/.vim/pack/plugins/start/yarp"]
+	path = /home/nnutter/.vim/pack/plugins/start/yarp
+	url = git@github.com:roxma/nvim-yarp.git

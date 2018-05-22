@@ -64,3 +64,6 @@
 [submodule "/home/nnutter/.vim/pack/plugins/start/yarp"]
 	path = /home/nnutter/.vim/pack/plugins/start/yarp
 	url = git@github.com:roxma/nvim-yarp.git
+[submodule "/home/nnutter/.vim/pack/plugins/start/markdown"]
+	path = /home/nnutter/.vim/pack/plugins/start/markdown
+	url = git@github.com:plasticboy/vim-markdown.git

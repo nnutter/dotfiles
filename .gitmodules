@@ -52,3 +52,6 @@
 [submodule "/home/nnutter/.vim/pack/plugins/start/splitjoin"]
 	path = /home/nnutter/.vim/pack/plugins/start/splitjoin
 	url = git@github.com:AndrewRadev/splitjoin.vim.git
+[submodule "/home/nnutter/.vim/pack/plugins/start/deoplete"]
+	path = /home/nnutter/.vim/pack/plugins/start/deoplete
+	url = git@github.com:Shougo/deoplete.nvim.git

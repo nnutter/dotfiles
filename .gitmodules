@@ -55,3 +55,6 @@
 [submodule "/home/nnutter/.vim/pack/plugins/start/deoplete"]
 	path = /home/nnutter/.vim/pack/plugins/start/deoplete
 	url = git@github.com:Shougo/deoplete.nvim.git
+[submodule "/home/nnutter/.vim/pack/plugins/start/deoplete-go"]
+	path = /home/nnutter/.vim/pack/plugins/start/deoplete-go
+	url = git@github.com:zchee/deoplete-go.git

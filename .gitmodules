@@ -49,21 +49,21 @@
 [submodule "src/github.com/pyenv/pyenv"]
 	path = src/github.com/pyenv/pyenv
 	url = https://github.com/pyenv/pyenv.git
-[submodule "/home/nnutter/.vim/pack/plugins/start/splitjoin"]
-	path = /home/nnutter/.vim/pack/plugins/start/splitjoin
+[submodule ".vim/pack/plugins/start/splitjoin"]
+	path = .vim/pack/plugins/start/splitjoin
 	url = git@github.com:AndrewRadev/splitjoin.vim.git
-[submodule "/home/nnutter/.vim/pack/plugins/start/deoplete"]
-	path = /home/nnutter/.vim/pack/plugins/start/deoplete
+[submodule ".vim/pack/plugins/start/deoplete"]
+	path = .vim/pack/plugins/start/deoplete
 	url = git@github.com:Shougo/deoplete.nvim.git
-[submodule "/home/nnutter/.vim/pack/plugins/start/deoplete-go"]
-	path = /home/nnutter/.vim/pack/plugins/start/deoplete-go
+[submodule ".vim/pack/plugins/start/deoplete-go"]
+	path = .vim/pack/plugins/start/deoplete-go
 	url = git@github.com:zchee/deoplete-go.git
-[submodule "/home/nnutter/.vim/pack/plugins/start/hug-neovim-rpc"]
-	path = /home/nnutter/.vim/pack/plugins/start/hug-neovim-rpc
+[submodule ".vim/pack/plugins/start/hug-neovim-rpc"]
+	path = .vim/pack/plugins/start/hug-neovim-rpc
 	url = git@github.com:roxma/vim-hug-neovim-rpc.git
-[submodule "/home/nnutter/.vim/pack/plugins/start/yarp"]
-	path = /home/nnutter/.vim/pack/plugins/start/yarp
+[submodule ".vim/pack/plugins/start/yarp"]
+	path = .vim/pack/plugins/start/yarp
 	url = git@github.com:roxma/nvim-yarp.git
-[submodule "/home/nnutter/.vim/pack/plugins/start/markdown"]
-	path = /home/nnutter/.vim/pack/plugins/start/markdown
+[submodule ".vim/pack/plugins/start/markdown"]
+	path = .vim/pack/plugins/start/markdown
 	url = git@github.com:plasticboy/vim-markdown.git

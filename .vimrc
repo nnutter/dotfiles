@@ -389,3 +389,5 @@ autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 
 let mapleader = ","
+
+let g:deoplete#enable_at_startup = 1

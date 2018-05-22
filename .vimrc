@@ -188,7 +188,7 @@ augroup autoformat
 
     autocmd FileType elixir command Autoformat execute "%!mix format -"
 augroup END
-nnoremap <C-f> :Autoformat<CR>
+nnoremap <C-a> :Autoformat<CR>
 
 augroup resCur
     autocmd!

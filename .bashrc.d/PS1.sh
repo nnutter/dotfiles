@@ -56,6 +56,6 @@ build_ps1 () {
 
 if ! echo "$PROMPT_COMMAND" | grep -q 'build_ps1'
 then
-    export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}build_ps1"
+    export PROMPT_COMMAND="${PROMPT_COMMAND}build_ps1;"
 fi
 export PS1

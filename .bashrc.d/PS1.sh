@@ -1,3 +1,4 @@
+#!/bin/bash
 find_up() {
     if test $# -ne 2
     then
@@ -17,7 +18,8 @@ find_up() {
 }
 
 git_ps1() {
-    local BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+    local BRANCH
+    BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     if test -n "${BRANCH}"
     then
         export PS1="${PS1} (git:${BRANCH})"
@@ -36,7 +38,7 @@ build_ps1 () {
     PS1='\h:\w'
     if test -n "$SUDO_USER"
     then
-        PS1="\u@$PS1"
+        PS1="\\u@$PS1"
     fi
 
     if git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then git_ps1; fi
@@ -47,9 +49,9 @@ build_ps1 () {
     fi
     if test ${#TAGS[@]} -gt 0
     then
-        PS1="${PS1} (${TAGS[@]})"
+        PS1="${PS1} (${TAGS[*]})"
     fi
-    PS1="${PS1}\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
+    PS1="${PS1}\\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
 }
 
 if ! echo "$PROMPT_COMMAND" | grep -q 'build_ps1'

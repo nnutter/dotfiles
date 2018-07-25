@@ -18,11 +18,6 @@ then
     export PATH=${HOME}/bin${PATH:+:}${PATH}
 fi
 
-if test -d "$HOME/.bin"
-then
-    PATH="$PATH${PATH:+:}$HOME/.bin"
-fi
-
 PATH="$PATH${PATH:+:}."
 
 export PATH

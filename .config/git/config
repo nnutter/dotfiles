@@ -44,7 +44,7 @@
 [diff "vault"]
 	textconv = ansible-vault view
 [commit]
-	gpgSign = true
+	gpgSign = false
 [transfer]
 	fsckObjects = true
 [gpg]

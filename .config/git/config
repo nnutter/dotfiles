@@ -25,6 +25,8 @@
 	insteadOf = https://github.com/genome-vendor
 [url "git@github.com:nnutter"]
 	insteadOf = https://github.com/nnutter
+[url "git@github.platforms.engineering:"]
+	insteadOf = https://github.platforms.engineering/
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

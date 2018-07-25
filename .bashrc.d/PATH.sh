@@ -1,21 +1,21 @@
 if test -d "/var/lib/gems/1.8/bin"
 then
-    export PATH="/var/lib/gems/1.8/bin${PATH:+:}$PATH"
+    PATH="/var/lib/gems/1.8/bin${PATH:+:}$PATH"
 fi
 
 if test -d "${HOME}/.local/bin"
 then
-    export PATH="${HOME}/.local/bin${PATH:+:}${PATH}"
+    PATH="${HOME}/.local/bin${PATH:+:}${PATH}"
 fi
 
 if test -d ${HOME}/.bin
 then
-    export PATH=${HOME}/.bin${PATH:+:}${PATH}
+    PATH=${HOME}/.bin${PATH:+:}${PATH}
 fi
 
 if test -d ${HOME}/bin
 then
-    export PATH=${HOME}/bin${PATH:+:}${PATH}
+    PATH=${HOME}/bin${PATH:+:}${PATH}
 fi
 
 PATH="$PATH${PATH:+:}."

@@ -6,6 +6,6 @@ USERNAME='GCIYH'
 
 if test "$(perl -e 'print int ((-M $ARGV[0]) * 24)' -- ~/.vault-token)" -ge 4
 then
-    /usr/local/bin/vault auth -method=userpass -path=ping username="$USERNAME" password=$(security find-generic-password -l vault -a "$USERNAME" -w)
+    /usr/local/bin/vault login -method=userpass -path=ping username="$USERNAME" password=$(security find-generic-password -l vault -a "$USERNAME" -w)
 fi
 /usr/local/bin/vault "$@"

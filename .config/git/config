@@ -2,8 +2,6 @@
 	name = Nathaniel Nutter
 	email = iam@nnutter.com
 	signingkey = 4C33CFFE
-[includeIf "gitdir:~/src/bitbucket.gsc.wustl.edu/"]
-	path = config-wustl
 [color]
 	branch = auto
 	diff = auto

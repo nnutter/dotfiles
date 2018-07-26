@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Trying to quote words, probably not universal...
-COMMAND='mco'
-for WORD in "$@"; do
-    COMMAND="$COMMAND \"$WORD\""
-done
-
-exec ssh -qt mco.gsc.wustl.edu "$COMMAND"

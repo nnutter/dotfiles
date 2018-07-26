@@ -1,8 +1,0 @@
-#!/bin/bash -l
-
-function main() {
-    local COMMAND=($(basename "$0") "$@")
-    echo "${COMMAND[@]}" | ssh -qt vm123.gsc.wustl.edu
-}
-
-main "$@"

@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-PASSWORD=$(cat "$HOME"/.jenkins_pass)
-curl --user nnutter:"${PASSWORD}" -X POST 'https://systems-ci.gsc.wustl.edu/view/Checks/job/check_custom/buildWithParameters?TARGET_HOSTS='"$1"

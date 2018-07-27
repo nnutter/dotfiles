@@ -179,6 +179,13 @@ augroup indentation
     autocmd FileType yaml       set ts=2 sw=2 sts=2
 augroup END
 
+augroup go
+    autocmd!
+
+    autocmd Filetype go command! -bang GoAlternateV call go#alternate#Switch(<bang>0, 'vsplit')
+    autocmd Filetype go command! -bang GoAlternateS call go#alternate#Switch(<bang>0, 'split')
+augroup END
+
 augroup autoformat
     autocmd!
 

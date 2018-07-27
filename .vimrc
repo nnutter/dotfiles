@@ -173,6 +173,7 @@ augroup indentation
     autocmd FileType html       set ts=2 sw=2 sts=2
     autocmd FileType javascript set ts=2 sw=2 sts=2
     autocmd FileType json       set ts=2 sw=2 sts=2
+    autocmd FileType proto      set ts=2 sw=2 sts=2
     autocmd FileType puppet     set ts=2 sw=2 sts=2
     autocmd FileType ruby       set ts=2 sw=2 sts=2
     autocmd FileType yaml       set ts=2 sw=2 sts=2

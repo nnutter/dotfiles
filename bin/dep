@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# This wraps `dep` to detect a proxy authentication request/challenge and open
+# it in your browser.  For example,
+#
+# ```
+# HTTP/1.1 307 Authentication Required
+# Location: http://XXX.monsanto.com:8080/auth/?du=XXX&ip=XXX
+# ```
+
+set -o errexit -o nounset -o pipefail
+
+REAL_DEP='/usr/local/bin/dep'
+
+CURL=(curl --silent --head --location --header "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15")
+
+# I think only one URL is actually needed.  I've always seen these challenged
+# in pairs.
+for URL in "https://cloud.google.com/go" # "https://google.golang.org/grpc"
+do
+    REDIRECT_URL=$("${CURL[@]}" "$URL" | awk '/^Location: / { print $2 }')
+    if [[ "$REDIRECT_URL" =~ monsanto.com ]]
+    then
+        echo "INFO: Opened proxy authentication request/challenge in your browser."
+        open -g "$REDIRECT_URL"
+    fi
+done
+
+case "$1" in
+    update)
+        shift
+        "$REAL_DEP" ensure -vendor-only -v "$@"
+        ;;
+    upgrade)
+        shift
+        "$REAL_DEP" ensure -update -v "$@"
+        ;;
+    *)
+        "$REAL_DEP" "$@"
+        ;;
+esac

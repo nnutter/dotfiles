@@ -400,3 +400,5 @@ autocmd FileType go nmap <leader>t  <Plug>(go-test)
 let mapleader = ","
 
 let g:deoplete#enable_at_startup = 1
+
+set completeopt-=preview

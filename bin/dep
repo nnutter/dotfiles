@@ -21,7 +21,8 @@ do
     REDIRECT_URL=$("${CURL[@]}" "$URL" | awk '/^Location: / { print $2 }')
     if [[ "$REDIRECT_URL" =~ monsanto.com ]]
     then
-        echo "INFO: Opened proxy authentication request/challenge in your browser."
+        echo 1>&2 "INFO: $REDIRECT_URL"
+        echo 1>&2 "INFO: Opened proxy authentication request/challenge in your browser."
         open -g "$REDIRECT_URL"
     fi
 done

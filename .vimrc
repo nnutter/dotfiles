@@ -326,7 +326,6 @@ nmap <silent> <leader>T :TestNearest --lsf<CR>
 nmap <silent> <leader>r :TestSuite --lsf<CR>
 
 set statusline+=%#warningmsg#
-set statusline+=%{ALEGetStatusLine()}
 set statusline+=%*
 
 " <CR>: close popup and save indent.

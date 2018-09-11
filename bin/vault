@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o pipefail
+# This requires you create a new password item in macOS's Keychain with the
+# name `vault` and the account `$USER`.
 
+set -o errexit -o nounset -o pipefail
 
 if test "$(perl -e 'print int ((-M $ARGV[0]) * 24)' -- ~/.vault-token)" -ge 4
 then

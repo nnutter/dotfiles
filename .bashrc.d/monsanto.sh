@@ -8,5 +8,5 @@ alias use_prod='gcloud config set project cgs-prod && kubectl config use-context
 alias use_nonprod360='gcloud config set project product360-nonprod && kubectl config use-context gke_product360-nonprod_us-central1-a_product360'
 alias use_prod360='gcloud config set project product360-prod && kubectl config use-context gke_product360-prod_us-central1-a_product360'
 
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
+use '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
+use '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'

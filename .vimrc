@@ -212,6 +212,7 @@ noremap <Space> :
 
 " Make Ctrl-C trigger InsertLeave autocommands
 inoremap <c-c> <esc>
+nnoremap <c-c> :update<CR>
 
 " allow r to replace visually selected word
 vnoremap r "_dP

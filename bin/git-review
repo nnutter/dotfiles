@@ -1,2 +1,17 @@
 #!/usr/bin/env bash
-git log --reverse "$@" @{u}..
+declare -a PRE POST
+while test "$#" -gt 0
+do
+    case "$1" in
+        --)
+            shift
+            POST=("$@")
+            break
+            ;;
+        *)
+            PRE+=("$1")
+            shift
+            ;;
+    esac
+done
+git log --reverse "${PRE[@]}" "@{upstream}.." -- "${POST[@]}"

@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local OPEN PREVIOUS TAG
+    while [ $# -gt 0 ]
+    do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -o) OPEN="TRUE";;
+            -p) PREVIOUS="$1"; shift;;
+            -t) TAG="$1"; shift;;
+        esac
+    done
+
+    validate_inputs "$TAG"
+
+    git fetch origin '+refs/pull/*:refs/remotes/origin/pull/*'
+    for PR in $(
+        git log --decorate "$PREVIOUS".."$TAG" \
+            | grep origin/pull \
+            | sed -e 's/.*(//' -e 's/)$//' -e 's/ //g' \
+            | tr ',' '\n' \
+            | grep origin/pull \
+            | sort -V \
+            | cut -d / -f 3 \
+    )
+    do
+        if test -n "$OPEN"
+        then
+            open "https://github.platforms.engineering/GraphRoots/cgs/pull/${PR}"
+        else
+            echo "$PR"
+        fi
+    done
+}
+
+error() {
+    echo 2>&1 "ERROR: $*"
+}
+
+validate_inputs() {
+    local TAG="$1"
+
+    local OK="1"
+
+    if test -z "$TAG"
+    then
+        OK=""
+        error "must specify -t/--tag"
+    fi
+
+    if test "$(git rev-parse HEAD 2>/dev/null)" != "$(git rev-parse "$TAG^{commit}" 2>/dev/null)"
+    then
+        OK=""
+        error "HEAD is not at $TAG"
+    fi
+
+    if test -z "$OK"
+    then
+        exit 1
+    fi
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+genomics prs -t <tag> -o
+
+--
+h,help       show the help
+o,open       open PRs in browser
+p,previous=  previous tag
+t,tag=       (upcoming) tag
+"
+
+main "$@"

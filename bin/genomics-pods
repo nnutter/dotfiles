@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+SERVICES=()
+for SERVICE in "$@"
+do
+    SERVICES+=($(echo "$SERVICE" | tr ',' ' '))
+done
+
+kubectl get pods --all-namespaces | ggrep -P " ($(echo "${SERVICES[*]}" | tr ' ' '|'))-*"

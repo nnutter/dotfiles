@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail
+
+main() {
+  local VAULTS=("$@")
+  for VAULT in "${VAULTS[@]}"
+  do
+    local JOB_ID
+    JOB_ID=$(find_inprogress_inventory_retrieval_job "$VAULT")
+    if test "$JOB_ID" == "null"
+    then
+      JOB_ID=$(initiate_inventory_retrieval_job "$VAULT")
+    fi
+    echo 1>&2 "Waiting for inventory retrieval job: $JOB_ID..."
+    wait_for_job "$VAULT" "$JOB_ID"
+    echo 1>&2 "Deleting archives..."
+    delete_archives "$VAULT" "$JOB_ID"
+    JOB_ID=$(initiate_inventory_retrieval_job "$VAULT")
+    echo 1>&2 "Waiting for new inventory retrieval job: $JOB_ID..."
+    wait_for_job "$VAULT" "$JOB_ID"
+    echo 1>&2 "Deleting vault..."
+    delete_vault "$VAULT"
+  done
+}
+
+wait_for_job() {
+  local VAULT="$1" JOB_ID="$2"
+
+  while ! is_job_done "$VAULT" "$JOB_ID"
+  do
+      sleep 30
+      echo -n . 1>&2
+  done
+  echo 1>&2
+}
+
+find_inprogress_inventory_retrieval_job() {
+  local VAULT="$1"
+  aws glacier list-jobs \
+      --account-id - \
+      --vault-name "$VAULT" \
+    | jq -r '[.JobList[] | select(.Action == "InventoryRetrieval" and .StatusCode == "InProgress")][0] | .JobId'
+}
+
+initiate_inventory_retrieval_job() {
+  local VAULT="$1"
+  aws glacier initiate-job \
+      --account-id - \
+      --vault-name "$VAULT" \
+      --job-parameters '{"Type": "inventory-retrieval"}' \
+    | jq -r '.jobId'
+}
+
+is_job_done() {
+  local VAULT="$1" JOB_ID="$2"
+  aws glacier list-jobs \
+      --account-id - \
+      --vault-name "$VAULT" \
+    | jq -e -r '.JobList[] | select(.Action == "InventoryRetrieval" and .StatusCode == "Succeeded" and .JobId == "'"$JOB_ID"'") | length > 0' 1>/dev/null
+}
+
+delete_archives() {
+  local VAULT="$1" JOB_ID="$2"
+  if test -z "$JOB_ID"
+  then
+    echo "You first need to initiate an inventory retrieval and wait for it to succeed,"
+    echo ""
+    echo "    aws glacier initiate-job --account-id - --vault-name my-vault --job-parameters '{\"Type\": \"inventory-retrieval\"}'"
+    exit 1
+  fi
+  for ARCHIVE_ID in $(archive_ids "$VAULT" "$JOB_ID")
+  do
+    delete_archive "$VAULT" "$ARCHIVE_ID"
+  done
+}
+
+archive_ids() {
+  local VAULT="$1" JOB_ID="$2"
+
+  local OUTPUT_FILE
+  OUTPUT_FILE=$(mktemp --suffix .json)
+  aws glacier get-job-output \
+      --account-id - \
+      --vault-name "$VAULT" \
+      --job-id "$JOB_ID" \
+      "$OUTPUT_FILE" >/dev/null
+  jq -r '.ArchiveList[].ArchiveId' "$OUTPUT_FILE"
+}
+
+delete_archive() {
+  local VAULT="$1" ARCHIVE_ID="$2"
+  aws glacier delete-archive \
+    --account-id - \
+    --vault-name "$VAULT" \
+    --archive-id "$ARCHIVE_ID"
+}
+
+delete_vault() {
+  local VAULT="$1"
+  aws glacier delete-vault \
+    --account-id - \
+    --vault-name "$VAULT"
+}
+
+main "$@"

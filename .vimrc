@@ -391,12 +391,11 @@ endfunction
 set updatetime=250
 let g:go_auto_sameids = 0
 let g:go_auto_type_info = 1
-let g:go_fmt_command = "goreturns"
+let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 let g:go_fmt_options = {
     \ 'gofmt': '-s',
     \ 'goimports': '-local github.platforms.engineering',
-    \ 'goreturns': '-local github.platforms.engineering',
     \ }
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)

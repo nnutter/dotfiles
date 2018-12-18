@@ -389,7 +389,7 @@ function! s:build_go_files()
 endfunction
 
 set updatetime=250
-let g:go_auto_sameids = 1
+let g:go_auto_sameids = 0
 let g:go_auto_type_info = 1
 let g:go_fmt_command = "goreturns"
 let g:go_fmt_experimental = 1

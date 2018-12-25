@@ -339,7 +339,31 @@ if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 
-let g:vimwiki_list = [{'path': '~/Dropbox/Notes/', 'path_html': '/dev/null', 'ext': '.md', 'diary_rel_path': 'journal', 'diary_index': 'journal', 'auto_toc': 1, 'syntax': 'markdown'}]
+let g:vimwiki_list = [
+    \{
+        \'path': '~/Dropbox/',
+        \'path_html': '/dev/null',
+        \'ext': '.md',
+        \'diary_rel_path': 'Journal',
+        \'diary_index': 'index',
+        \'auto_toc': 0,
+        \'syntax': 'markdown'
+    \},
+    \{
+        \'path': '~/Dropbox/Archive/',
+        \'path_html': '/dev/null',
+        \'ext': '.md',
+        \'auto_toc': 1,
+        \'syntax': 'markdown'
+    \},
+    \{
+        \'path': '~/Dropbox/Notes/',
+        \'path_html': '/dev/null',
+        \'ext': '.md',
+        \'auto_toc': 1,
+        \'syntax': 'markdown'
+    \},
+\]
 
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {

@@ -421,10 +421,28 @@ let g:go_fmt_options = {
     \ 'gofmt': '-s',
     \ 'goimports': '-local github.platforms.engineering',
     \ }
+let g:go_metalinter_enabled = [
+    \ 'deadcode',
+    \ 'errcheck',
+    \ 'goconst',
+    \ 'gocyclo',
+    \ 'golint',
+    \ 'gotypex',
+    \ 'ineffassign',
+    \ 'interfacer',
+    \ 'maligned',
+    \ 'megacheck',
+    \ 'staticcheck',
+    \ 'structcheck',
+    \ 'unconvert',
+    \ 'varcheck',
+    \ 'vet',
+    \ 'vetshadow',
+    \ ]
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-autocmd FileType go nmap <leader>l <Plug>(go-meta-linter)
+autocmd FileType go nmap <leader>l <Plug>(go-metalinter)
 autocmd FileType go nmap <leader>t <Plug>(go-test)
 
 let mapleader = ","

@@ -10,3 +10,6 @@ alias use_prod360='gcloud config set project product360-prod && kubectl config u
 
 use '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
 use '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
+
+HOMEBREW_GITHUB_TOKEN=$(yq -r '."github.platforms.engineering"[0].oauth_token' ~/.config/hub)
+export HOMEBREW_GITHUB_TOKEN

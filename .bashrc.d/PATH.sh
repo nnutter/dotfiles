@@ -18,6 +18,11 @@ then
     PATH=${HOME}/bin${PATH:+:}${PATH}
 fi
 
+if test -d "${HOME}/Library/Python/2.7/bin"
+then
+    PATH="$PATH":"${HOME}/Library/Python/2.7/bin"
+fi
+
 PATH="$PATH${PATH:+:}."
 
 export PATH

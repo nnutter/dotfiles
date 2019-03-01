@@ -37,6 +37,8 @@ main() {
     do
         cp "$GIT_WORK_TREE/cmd/$DEPLOYABLE/bin/$DEPLOYABLE" "$OUTPUT/$TAG/"
     done
+
+    open "$OUTPUT/$TAG/"
 }
 
 error() {

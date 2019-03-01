@@ -13,3 +13,4 @@ use '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bas
 
 HOMEBREW_GITHUB_TOKEN=$(yq -r '."github.platforms.engineering"[0].oauth_token' ~/.config/hub)
 export HOMEBREW_GITHUB_TOKEN
+export GITHUB_TOKEN="$HOMEBREW_GITHUB_TOKEN"

@@ -17,9 +17,9 @@ case "$1" in
         shift
         DST="$1"
         shift
-        vault read -format json "$SRC" | jq .data | vault write "$DST" -
+        exec vault read -format json "$SRC" | jq .data | vault write "$DST" -
         ;;
     *)
-        /usr/local/bin/vault "$@"
+        exec /usr/local/bin/vault "$@"
         ;;
 esac

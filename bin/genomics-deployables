@@ -92,9 +92,12 @@ SUBDIRECTORY_OK=1
 # shellcheck disable=SC2034
 # OPTIONS_SPEC is used by `git-sh-setup`.
 OPTIONS_SPEC="\
-genomics deployables -o <output> -t <tag> <deployables>...
-genomics deployables -o ~/Downloads -t genomics-2018.11.1.1 marker-call-sets-service
+genomics-deployables -o <output> -t <tag> [<deployables>...] [<deployable1>,<deployable2>...]
+genomics-deployables -o ~/Downloads -t genomics-2018.11.1.1 marker-call-sets-service
 
+genomics-deployables helps collects the binaries for a deployment into a single
+folder.  For example, use the comma-delimited list of \"Charts\" from the
+Jenkins deploy job to specify the services.
 --
 h,help     show the help
 o,output=  output

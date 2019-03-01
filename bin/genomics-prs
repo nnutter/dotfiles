@@ -17,7 +17,7 @@ main() {
         esac
     done
 
-    validate_inputs "$TAG"
+    validate_inputs "$PREVIOUS" "$TAG"
 
     git fetch origin '+refs/pull/*:refs/remotes/origin/pull/*'
     for PR in $(
@@ -44,20 +44,20 @@ error() {
 }
 
 validate_inputs() {
-    local TAG="$1"
+    local PREVIOUS="$1" TAG="$2"
 
     local OK="1"
+
+    if test -z "$PREVIOUS"
+    then
+        OK=""
+        error "must specify -p/--previous"
+    fi
 
     if test -z "$TAG"
     then
         OK=""
         error "must specify -t/--tag"
-    fi
-
-    if test "$(git rev-parse HEAD 2>/dev/null)" != "$(git rev-parse "$TAG^{commit}" 2>/dev/null)"
-    then
-        OK=""
-        error "HEAD is not at $TAG"
     fi
 
     if test -z "$OK"
@@ -73,8 +73,10 @@ SUBDIRECTORY_OK=1
 # shellcheck disable=SC2034
 # OPTIONS_SPEC is used by `git-sh-setup`.
 OPTIONS_SPEC="\
-genomics prs -t <tag> -o
+genomics-prs -p <previous_tag> -t <upcoming_tag> [-o]
 
+
+genomics-prs shows (or opens) all the PRs between two tags.
 --
 h,help       show the help
 o,open       open PRs in browser

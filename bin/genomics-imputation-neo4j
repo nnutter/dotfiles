@@ -2,5 +2,50 @@
 
 set -o errexit -o nounset -o pipefail
 
-cd ~/src/github.platforms.engineering/graphroots/cgs/cmd/imputation-partition-service
-docker run --detach --publish=7474:7474 --publish=7687:7687 --volume=$PWD/neo4j/data:/data --volume=$PWD/neo4j/logs:/logs --name imputation-neo4j neo4j:3.4.9
+main() {
+    EXISTING_ID=$(docker inspect --format '{{.Id}}' imputation-partition-service-neo4j 2>/dev/null || true)
+    if test -n "$EXISTING_ID"
+    then
+        docker rm --force "$EXISTING_ID" 1>/dev/null
+    fi
+    docker run --detach \
+        --name imputation-partition-service-neo4j \
+        --env NEO4J_dbms_memory_heap_maxSize=1G \
+        --publish=7474:7474 \
+        --publish=7687:7687 \
+        neo4j:3.4.9 >/dev/null
+
+    sleep 10
+    while ! curl --silent --user neo4j:neo4j "http://localhost:7474/user/neo4j" >/dev/null
+    do
+        sleep 1
+    done
+
+    PASSWORD=$(vault read -format json secret/graphroots/cgs/nonprod/neo4j/imputation-partitions | jq -r .data.password)
+    POST --user neo4j:neo4j \
+         --silent \
+         --data '{"password" : "'"$PASSWORD"'" }' \
+         "http://localhost:7474/user/neo4j/password" 1>/dev/null
+
+    POST --user neo4j:"$PASSWORD" \
+         --silent \
+         --data '
+         {
+             "statements": [
+                 {"statement": "CREATE CONSTRAINT ON (p:Partition) ASSERT p.id IS UNIQUE"},
+                 {"statement": "CREATE CONSTRAINT ON (n:Node) ASSERT n.id IS UNIQUE"},
+                 {"statement": "CREATE CONSTRAINT ON (p:Partition) ASSERT p.parentsSetID IS UNIQUE"}
+             ]
+         }' \
+         "http://localhost:7474/db/data/transaction/commit" 1>/dev/null
+}
+
+POST() {
+    curl -X POST \
+        --basic \
+        --header "Accept: application/json; charset=UTF-8" \
+        --header "Content-Type: application/json" \
+        "$@"
+}
+
+main "$@"

@@ -1,9 +1,32 @@
 #!/usr/bin/env bash
 
-SERVICES=()
-for SERVICE in "$@"
-do
-    SERVICES+=($(echo "$SERVICE" | tr ',' ' '))
-done
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
 
-kubectl get pods --all-namespaces | ggrep -P " ($(echo "${SERVICES[*]}" | tr ' ' '|'))-*"
+    SERVICES=()
+    for SERVICE in "$@"
+    do
+        SERVICES+=($(echo "$SERVICE" | tr ',' ' '))
+    done
+
+    kubectl get pods --all-namespaces | ggrep -P "(^NAME| ($(echo "${SERVICES[*]}" | tr ' ' '|'))-*)"
+}
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+genomics-pods [<service>...] [<service1>,<service2>...]
+
+genomics-pods filter \`kubectl get pods\` output to only show the specified
+services.  For example, use the comma-delimited list of \"Charts\" from the
+Jenkins deploy job to specify the services.
+--
+h,help       show the help
+"
+
+main "$@"

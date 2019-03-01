@@ -19,6 +19,10 @@ case "$1" in
         shift
         exec vault read -format json "$SRC" | jq .data | vault write "$DST" -
         ;;
+    run)
+        shift
+        exec "$@"
+        ;;
     *)
         exec /usr/local/bin/vault "$@"
         ;;

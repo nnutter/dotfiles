@@ -73,7 +73,7 @@ main() {
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
     do
-        if test -n "$EXPLAIN" && test "$BRANCH" != "$EXPLAIN"
+        if test -n "$EXPLAIN" && test "$BRANCH" != "$EXPLAIN" -a "$EXPLAIN" != "all"
         then
             continue
         fi
@@ -122,7 +122,7 @@ main() {
 
 explain() {
     local BRANCH="$1"
-    if test "$BRANCH" == "$EXPLAIN"
+    if test "$BRANCH" == "$EXPLAIN" -o "$EXPLAIN" == "all"
     then
         echo 2>&1 "$@"
     fi

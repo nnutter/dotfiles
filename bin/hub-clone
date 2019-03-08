@@ -9,11 +9,5 @@ REPO_BASE_DIR="$HOME/src/github.com"
 REPO_DIR="$REPO_BASE_DIR/$REPO_NAME"
 REPO_URL="https://github.com/$REPO_NAME"
 
-if ! curl --silent --fail --head "$REPO_URL" > /dev/null
-then
-    echo "repo not found: $REPO_NAME" 1>&2
-    exit 1
-fi
-
-mkdir -p "$REPO_DIR"
+mkdir -p "$(basename $REPO_DIR)"
 git clone "$@" "${REPO_URL}.git" "$REPO_DIR"

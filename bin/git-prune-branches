@@ -1,0 +1,211 @@
+#!/usr/bin/env bash
+
+main() {
+    local OPT DRY_RUN="" REMOTE="" RM_FRESH="" EXPLAIN=""
+
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -b) RM_FRESH=1 ;;
+            -n) DRY_RUN=1 ;;
+            -r) REMOTE=1 ;;
+            -x) EXPLAIN="$1"; shift; DRY_RUN=1 ;;
+        esac
+    done
+
+    if test -z "$1"
+    then
+        usage
+    fi
+
+    local UPSTREAM_BRANCH="$1"
+
+    set -o errexit -o nounset -o pipefail
+
+    if git remote | grep -q .
+    then
+        git fetch --quiet
+    fi
+
+    if ! git rev-parse --verify "$UPSTREAM_BRANCH" 1> /dev/null 2> /dev/null
+    then
+        echo 1>&2 "ERROR: Upstream target not found: $UPSTREAM_BRANCH."
+        exit 1
+    fi
+
+    if test "$UPSTREAM_BRANCH" = "origin/HEAD"
+    then
+        UPSTREAM_BRANCH=$(git rev-parse --symbolic-full-name "$UPSTREAM_BRANCH" | sed 's|^refs/remotes/||')
+    fi
+
+    HEAD=$(git symbolic-ref HEAD)
+    KEEP_BRANCHES=($(git show "$HEAD":.gitkeep 2> /dev/null || true))
+
+    if test -n "$REMOTE"
+    then
+        for REMOTE_BRANCH in \
+            $(git branch --list --remotes | grep -v '^  origin/HEAD' | grep -v "^  ${UPSTREAM_BRANCH}" | sed 's|^  origin/||' || true)
+        do
+            local SKIP=""
+            if skip_branch origin/"$REMOTE_BRANCH" "$UPSTREAM_BRANCH"
+            then
+                SKIP=1
+            fi
+
+            if test -n "$SKIP"
+            then
+                continue
+            fi
+
+            echo "=> remote: $REMOTE_BRANCH: delete"
+            if test -z "$DRY_RUN"
+            then
+                git push --delete origin "$REMOTE_BRANCH"
+            fi
+        done
+    fi
+
+    BRANCHES=($(git branch --list | sed 's/^..//'))
+    for BRANCH in "${BRANCHES[@]}"
+    do
+        if test -n "$EXPLAIN" && test "$BRANCH" != "$EXPLAIN"
+        then
+            continue
+        fi
+
+        local SKIP=""
+        if skip_branch "$BRANCH" "$UPSTREAM_BRANCH"
+        then
+            SKIP=1
+        fi
+
+        if ! branch-is-checked-out "$BRANCH"
+        then
+            explain "$BRANCH" 'OK: Branch is not checked out.'
+        else
+            explain "$BRANCH" 'SKIP: Branch is checked out.'
+            SKIP=1
+        fi
+
+        set +o nounset
+        if test "${#KEEP_BRANCHES[@]}" -gt 0
+        then
+            set -o nounset
+            if ! is-keep-branch "$BRANCH" "${KEEP_BRANCHES[@]}"
+            then
+                explain "$BRANCH" 'OK: Branch is not in /.gitkeep.'
+            else
+                explain "$BRANCH" 'SKIP: Branch is in /.gitkeep.'
+                SKIP=1
+            fi
+        else
+            set -o nounset
+        fi
+
+        if test -n "$SKIP"
+        then
+            continue
+        fi
+
+        echo "=> local: $BRANCH: delete"
+        if test -z "$DRY_RUN"
+        then
+            git branch -d "$BRANCH"
+        fi
+    done
+}
+
+explain() {
+    local BRANCH="$1"
+    if test "$BRANCH" == "$EXPLAIN"
+    then
+        echo 2>&1 "$@"
+    fi
+}
+
+is-keep-branch() {
+    local BRANCH="$1"
+    shift
+    local -a KEEP_BRANCHES=("$@")
+
+    for KEEP_BRANCH in "${KEEP_BRANCHES[@]}"
+    do
+        if test "$BRANCH" == "$KEEP_BRANCH"
+        then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+is-on-merge-base() {
+    local SRC="$1" DST="$2"
+    test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
+}
+
+branch-is-checked-out() {
+    git branch --list "$1" | grep -q '^\*'
+}
+
+skip_branch() {
+    local BRANCH="$1" UPSTREAM_BRANCH="$2"
+
+    if git merge-base --is-ancestor "$BRANCH" "$UPSTREAM_BRANCH"
+    then
+        explain "$BRANCH" 'OK: Upstream branch contains the branch'
+    else
+        explain "$BRANCH" 'SKIP: Upstream branch does not contain the branch.'
+        return 0
+    fi
+
+    if test -z "$RM_FRESH"
+    then
+        if ! is-on-merge-base "$BRANCH" "$UPSTREAM_BRANCH"
+        then
+            explain "$BRANCH" 'OK: Branch is not a fresh branch.'
+        else
+            explain "$BRANCH" 'SKIP: Branch is a fresh branch.'
+            return 0
+        fi
+    fi
+
+    if test "$BRANCH" '!=' "$UPSTREAM_BRANCH"
+    then
+        explain "$BRANCH" 'OK: Branch is not the specified upstream branch.'
+    else
+        explain "$BRANCH" 'SKIP: Branch is the specified upstream branch.'
+        return 0
+    fi
+
+    return 1
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+git prune-merged <target>
+
+Most often the usage would be \`git prune-merged master' which would remove
+branches that have been merged into \`master' (or more specifically its
+upstream if it has one, e.g. \`origin/master').
+
+Any branches in \`/.gitkeep' (one per line) will be preserved.
+--
+h,help     show the help
+b          include undiverged branches, e.g. fresh branches
+n,dry-run  dry run
+r,remotes  prune orphaned remote branch
+x=         explain branch (implies dry-run)
+"
+
+main "$@"

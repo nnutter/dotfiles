@@ -49,7 +49,7 @@ main() {
     if test -n "$REMOTE"
     then
         for REMOTE_BRANCH in \
-            $(git branch --list --remotes | grep -v '^  origin/HEAD' | grep -v "^  ${UPSTREAM_BRANCH}" | sed 's|^  origin/||' || true)
+            $(git branch --list --remotes --merged "$UPSTREAM_BRANCH" | sed 's|^  origin/||' || true)
         do
             local SKIP=""
             if skip_branch origin/"$REMOTE_BRANCH" "$UPSTREAM_BRANCH"
@@ -70,7 +70,7 @@ main() {
         done
     fi
 
-    BRANCHES=($(git branch --list | sed 's/^..//'))
+    BRANCHES=($(git branch --list --merged "$UPSTREAM_BRANCH" | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
     do
         if test -n "$EXPLAIN" && test "$BRANCH" != "$EXPLAIN" -a "$EXPLAIN" != "all"
@@ -155,14 +155,6 @@ branch-is-checked-out() {
 
 skip_branch() {
     local BRANCH="$1" UPSTREAM_BRANCH="$2"
-
-    if git merge-base --is-ancestor "$BRANCH" "$UPSTREAM_BRANCH"
-    then
-        explain "$BRANCH" 'OK: Upstream branch contains the branch'
-    else
-        explain "$BRANCH" 'SKIP: Upstream branch does not contain the branch.'
-        return 0
-    fi
 
     if test -z "$RM_FRESH"
     then

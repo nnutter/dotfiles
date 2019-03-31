@@ -421,6 +421,11 @@ let g:go_fmt_options = {
     \ 'gofmt': '-s',
     \ 'goimports': '-local github.platforms.engineering',
     \ }
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = [
+    \ 'golint',
+    \ 'vet',
+    \ ]
 let g:go_metalinter_enabled = [
     \ 'deadcode',
     \ 'errcheck',

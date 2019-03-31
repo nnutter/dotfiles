@@ -41,8 +41,10 @@ set virtualedit=block
 " Style
 syntax enable
 colorscheme Tomorrow-Night
+set expandtab
 set nowrap                      " disable line wrapping
 set number                      " enable line numbers
+set ts=4 sw=4 sts=4
 
 " DistractFree
 let g:distractfree_width = '60%'
@@ -84,8 +86,8 @@ nnoremap gk k
 set linebreak
 
 " Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,trail:·   " show tabs and trailing whitespace
-set list!                       " show listchars
+set listchars=tab:▸·,trail:·,extends:▸
+set list!
 
 " Always set paste mode
 set pastetoggle=<leader>p
@@ -165,7 +167,6 @@ augroup END
 augroup indentation
     autocmd!
 
-    autocmd FileType *          set ts=4 sw=4 sts=4 expandtab   listchars=tab:▸·,trail:·,extends:▸ nowrap
     autocmd FileType css        set ts=2 sw=2 sts=2
     autocmd FileType elixir     set ts=2 sw=2 sts=2
     autocmd FileType erb        set ts=2 sw=2 sts=2

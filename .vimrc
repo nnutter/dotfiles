@@ -431,7 +431,6 @@ let g:go_metalinter_enabled = [
     \ 'deadcode',
     \ 'errcheck',
     \ 'goconst',
-    \ 'gocyclo',
     \ 'golint',
     \ 'gotypex',
     \ 'ineffassign',

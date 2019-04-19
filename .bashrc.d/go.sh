@@ -9,3 +9,30 @@ done
 
 export GOPATH="${HOME}/.go:${HOME}"
 export PATH="${HOME}/.go/bin${PATH:+:}${PATH}"
+
+recompile-go-tools() {
+    TOOLS=(
+        github.com/acroca/go-symbols
+        github.com/alecthomas/gometalinter
+        github.com/cweill/gotests/...
+        github.com/davidrjenni/reftools/cmd/fillstruct
+        github.com/fatih/gomodifytags
+        github.com/haya14busa/goplay/cmd/goplay
+        github.com/josharian/impl
+        github.com/mdempsky/gocode
+        github.com/ramya-rao-a/go-outline
+        github.com/rogpeppe/godef
+        github.com/uudashr/gopkgs/cmd/gopkgs
+        github.com/zmb3/gogetdoc
+        golang.org/x/lint/golint
+        golang.org/x/tools/cmd/godoc
+        golang.org/x/tools/cmd/goimports
+        golang.org/x/tools/cmd/gorename
+        golang.org/x/tools/cmd/guru
+    )
+    for TOOL in "${TOOLS[@]}"
+    do
+        echo 1>&2 "Recompiling $TOOL..."
+        go install -a "$TOOL"
+    done
+}

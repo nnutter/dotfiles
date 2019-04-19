@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-VAULT_ADDR='https://vault.agro.services' vault "$@"

@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    set -o nounset
+
+    local PATTERN=".*"
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            --enable) shift ;;
+            --include) PATTERN="$1"; shift ;;
+        esac
+    done
+
+    OPTS=()
+    if git rev-parse --show-cdup 1>/dev/null 2>/dev/null
+    then
+        OPTS+=(-config "$(git rev-parse --show-cdup).revive.toml")
+    fi
+    #--include=^stats.go:.*$
+    #revive "${OPTS[@]}" . | awk -F : '{$4="warning" FS $4;}1' OFS=: | awk '{print $0,"(revive)"}' | tee -a ~/revive.log
+    #revive "${OPTS[@]}" . | ggrep -P "$PATTERN" | tee ~/revive.log
+    EXIT=0
+    while IFS='' read -r LINE
+    do
+        echo "$LINE" | tee ~/revive.log
+        EXIT=1
+    done < <(revive "${OPTS[@]}" . | ggrep -P "$PATTERN" | awk -F : '{$4="warning" FS $4;}1' OFS=: | awk '{print $0,"(revive)"}')
+    exit "$EXIT"
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+autorevive ...
+
+--
+h,help       show the help
+disable-all  phony
+enable=      phony
+include=     file pattern
+tests        phony
+"
+
+main "$@"

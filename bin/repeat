@@ -1,0 +1,61 @@
+#!/bin/bash
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local SLEEP="0" TIMES="1000" EXIT_ON=""
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -s) SLEEP="$1"; shift ;;
+            -t) TIMES="$1"; shift ;;
+            -x) EXIT_ON="$1"; shift ;;
+        esac
+    done
+
+    local LOOP_EXIT=0
+    for I in $(seq 1 "$TIMES")
+    do
+        echo "($I/$TIMES) $*"
+        "$@"
+        LOOP_EXIT=$?
+        case "$EXIT_ON" in
+            "")
+                ;;
+            "0")
+                if test "$LOOP_EXIT" -eq 0
+                then
+                    exit "$LOOP_EXIT"
+                fi
+                ;;
+            *)
+                if test "$LOOP_EXIT" -gt 0
+                then
+                    exit "$LOOP_EXIT"
+                fi
+                ;;
+        esac
+        sleep "$SLEEP"
+    done
+}
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+repeat [-t n] [-s n] -- command...
+
+--
+h,help     show the help
+s,sleep=   seconds to sleep between iterations
+t,times=   number of iterations to make
+x,exit=    exit (0 = on zero, 1+ = on non-zero)
+"
+
+main "$@"

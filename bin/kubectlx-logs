@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+kubectlx-logs [options] <deployment>
+
+--
+h,help
+c,context=      context
+f,frequency=    sample frequency
+j,jq=           jq expression
+n,tail=         number of lines to tail
+"
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local CONTEXT="" \
+          FREQ="0.02" \
+          JQ_FILTER='"\(.timestamp.seconds) - \(.message)"'
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -c) CONTEXT="$1"; shift ;;
+            -f) FREQ="$1"; shift ;;
+            -j) JQ_FILTER="$1"; shift ;;
+            -n) TAIL="$1"; shift ;;
+        esac
+    done
+
+    DEPLOYMENT="$1"
+    if test -z "$DEPLOYMENT"
+    then
+        echo 1>&2 "ERROR: must provide a deployment"
+        exit 1
+    fi
+
+    set -o errexit -o nounset -o pipefail
+
+    local KUBE_ARGS=()
+    if test -n "$CONTEXT"
+    then
+        KUBE_ARGS+=(--context "$CONTEXT")
+    fi
+
+    local KUBE_LOG_ARGS=()
+    if test -n "$TAIL"
+    then
+        KUBE_LOG_ARGS+=(--tail "$TAIL")
+    fi
+
+    while IFS='' read -r NAME
+    do
+        echo "$NAME"
+        kubectl logs "$NAME" "${KUBE_ARGS[@]}" "${KUBE_LOG_ARGS[@]}" \
+            | jq -r "$JQ_FILTER"
+        echo
+    done < <(kubectl get pods "${KUBE_ARGS[@]}" --output name --field-selector status.phase=Running --selector app="$DEPLOYMENT" | awk '{ if (rand() < '"$FREQ"') { print $0 } }')
+}
+
+main "$@"

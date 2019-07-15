@@ -51,15 +51,18 @@ build_ps1 () {
     then
         PS1="${PS1} (${TAGS[*]})"
     fi
-    PS1="${PS1}\\n\`if [ \$? == 0 ]; then echo $; else echo !; fi\` "
+    PS1="${PS1}\\n\$(if [ \$? == 0 ]; then echo $; else echo !; fi) "
 }
 
-if ! echo "$PROMPT_COMMAND" | grep -q 'build_ps1'
-then
-    if test -n "$PROMPT_COMMAND" -a "${PROMPT_COMMAND:-1:1}" != ";"
+if test -n "$BASH_VERSION"
     then
-        PROMPT_COMMAND="${PROMPT_COMMAND};"
+    if ! echo "$PROMPT_COMMAND" | grep -q 'build_ps1'
+    then
+        if test -n "$PROMPT_COMMAND" -a "${PROMPT_COMMAND:-1:1}" != ";"
+        then
+            PROMPT_COMMAND="${PROMPT_COMMAND};"
+        fi
+        export PROMPT_COMMAND="${PROMPT_COMMAND}build_ps1;"
     fi
-    export PROMPT_COMMAND="${PROMPT_COMMAND}build_ps1;"
+    export PS1
 fi
-export PS1

@@ -19,7 +19,11 @@ main() {
             MP3_FILE="${FILE%.flac}.mp3"
             if ! test -f "$MP3_FILE"
             then
-                ffmpeg -i "$FILE" -qscale:a 0 "$MP3_FILE"
+                (
+                    ffmpeg -y -i "$FILE" -qscale:a 0 -f mp3 "$MP3_FILE.tmp" </dev/null
+                    mv "$MP3_FILE.tmp" "$MP3_FILE"
+                ) 2>&1 < "$MP3_FILE.log"
+                rm -f "$MP3_FILE.log"
                 echo -n "."
             fi
         done < <(find "$SRC" -type f -name '*.flac')

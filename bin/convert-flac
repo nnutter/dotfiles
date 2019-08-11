@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail
+
+main() {
+    SRCS=("/Volumes/music")
+    if test "$#" -gt 0
+    then
+        SRCS=("$@")
+    fi
+
+    set -o nounset
+
+    for SRC in "${SRCS[@]}"
+    do
+        echo "Checking ${SRC}..."
+        while IFS='' read -r FILE
+        do
+            MP3_FILE="${FILE%.flac}.mp3"
+            if ! test -f "$MP3_FILE"
+            then
+                ffmpeg -i "$FILE" -qscale:a 0 "$MP3_FILE"
+                echo -n "."
+            fi
+        done < <(find "$SRC" -type f -name '*.flac')
+        echo
+    done
+}
+
+main "$@"

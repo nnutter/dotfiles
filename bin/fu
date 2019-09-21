@@ -1,0 +1,3 @@
+#!/bin/bash
+
+networksetup -setautoproxyurl Wi-Fi http://pac.hybrid-web.global.blackspider.com/proxy.pac?p=4m92bzff -setautoproxystate Wi-Fi on

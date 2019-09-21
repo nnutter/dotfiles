@@ -16,6 +16,7 @@ let g:notesdir="$HOME/Dropbox/Notes"
 let &undodir = g:cache_home
 set undofile
 
+set spell
 set spelllang=en_us
 let perl_include_pod=1
 
@@ -375,7 +376,7 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_linters = {
-\   'go': [],
+\   'go': ['golint', 'govet', 'staticcheck'],
 \   'python': ['mypy', 'pyflakes'],
 \}
 let g:ale_sign_column_always = 1
@@ -398,7 +399,7 @@ if has('gui_running')
     " colorscheme elflord
     " set lines=60 columns=108 linespace=0
     set macligatures
-    set guifont=Fira\ Code:h12
+    set guifont=Fira\ Mono:h14
 endif
 
 set autowrite
@@ -421,10 +422,12 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 let g:go_fmt_options = {
     \ 'gofmt': '-s',
-    \ 'goimports': '-local github.platforms.engineering',
+    \ 'goimports': '-local github.platforms.engineering/graphroots',
     \ }
 let g:go_info_mode='gopls'
-let g:go_metalinter_autosave = 1
+"let g:go_metalinter_command = expand("~/bin/gometalinter")
+let g:go_metalinter_command='golangci-lint'
+let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = [
     \ 'golint',
     \ 'vet',
@@ -434,11 +437,9 @@ let g:go_metalinter_enabled = [
     \ 'errcheck',
     \ 'goconst',
     \ 'golint',
-    \ 'gotypex',
     \ 'ineffassign',
     \ 'interfacer',
     \ 'maligned',
-    \ 'megacheck',
     \ 'staticcheck',
     \ 'structcheck',
     \ 'unconvert',

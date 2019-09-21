@@ -19,8 +19,9 @@ main() {
     local LOOP_EXIT=0
     for I in $(seq 1 "$TIMES")
     do
-        echo "($I/$TIMES) $*"
+        echo "($I/$TIMES) ($(date +%H:%M)) $*"
         "$@"
+        echo
         LOOP_EXIT=$?
         case "$EXIT_ON" in
             "")

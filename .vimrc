@@ -376,7 +376,7 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_linters = {
-\   'go': ['golint', 'govet', 'staticcheck'],
+\   'go': ['govet', 'staticcheck'],
 \   'python': ['mypy', 'pyflakes'],
 \}
 let g:ale_sign_column_always = 1
@@ -422,15 +422,13 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 let g:go_fmt_options = {
     \ 'gofmt': '-s',
-    \ 'goimports': '-local github.platforms.engineering/graphroots',
+    \ 'goimports': '-local github.platforms.engineering/graphroots -local github.com/nnutter',
     \ }
 let g:go_info_mode='gopls'
-"let g:go_metalinter_command = expand("~/bin/gometalinter")
 let g:go_metalinter_command='golangci-lint'
-let g:go_metalinter_autosave = 0
+let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = [
-    \ 'golint',
-    \ 'vet',
+    \ 'errcheck',
     \ ]
 let g:go_metalinter_enabled = [
     \ 'deadcode',

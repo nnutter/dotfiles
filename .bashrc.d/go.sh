@@ -17,20 +17,18 @@ recompile-go-tools() {
         github.com/cweill/gotests/...
         github.com/davidrjenni/reftools/cmd/fillstruct
         github.com/fatih/gomodifytags
-        #github.com/haya14busa/goplay/cmd/goplay
         github.com/josharian/impl
-        #github.com/mdempsky/gocode
+        github.com/kisielk/errcheck
         github.com/ramya-rao-a/go-outline
         github.com/rogpeppe/godef
         github.com/uudashr/gopkgs/cmd/gopkgs
         github.com/zmb3/gogetdoc
         golang.org/x/lint/golint
-        #golang.org/x/tools/cmd/godoc
         golang.org/x/tools/cmd/goimports
         golang.org/x/tools/cmd/gorename
         golang.org/x/tools/cmd/guru
-        honnef.co/go/tools/cmd/staticcheck
         honnef.co/go/tools/cmd/keyify
+        honnef.co/go/tools/cmd/staticcheck
     )
     for TOOL in "${TOOLS[@]}"
     do

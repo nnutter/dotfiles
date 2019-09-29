@@ -375,6 +375,7 @@ let g:ale_lint_delay = 750
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
+let g:ale_go_staticcheck_lint_package = 1
 let g:ale_linters = {
 \   'go': ['govet', 'staticcheck'],
 \   'python': ['mypy', 'pyflakes'],

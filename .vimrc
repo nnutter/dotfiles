@@ -377,7 +377,7 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_go_staticcheck_lint_package = 1
 let g:ale_linters = {
-\   'go': ['govet', 'staticcheck'],
+\   'go': ['errcheck', 'govet', 'staticcheck'],
 \   'python': ['mypy', 'pyflakes'],
 \}
 let g:ale_sign_column_always = 1

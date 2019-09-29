@@ -24,7 +24,7 @@
 	url = https://github.com/kien/ctrlp.vim.git
 [submodule ".vim/pack/plugins/start/ale"]
 	path = .vim/pack/plugins/start/ale
-	url = https://github.com/w0rp/ale.git
+	url = git@github.com:nnutter/ale.git
 [submodule ".vim/pack/plugins/start/rust"]
 	path = .vim/pack/plugins/start/rust
 	url = https://github.com/rust-lang/rust.vim.git

@@ -69,3 +69,29 @@ PROMPT='[%h] %3~ %(!.#.$) '
 RPROMPT=" \${vcs_info_msg_0_}%(?.%* √.%F{red}%* %?%f)"
 
 export PATH="${HOME}/bin:${PATH}"
+
+setopt AUTO_CD
+
+setopt GLOB_COMPLETE
+setopt NO_CASE_GLOB
+
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+SAVEHIST=5000
+HISTSIZE=2000
+
+setopt CORRECT
+setopt CORRECT_ALL
+
+autoload -Uz compinit && compinit
+#autoload bashcompinit && bashcompinit
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+#zstyle ':completion:*' list-suffixes
+#zstyle ':completion:*' expand prefix suffix

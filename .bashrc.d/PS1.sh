@@ -35,23 +35,26 @@ svn_ps1() {
 }
 
 build_ps1 () {
-    PS1='\h:\w'
-    if test -n "$SUDO_USER"
+    if test -n "$BASH_VERSION"
     then
-        PS1="\\u@$PS1"
-    fi
+        PS1='\h:\w'
+        if test -n "$SUDO_USER"
+        then
+            PS1="\\u@$PS1"
+        fi
 
-    if git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then git_ps1; fi
+        if git rev-parse --is-inside-work-tree 1> /dev/null 2> /dev/null; then git_ps1; fi
 
-    local -a TAGS
-    if [ -n "$MOJO_MODE" ]; then
-        TAGS+=("MOJO_MODE=${MOJO_MODE}")
+        local -a TAGS
+        if [ -n "$MOJO_MODE" ]; then
+            TAGS+=("MOJO_MODE=${MOJO_MODE}")
+        fi
+        if test ${#TAGS[@]} -gt 0
+        then
+            PS1="${PS1} (${TAGS[*]})"
+        fi
+        PS1="${PS1}\\n\$(if [ \$? == 0 ]; then echo $; else echo !; fi) "
     fi
-    if test ${#TAGS[@]} -gt 0
-    then
-        PS1="${PS1} (${TAGS[*]})"
-    fi
-    PS1="${PS1}\\n\$(if [ \$? == 0 ]; then echo $; else echo !; fi) "
 }
 
 if test -n "$BASH_VERSION"

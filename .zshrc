@@ -98,3 +98,6 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}
 
 alias ls='\ls -G'
 alias ll='ls -l'
+alias vim='GO111MODULE=off vim'
+
+source $HOME/.bashrc.d/go.sh

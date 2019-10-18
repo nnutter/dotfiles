@@ -12,29 +12,52 @@ export PATH="${HOME}/.go/bin${PATH:+:}${PATH}"
 export CGO_LDFLAGS="-g -O2 -L/usr/local/opt/openssl/lib"
 export CGO_CFLAGS="-g -O2 -I/usr/local/opt/openssl/include"
 
-recompile-go-tools() {
-    TOOLS=(
-        github.com/acroca/go-symbols
-        github.com/alecthomas/gometalinter
-        github.com/cweill/gotests/...
-        github.com/davidrjenni/reftools/cmd/fillstruct
-        github.com/fatih/gomodifytags
-        github.com/josharian/impl
-        github.com/kisielk/errcheck
-        github.com/ramya-rao-a/go-outline
-        github.com/rogpeppe/godef
-        github.com/uudashr/gopkgs/cmd/gopkgs
-        github.com/zmb3/gogetdoc
-        golang.org/x/lint/golint
-        golang.org/x/tools/cmd/goimports
-        golang.org/x/tools/cmd/gorename
-        golang.org/x/tools/cmd/guru
-        honnef.co/go/tools/cmd/keyify
-        honnef.co/go/tools/cmd/staticcheck
+GO_TOOLS=(
+    github.com/acroca/go-symbols
+    github.com/alecthomas/gometalinter
+    github.com/cweill/gotests/...
+    github.com/davidrjenni/reftools/cmd/fillstruct
+    github.com/fatih/gomodifytags
+    github.com/fatih/motion
+    github.com/go-delve/delve/cmd/dlv
+    github.com/josharian/impl
+    github.com/jstemmer/gotags
+    github.com/kisielk/errcheck
+    github.com/klauspost/asmfmt/cmd/asmfmt
+    github.com/koron/iferr
+    github.com/mdempsky/gocode
+    github.com/ramya-rao-a/go-outline
+    github.com/rogpeppe/godef
+    github.com/stamblerre/gocode
+    github.com/uudashr/gopkgs/cmd/gopkgs
+    github.com/zmb3/gogetdoc
+    golang.org/x/lint/golint
+    golang.org/x/tools/cmd/goimports
+    golang.org/x/tools/cmd/gopls
+    golang.org/x/tools/cmd/gorename
+    golang.org/x/tools/cmd/guru
+    honnef.co/go/tools/cmd/keyify
+    honnef.co/go/tools/cmd/staticcheck
+)
+
+install-go-tools() {
+    (
+        cd ~
+        for TOOL in "${GO_TOOLS[@]}"
+        do
+            echo 1>&2 "Installing $TOOL..."
+            go get -u "$TOOL"
+        done
     )
-    for TOOL in "${TOOLS[@]}"
-    do
-        echo 1>&2 "Recompiling $TOOL..."
-        go install -a "$TOOL"
-    done
+}
+
+recompile-go-tools() {
+    (
+        cd ~
+        for TOOL in "${GO_TOOLS[@]}"
+        do
+            echo 1>&2 "Recompiling $TOOL..."
+            go install -a "$TOOL"
+        done
+    )
 }

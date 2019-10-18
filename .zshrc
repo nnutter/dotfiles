@@ -65,8 +65,8 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%F{240}(%b)%r%f '
 zstyle ':vcs_info:*' enable git
 
-PROMPT='[%h] %3~ %(!.#.$) '
-RPROMPT=" \${vcs_info_msg_0_}%(?.%* √.%F{red}%* %?%f)"
+PROMPT=$'\n''[%h] %3~ %(!.#.$) '
+RPROMPT="%{$(echotc UP 1)%} \${vcs_info_msg_0_}%(?.%* √.%F{red}%* %?%f)%{$(echotc DO 1)%}"
 
 export PATH="${HOME}/bin:${PATH}"
 
@@ -101,3 +101,6 @@ alias ll='ls -l'
 alias vim='GO111MODULE=off vim'
 
 source $HOME/.bashrc.d/go.sh
+source $HOME/.bashrc.d/tmux.sh
+
+REPORTTIME=10

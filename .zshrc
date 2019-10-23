@@ -98,6 +98,7 @@ alias ll='ls -l'
 alias vim='GO111MODULE=off vim'
 
 source $HOME/.bashrc.d/go.sh
+source $HOME/.bashrc.d/monsanto.sh
 source $HOME/.bashrc.d/tmux.sh
 
 REPORTTIME=10

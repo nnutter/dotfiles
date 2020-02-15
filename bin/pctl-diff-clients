@@ -2,7 +2,8 @@
 
 main() {
     local client="$1"
-    diff -u <(pctl clients describe -e nonprod "$client") <(pctl clients describe -e prod "$client")
+    local filter=(grep -v '^Last Modified')
+    diff -u <(pctl clients describe -e nonprod "$client" | "${filter[@]}") <(pctl clients describe -e prod "$client" | "${filter[@]}")
 }
 
 main "$@"

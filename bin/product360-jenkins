@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail
+
+main() {
+    local SERVER="product360-jenkins"
+
+    JAR="$(dirname "${BASH_SOURCE[0]}")/jenkins-cli-${SERVER}.jar"
+    if ! test -f "$JAR"
+    then
+        curl --silent --output "$JAR" --location "https://${SERVER}.platforms.engineering/jnlpJars/jenkins-cli.jar"
+    fi
+    if ! test -f "$JAR"
+    then
+        echo 1>&2 "ERROR: Unrecognized server: $SERVER"
+        exit 1
+    fi
+
+    set -o nounset
+
+    java -jar "$JAR" -s "https://${SERVER}.platforms.engineering" -auth "$USER":"$(security find-generic-password -l "$SERVER" -a "$USER" -w)" -noKeyAuth "$@"
+}
+
+main "$@"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for FILE in "$@"
+do
+    dot -Tpdf "$FILE" -o "$FILE".pdf
+done

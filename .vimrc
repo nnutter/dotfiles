@@ -376,8 +376,9 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_go_staticcheck_lint_package = 1
+let g:ale_go_golangci_lint_options = ""
 let g:ale_linters = {
-\   'go': ['errcheck', 'govet', 'staticcheck'],
+\   'go': ['errcheck', 'govet', 'golangci_lint'],
 \   'python': ['mypy', 'pyflakes'],
 \}
 let g:ale_sign_column_always = 1
@@ -418,6 +419,7 @@ endfunction
 set updatetime=250
 let g:go_auto_sameids = 1
 let g:go_auto_type_info = 0
+let g:go_build_tags = 'integration'
 let g:go_def_mode='gopls'
 let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
@@ -428,24 +430,24 @@ let g:go_fmt_options = {
 let g:go_info_mode='gopls'
 let g:go_metalinter_command='golangci-lint'
 let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = [
-    \ 'errcheck',
-    \ ]
-let g:go_metalinter_enabled = [
-    \ 'deadcode',
-    \ 'errcheck',
-    \ 'goconst',
-    \ 'golint',
-    \ 'ineffassign',
-    \ 'interfacer',
-    \ 'maligned',
-    \ 'staticcheck',
-    \ 'structcheck',
-    \ 'unconvert',
-    \ 'varcheck',
-    \ 'vet',
-    \ 'vetshadow',
-    \ ]
+"let g:go_metalinter_autosave_enabled = [
+"    \ 'errcheck',
+"    \ ]
+"let g:go_metalinter_enabled = [
+"    \ 'deadcode',
+"    \ 'errcheck',
+"    \ 'goconst',
+"    \ 'golint',
+"    \ 'ineffassign',
+"    \ 'interfacer',
+"    \ 'maligned',
+"    \ 'staticcheck',
+"    \ 'structcheck',
+"    \ 'unconvert',
+"    \ 'varcheck',
+"    \ 'vet',
+"    \ 'vetshadow',
+"    \ ]
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>

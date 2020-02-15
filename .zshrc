@@ -101,4 +101,8 @@ source $HOME/.bashrc.d/go.sh
 source $HOME/.bashrc.d/monsanto.sh
 source $HOME/.bashrc.d/tmux.sh
 
+cdup() {
+    cd "$(git rev-parse --show-cdup)"
+}
+
 REPORTTIME=10

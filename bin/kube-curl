@@ -1,0 +1,9 @@
+#!/bin/bash
+
+EXTRA_OPTS=()
+if test "$#" -gt 0
+then
+    EXTRA_OPTS=(--command)
+fi
+
+exec kubectl run --generator=run-pod/v1 --image=radial/busyboxplus:curl --rm --stdin --tty "${EXTRA_OPTS[@]}" curl-$USER -- "$@"

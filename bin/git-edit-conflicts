@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# TODO should the grep pattern be '^UU'?
+exec vim $(git status -sb | grep '^[A-Z][A-Z] ' | sed 's/^...//')

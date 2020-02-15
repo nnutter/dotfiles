@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+git edit -i --exec 'GIT_EDITOR=/usr/bin/true git commit --amend --date="$(date -R)"'

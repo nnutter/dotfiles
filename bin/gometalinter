@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -o pipefail
+
+echo $PWD gometalinter "$@" > ~/gometalinter.log
+$HOME/.go/bin/gometalinter "$@" | tee -a ~/gometalinter.log

@@ -38,6 +38,7 @@
 /.tldr/cache/
 /.vim/.netrwhist
 /.vscode/
+/.vscode/settings.json
 /.wine/
 /.wine_YNAB4/
 /Dropbox/

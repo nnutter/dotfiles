@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FROM="$1"
+TO="$2"
+
+git grep -l "$FROM" | xargs sed -i '' -e 's|'"$FROM"'|'"$TO"'|'

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+main() {
+    local client="$1"
+    diff -u <(pctl clients describe -e nonprod "$client") <(pctl clients describe -e prod "$client")
+}
+
+main "$@"

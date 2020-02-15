@@ -82,3 +82,7 @@ ${RED} \$(gitify)\
 ${GREEN} >\
 ${LIGHT_GRAY} "
 }
+
+cdup() {
+    cd "$(git rev-parse --show-cdup)"
+}

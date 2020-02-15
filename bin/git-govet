@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail
+
+main() {
+    local DIFF_ARGS=("HEAD^..")
+    if test "$#" -gt 0
+    then
+        DIFF_ARGS=("$@")
+    fi
+
+    local CDUP=""
+    CDUP=$(git rev-parse --show-cdup)
+    CDUP_EXIT=$?
+    if test $CDUP_EXIT -ne 0
+    then
+        exit $CDUP_EXIT
+    fi
+
+    if test -z "$CDUP"
+    then
+        CDUP="./"
+    fi
+
+    local DIFF=()
+    DIFF=("$(git diff --name-only "${DIFF_ARGS[@]}" | grep '\.go$' | sed 's|^|./|'; if test $? -gt 1; then exit $?; fi)")
+    DIFF_EXIT=$?
+    if test $DIFF_EXIT -gt 1
+    then
+        exit $DIFF_EXIT
+    fi
+
+    if test "${#DIFF[@]}" -eq 0
+    then
+        exit 0
+    fi
+
+    echo "${DIFF[@]}" \
+        | xargs -n 1 dirname \
+        | sort -u \
+        | xargs go vet -composites=false
+}
+
+main "$@"

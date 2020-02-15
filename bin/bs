@@ -1,0 +1,5 @@
+#!/bin/bash
+
+killall Slack
+networksetup -setautoproxystate Wi-Fi off
+networksetup -setautoproxystate 'Thunderbolt Ethernet Slot 1' off

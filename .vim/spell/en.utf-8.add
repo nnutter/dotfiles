@@ -52,3 +52,11 @@ timestamp
 #pecutively
 #pecutively
 subcommands
+preemptible
+unpropagated
+HPA
+targetAverageUtilization
+CPUPercent
+MemoryPercent
+wc
+strandedness

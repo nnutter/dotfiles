@@ -426,6 +426,7 @@ let g:go_fmt_options = {
     \ 'gofmt': '-s',
     \ 'goimports': '-local github.platforms.engineering/graphroots -local github.com/nnutter',
     \ }
+let g:go_gorename_command = "gopls"
 let g:go_info_mode='gopls'
 let g:go_metalinter_command='golangci-lint'
 let g:go_metalinter_autosave = 1

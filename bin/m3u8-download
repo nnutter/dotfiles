@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+main() {
+    local url="$1" output="${2:-output.mp4}"
+    ffmpeg -i "$url" -c copy -bsf:a aac_adtstoasc "$output"
+}
+
+main "$@"

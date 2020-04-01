@@ -14,7 +14,7 @@
 	fsyncobjectfiles = true
 [merge]
 	renameLimit = 10000
-	tool = vimdiff
+	tool = diffconflicts
 [push]
 	default = current
 [url "git://github.com/"]
@@ -66,3 +66,8 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[mergetool "diffconflicts"]
+	cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+	trustExitCode = true
+[mergetool]
+	keepBackup = false

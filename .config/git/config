@@ -71,3 +71,7 @@
 	trustExitCode = true
 [mergetool]
 	keepBackup = false
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE

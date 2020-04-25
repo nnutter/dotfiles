@@ -60,13 +60,18 @@ precmd_vcs_info() {
     vcs_info
 }
 
+preexec_start_time () {
+    PREEXEC_START_TIME="$(date +"%H:%M:%S") - "
+}
+
 precmd_functions+=( precmd_vcs_info )
+preexec_functions+=( preexec_start_time )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%F{240}(%b)%r%f '
 zstyle ':vcs_info:*' enable git
 
-PROMPT=$'\n''[%h] %3~ %(!.#.$) '
-RPROMPT="%{$(echotc UP 1)%} \${vcs_info_msg_0_}%(?.%* √.%F{red}%* %?%f)%{$(echotc DO 1)%}"
+PROMPT=$'\n'"\${vcs_info_msg_0_}%3~"$'\n''[%h] %(!.#.$) '
+RPROMPT="%{$(echotc UP 2)%} \${PREEXEC_START_TIME}%(?.%* √.%F{red}%* %?%f)%{$(echotc DO 2)%}"
 
 export PATH="${HOME}/bin:${PATH}"
 
@@ -105,4 +110,5 @@ cdup() {
     cd "$(git rev-parse --show-cdup)"
 }
 
-REPORTTIME=10
+# Added start time via preexec which I think I prefer.
+# REPORTTIME=10

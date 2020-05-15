@@ -21,8 +21,8 @@ main() {
     do
         echo "($I/$TIMES) ($(date +%H:%M)) $*"
         "$@"
-        echo
         LOOP_EXIT=$?
+        echo
         case "$EXIT_ON" in
             "")
                 ;;

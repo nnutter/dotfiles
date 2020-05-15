@@ -60,7 +60,7 @@
 [hub]
 	host = github.platforms.engineering
 [includeIf "gitdir:~/src/github.platforms.engineering/"]
-	path = config-monsanto
+	path = config-bayer
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

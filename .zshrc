@@ -88,6 +88,8 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_VERIFY
 
+setopt interactivecomments
+
 HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 SAVEHIST=5000
 HISTSIZE=2000

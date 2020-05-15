@@ -49,8 +49,6 @@ Genomics
 pctl
 unexported
 timestamp
-#pecutively
-#pecutively
 subcommands
 preemptible
 unpropagated
@@ -60,3 +58,6 @@ CPUPercent
 MemoryPercent
 wc
 strandedness
+deduplicate
+chainable
+contig

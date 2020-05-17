@@ -114,3 +114,5 @@ cdup() {
 
 # Added start time via preexec which I think I prefer.
 # REPORTTIME=10
+
+zmodload zsh/mapfile

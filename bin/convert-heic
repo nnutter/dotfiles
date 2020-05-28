@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail
+
+main() {
+    SRCS=("/Volumes/photo/Moments/Mobile/Christy's iPhone/" "/Volumes/photo/Moments/Mobile/Nathan's iPhone/")
+    if test "$#" -gt 0
+    then
+        SRCS=("$@")
+    fi
+
+    set -o nounset
+
+    for SRC in "${SRCS[@]}"
+    do
+        echo "Checking ${SRC}..."
+        while IFS='' read -r FILE
+        do
+            JPG_FILE="${FILE%.heic}.jpg"
+            if ! test -f "$JPG_FILE"
+            then
+                convert "$FILE" "$JPG_FILE"
+                echo -n "."
+            fi
+        done < <(find "$SRC" -type f -name '*.heic')
+        echo
+    done
+}
+
+main "$@"

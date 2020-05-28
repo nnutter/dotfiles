@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail
+
+main() {
+    local address="$1"
+    echo \
+        | openssl s_client \
+              -connect "$address" \
+              -showcerts \
+        | perl -ne 'print if /BEGIN/../END/; print STDERR if /return/'
+}
+
+main "$@"

@@ -4,42 +4,39 @@ main() {
     # shellcheck disable=1090
     source "$(git --exec-path)/git-sh-setup"
 
-    local SLEEP="0" TIMES="1000" EXIT_ON=""
+    local sleep="0" times="1000" exit_on=""
     while [ $# -gt 0 ]; do
-        OPT="$1"
+        opt="$1"
         shift
-        case $OPT in
+        case $opt in
             --) break ;;
-            -s) SLEEP="$1"; shift ;;
-            -t) TIMES="$1"; shift ;;
-            -x) EXIT_ON="$1"; shift ;;
+            -s) sleep="$1"; shift ;;
+            -t) times="$1"; shift ;;
+            -x) exit_on="$1"; shift ;;
         esac
     done
 
-    local LOOP_EXIT=0
-    for I in $(seq 1 "$TIMES")
-    do
-        echo "($I/$TIMES) ($(date +%H:%M)) $*"
+    local loop_exit=0
+    for i in $(seq 1 "$times"); do
+        echo "($i/$times) ($(date +%H:%M)) $*"
         "$@"
-        LOOP_EXIT=$?
+        loop_exit=$?
         echo
-        case "$EXIT_ON" in
+        case "$exit_on" in
             "")
                 ;;
-            "0")
-                if test "$LOOP_EXIT" -eq 0
-                then
-                    exit "$LOOP_EXIT"
+            0)
+                if test "$loop_exit" -eq 0; then
+                    exit "$loop_exit"
                 fi
                 ;;
             *)
-                if test "$LOOP_EXIT" -gt 0
-                then
-                    exit "$LOOP_EXIT"
+                if test "$loop_exit" -gt 0; then
+                    exit "$loop_exit"
                 fi
                 ;;
         esac
-        sleep "$SLEEP"
+        sleep "$sleep"
     done
 }
 

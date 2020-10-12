@@ -16,12 +16,17 @@ main() {
         esac
     done
 
-    local loop_exit=0
+    local loop_exit=0 pass=0 fail=0
     for i in $(seq 1 "$times"); do
         echo "($i/$times) ($(date +%H:%M)) $*"
         "$@"
         loop_exit=$?
         echo
+        if test "$loop_exit" -eq 0; then
+            ((pass++))
+        else
+            ((fail++))
+        fi
         case "$exit_on" in
             "")
                 ;;
@@ -38,6 +43,9 @@ main() {
         esac
         sleep "$sleep"
     done
+    echo
+    printf "pass: %d\n" "$pass"
+    printf "fail: %d\n" "$fail"
 }
 
 # shellcheck disable=SC2034

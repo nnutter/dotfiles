@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+CA="$HOME/.local/etc/ssl/cert.pem"
+mkdir -p "$(dirname "$CA")"
+security find-certificate -a -p /Library/Keychains/System.keychain > "$CA"
+security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain >> "$CA"
+gcloud config set core/custom_ca_certs_file "$CA"

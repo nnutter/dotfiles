@@ -13,6 +13,9 @@ export CGO_LDFLAGS="-g -O2 -L/usr/local/opt/openssl/lib"
 export CGO_CFLAGS="-g -O2 -I/usr/local/opt/openssl/include"
 
 GO_TOOLS=(
+    golang.org/x/mod/module
+    golang.org/x/tools/gopls
+
     github.com/acroca/go-symbols
     github.com/alecthomas/gometalinter
     github.com/cweill/gotests/...
@@ -20,6 +23,7 @@ GO_TOOLS=(
     github.com/fatih/gomodifytags
     github.com/fatih/motion
     github.com/go-delve/delve/cmd/dlv
+    github.com/golang/tools/gopls
     github.com/josharian/impl
     github.com/jstemmer/gotags
     github.com/kisielk/errcheck
@@ -33,7 +37,6 @@ GO_TOOLS=(
     github.com/zmb3/gogetdoc
     golang.org/x/lint/golint
     golang.org/x/tools/cmd/goimports
-    golang.org/x/tools/cmd/gopls
     golang.org/x/tools/cmd/gorename
     golang.org/x/tools/cmd/guru
     honnef.co/go/tools/cmd/keyify

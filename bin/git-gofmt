@@ -9,18 +9,32 @@ main() {
         DIFF_ARGS=("$@")
     fi
 
-    local DIFF=()
-    DIFF=("$(git diff --name-only "${DIFF_ARGS[@]}" | grep '\.go$'; if test $? -gt 1; then exit $?; fi)")
+    set +o nounset
+    local DIFF=() ORIG_DIFF=()
+    while IFS='' read -r FILE
+    do
+        ORIG_DIFF=("${ORIG_DIFF[@]}" "$FILE")
+    done < <(git diff --name-only "${DIFF_ARGS[@]}" | grep '\.go$'; if test $? -gt 1; then exit $?; fi)
+    set -o nounset
     DIFF_EXIT=$?
     if test $DIFF_EXIT -gt 1
     then
         exit $DIFF_EXIT
     fi
+    set +o nounset
+    for F in "${ORIG_DIFF[@]}"
+    do
+        if test -f "$F"
+        then
+            DIFF+=("$F")
+        fi
+    done
 
     if test "${#DIFF[@]}" -eq 0
     then
         exit 0
     fi
+    set -o nounset
 
     local NEED_GOFMT=()
     NEED_GOFMT=("$(echo "${DIFF[@]}" | xargs gofmt -l)")

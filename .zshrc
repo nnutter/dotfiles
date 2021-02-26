@@ -64,7 +64,21 @@ preexec_start_time () {
     PREEXEC_START_TIME="$(date +"%H:%M:%S") - "
 }
 
+get_title() {
+    if git rev-parse --is-inside-work-tree 1>/dev/null 2>/dev/null; then
+        git rev-parse --show-toplevel | sed 's|.*/||'
+        return
+    fi
+    print -P '%3c'
+}
+
+set_title() {
+    echo -ne "\033]0;""$(get_title)""\007"
+    echo -ne "\033]1;""$(get_title)""\007"
+}
+
 precmd_functions+=( precmd_vcs_info )
+precmd_functions+=( set_title )
 preexec_functions+=( preexec_start_time )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%F{240}(%b)%r%f '

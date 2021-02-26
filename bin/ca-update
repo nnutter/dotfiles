@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 
-CA="$HOME/.local/etc/ssl/cert.pem"
-mkdir -p "$(dirname "$CA")"
+CA="/usr/local/etc/openssl/cert.pem"
+
 security find-certificate -a -p /Library/Keychains/System.keychain > "$CA"
+
+# This is where the Homebrew openssl formula gets it CA certs.  It's a little more cautious,
+# https://github.com/Homebrew/homebrew-core/blob/7eaf242097267a45cb817148cb0c4d1c9ef380fb/Formula/openssl%401.1.rb#L119-L136
 security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain >> "$CA"
-gcloud config set core/custom_ca_certs_file "$CA"
+
+cat <<EOM
+- Configure gcloud:
+
+      gcloud config set core/custom_ca_certs_file "$CA"
+
+# Configure Docker:
+# tlscacert
+
+# How to bake into our services/images?
+EOM

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail
+
+main() {
+    # 126943690_MONV2_FLIP.vcf.gz
+
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local M=0 OPT
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -m) M="$1"; shift ;;
+        esac
+    done
+
+    local FILE="$1"
+
+    # emit headers
+    # TODO: Getting an exit code of 141 "for no reason".
+    zcat < "$FILE" | head -n 500 | grep '^#' || true
+
+    local line_count
+    line_count="$(zcat < "$FILE" | grep -vc '^#')"
+
+    local keep="$line_count"
+    if test "$M" -gt 0
+    then
+        keep=$(( line_count * ( M - 1 ) / M ))
+    fi
+    zcat < "$FILE" \
+        | grep -v '^#' \
+        | sort -R \
+        | head -n "$keep" \
+        | vcf-sort -c
+}
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+downsample-vcf [-m factor] <file>
+--
+h,help       show the help
+m,factor=    discard every Mth variant
+"
+
+main "$@"

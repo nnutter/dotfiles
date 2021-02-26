@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+main() {
+    local json_file="$1"
+    ocelotctl routes new \
+        "$(jq -r '.route' < "$json_file")" \
+        "$(jq -r '.hosts[0]' < "$json_file" | sed -E 's|^https?://||' | cut -d . -f 1)" \
+        "$(jq -r '.hosts[0]' < "$json_file" | sed -E 's|^https?://||' | cut -d . -f 2)" \
+        --from-file "$json_file"
+}
+
+main "$@"

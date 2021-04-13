@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -o errexit -o pipefail -o nounset
+az ad app list --app-id "$@" | jq -j '.[0].displayName'

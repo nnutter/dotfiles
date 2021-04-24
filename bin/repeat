@@ -46,6 +46,7 @@ main() {
     echo
     printf "pass: %d\n" "$pass"
     printf "fail: %d\n" "$fail"
+    exit "$loop_exit"
 }
 
 # shellcheck disable=SC2034

@@ -7,7 +7,9 @@ do
     fi
 done
 
+export GO111MODULE="auto"
 export GOPATH="${HOME}/.go:${HOME}"
+export GOPRIVATE="github.platforms.engineering"
 export PATH="${HOME}/.go/bin${PATH:+:}${PATH}"
 export CGO_LDFLAGS="-g -O2 -L/usr/local/opt/openssl/lib"
 export CGO_CFLAGS="-g -O2 -I/usr/local/opt/openssl/include"

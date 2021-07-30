@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -o pipefail -o errexit
+
+echo "	UseKeychain yes" | sudo tee -a /etc/ssh/ssh_config

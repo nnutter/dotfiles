@@ -75,3 +75,7 @@
 	cmd = code --wait $MERGED
 [difftool "vscode"]
 	cmd = code --wait --diff $LOCAL $REMOTE
+[url "git@github.com:shawnee-skogen"]
+	insteadof = https://github.com/shawnee-skogen
+[pull]
+	ff = only

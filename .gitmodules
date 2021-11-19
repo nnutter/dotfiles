@@ -67,6 +67,6 @@
 [submodule ".vim/pack/plugins/start/markdown"]
 	path = .vim/pack/plugins/start/markdown
 	url = git@github.com:plasticboy/vim-markdown.git
-[submodule "/Users/gciyh/.vim/pack/plugins/start/diffconflicts"]
-	path = /Users/gciyh/.vim/pack/plugins/start/diffconflicts
+[submodule ".vim/pack/plugins/start/diffconflicts"]
+	path = .vim/pack/plugins/start/diffconflicts
 	url = git@github.com:whiteinge/diffconflicts.git

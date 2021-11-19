@@ -87,7 +87,7 @@ zstyle ':vcs_info:*' enable git
 PROMPT=$'\n'"\${vcs_info_msg_0_}%3~"$'\n''[%h] %(!.#.$) '
 RPROMPT="%{$(echotc UP 2)%} %(?..%F{red})\${PREEXEC_START_TIME}%* %(?.√.%?)%f%{$(echotc DO 2)%}"
 
-export PATH="${HOME}/bin:${PATH}"
+export PATH="${HOME}/bin:${HOME}/.local/bin:${PATH}"
 
 setopt AUTO_CD
 

@@ -57,8 +57,6 @@
 	diff = diff-highlight | less
 [diff "ansible-vault"]
 	textconv = ansible-vault view
-[hub]
-	host = github.platforms.engineering
 [includeIf "gitdir:~/src/github.platforms.engineering/"]
 	path = config-bayer
 [filter "lfs"]

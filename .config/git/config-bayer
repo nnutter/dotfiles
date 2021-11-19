@@ -1,2 +1,4 @@
 [user]
 	email = nathaniel.nutter@bayer.com
+[hub]
+	host = github.platforms.engineering

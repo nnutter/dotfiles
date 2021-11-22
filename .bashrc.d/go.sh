@@ -14,6 +14,8 @@ export PATH="${HOME}/.go/bin${PATH:+:}${PATH}"
 export CGO_LDFLAGS="-g -O2 -L/usr/local/opt/openssl/lib"
 export CGO_CFLAGS="-g -O2 -I/usr/local/opt/openssl/include"
 
+export HOST_GOMODCACHE=$(go env GOMODCACHE)
+
 GO_TOOLS=(
     golang.org/x/mod/module
     golang.org/x/tools/gopls

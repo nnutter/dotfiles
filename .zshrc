@@ -133,3 +133,6 @@ cdup() {
 # REPORTTIME=10
 
 zmodload zsh/mapfile
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform

@@ -64,3 +64,5 @@ use ${HOME}/.bash_completion.d
 use ${HOME}/.bashrc.d
 
 alias ll='ls -lh'
+
+complete -C /usr/local/bin/terraform terraform

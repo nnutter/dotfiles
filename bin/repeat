@@ -18,10 +18,10 @@ main() {
 
     local loop_exit=0 pass=0 fail=0
     for i in $(seq 1 "$times"); do
-        echo "($i/$times) ($(date +%H:%M)) $*"
+        echo 1>&2 "($i/$times) ($(date +%H:%M)) $*"
         "$@"
         loop_exit=$?
-        echo
+        echo 1>&2
         if test "$loop_exit" -eq 0; then
             ((pass++))
         else
@@ -43,9 +43,9 @@ main() {
         esac
         sleep "$sleep"
     done
-    echo
-    printf "pass: %d\n" "$pass"
-    printf "fail: %d\n" "$fail"
+    echo 1>&2
+    printf "pass: %d\n" "$pass" 1>&2
+    printf "fail: %d\n" "$fail" 1>&2
     exit "$loop_exit"
 }
 

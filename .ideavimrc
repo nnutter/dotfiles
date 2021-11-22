@@ -1,0 +1,5 @@
+source ~/.vimrc
+set surround
+set commentary
+:map ,t :action RunClass<CR>
+:map gq :action com.andrewbrookins.idea.wrap.WrapAction<CR>

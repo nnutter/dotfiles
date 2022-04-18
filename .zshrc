@@ -121,8 +121,6 @@ alias vim='GO111MODULE=off vim'
 
 export EDITOR=/usr/local/bin/vim
 
-source $HOME/.bashrc.d/go.sh
-source $HOME/.bashrc.d/monsanto.sh
 source $HOME/.bashrc.d/tmux.sh
 
 cdup() {

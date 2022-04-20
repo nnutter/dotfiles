@@ -57,8 +57,10 @@
 	diff = diff-highlight | less
 [diff "ansible-vault"]
 	textconv = ansible-vault view
-[includeIf "gitdir:~/src/github.platforms.engineering/"]
-	path = config-bayer
+[includeIf "gitdir:~/src/code.cbbapps.com/"]
+	path = config-cardinals
+[includeIf "gitdir:~/src/gitlab-server/"]
+	path = config-cardinals
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+case "$1" in
+    dev)
+        exec gcloud compute ssh --zone "us-central1-a" "cbbapps-data-dev-jumphost-01"  --project "cbbapps-data-dev-6b070bc3c1"
+        ;;
+    test)
+        exec gcloud compute ssh --zone "us-central1-a" "cbbapps-data-test-jumphost-01"  --project "cbbapps-data-test-e61c9e300f"
+        ;;
+    prod)
+        exec gcloud compute ssh --zone "us-central1-a" "cbbapps-data-prod-jumphost-01"  --project "cbbapps-data-prod-ab87c5f1e5"
+        ;;
+    *)
+        echo "ERROR: Specify dev, test, or prod as an argument."
+        exit 1
+        ;;
+esac

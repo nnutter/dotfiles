@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local gcp_env="dev"
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -e) gcp_env="$1"; shift ;;
+        esac
+    done
+
+    gkubectl -e "$gcp_env" -- get pods --all-namespaces --output json \
+        | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "--namespace \(.metadata.namespace) \(.metadata.name)"' \
+        | xargs -n 1 gkubectl -e "$gcp_env" -- delete pods --wait=false
+}
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+gkubectl -e <env> -- <args>
+
+--
+h,help     show the help
+e,env=     GCP environment: dev, test, prod
+"
+
+main "$@"
+

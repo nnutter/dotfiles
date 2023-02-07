@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local gcp_env="dev"
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -e) gcp_env="$1"; shift ;;
+        esac
+    done
+
+    local ssh_hostname
+    case "$gcp_env" in
+        dev) ssh_hostname=cbbapps-data-dev-jumphost-01 ;;
+        test) ssh_hostname=cbbapps-data-test-jumphost-01 ;;
+        prod) ssh_hostname=cbbapps-data-prod-jumphost-01 ;;
+        *)
+            echo 1>&2 "ERROR: invalid GCP environment: ${gcp_env}"
+            ;;
+    esac
+
+
+    ssh "$ssh_hostname" kubectl "$@"
+}
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+gkubectl -e <env> -- <args>
+
+--
+h,help     show the help
+e,env=     GCP environment: dev, test, prod
+"
+
+main "$@"

@@ -16,7 +16,7 @@ main() {
 
     gkubectl -e "$gcp_env" -- get pods --all-namespaces --output json \
         | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "--namespace \(.metadata.namespace) \(.metadata.name)"' \
-        | xargs -n 1 gkubectl -e "$gcp_env" -- delete pods --wait=false
+        | xargs -n 1 -P 8 gkubectl -e "$gcp_env" -- delete pods --wait=false
 }
 
 # shellcheck disable=SC2034

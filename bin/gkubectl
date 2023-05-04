@@ -4,18 +4,20 @@ main() {
     # shellcheck disable=1090
     source "$(git --exec-path)/git-sh-setup"
 
-    local gcp_env="dev"
+    local gcp_env="dev" tty="-t"
     while [ $# -gt 0 ]; do
         OPT="$1"
         shift
         case $OPT in
             --) break ;;
             -e) gcp_env="$1"; shift ;;
+            -t) tty="";;
         esac
     done
 
     local ssh_hostname
     case "$gcp_env" in
+        infra) ssh_hostname=cbbapps-infrastructure-jumphost-01 ;;
         dev) ssh_hostname=cbbapps-data-dev-jumphost-01 ;;
         test) ssh_hostname=cbbapps-data-test-jumphost-01 ;;
         prod) ssh_hostname=cbbapps-data-prod-jumphost-01 ;;
@@ -25,7 +27,7 @@ main() {
     esac
 
 
-    ssh "$ssh_hostname" kubectl "$@"
+    ssh $tty "$ssh_hostname" kubectl "$@"
 }
 
 # shellcheck disable=SC2034
@@ -39,7 +41,8 @@ gkubectl -e <env> -- <args>
 
 --
 h,help     show the help
-e,env=     GCP environment: dev, test, prod
+e,env=     GCP environment: infra, dev, test, prod
+t,no-tty   Disable TTY on SSH
 "
 
 main "$@"

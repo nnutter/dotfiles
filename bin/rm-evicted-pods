@@ -14,7 +14,8 @@ main() {
         esac
     done
 
-    gkubectl -e "$gcp_env" -- get pods --all-namespaces --output json \
+    echo 1>&2 "Checking $gcp_env..."
+    gkubectl -t -e "$gcp_env" -- get pods --all-namespaces --output json \
         | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "--namespace \(.metadata.namespace) \(.metadata.name)"' \
         | xargs -n 1 -P 8 gkubectl -e "$gcp_env" -- delete pods --wait=false
 }

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail -o nounset
+
+main() {
+    head=$(git rev-parse --symbolic-full-name HEAD)
+    case "$head" in
+        refs/heads/dev)
+            git checkout test --
+            git pull --ff-only
+            git merge origin/dev
+            git push
+            ;;
+        refs/heads/test)
+            git checkout master --
+            git pull --ff-only
+            git merge origin/test
+            git push
+            ;;
+        *)
+            echo 1>&2 "HEAD must be dev or test"
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

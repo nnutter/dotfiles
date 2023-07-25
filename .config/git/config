@@ -11,7 +11,6 @@
 	quotepath = false
 	preloadindex = true
 	excludesfile = /Users/nnutter/.gitignore_global
-	fsyncobjectfiles = true
 [merge]
 	renameLimit = 10000
 	tool = diffconflicts

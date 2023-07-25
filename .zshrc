@@ -87,7 +87,7 @@ zstyle ':vcs_info:*' enable git
 PROMPT=$'\n'"\${vcs_info_msg_0_}%3~"$'\n''[%h] %(!.#.$) '
 RPROMPT="%{$(echotc UP 2)%} %(?..%F{red})\${PREEXEC_START_TIME}%* %(?.√.%?)%f%{$(echotc DO 2)%}"
 
-export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/Library/Python/3.9/bin:${PATH}"
+export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/Library/Python/3.9/bin:/opt/homebrew/bin:${PATH}"
 
 setopt AUTO_CD
 
@@ -112,8 +112,10 @@ if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 autoload -Uz compinit
-compinit
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+compinit -i
+if type brew &>/dev/null; then
+    source $(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+fi
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 alias ls='\ls -G'

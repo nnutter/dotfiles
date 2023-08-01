@@ -1,5 +1,6 @@
 source ~/.vimrc
-set surround
 set commentary
+set ideajoin
+set surround
 :map ,t :action RunClass<CR>
 :map gq :action com.andrewbrookins.idea.wrap.WrapAction<CR>

@@ -3,11 +3,68 @@
 set -o errexit -o pipefail
 
 main() {
+    local verbose=""
+
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -v) verbose=1 ;;
+        esac
+    done
+
+    perl_command=(perl -ne 'print if /BEGIN CERTIFICATE/../END CERTIFICATE/')
+    if test -n "$verbose"
+    then
+        perl_command=(perl -e '
+            my $openssl = undef;
+            my $written = 0;
+            while (<>) {
+                if (/BEGIN CERTIFICATE/ .. /END CERTIFICATE/) {
+                    if (not $openssl) {
+                        print "\n\n";
+                        open($openssl, "|-", "openssl x509 -noout -text")
+                            or die("initial open: $!");
+                    }
+                    $written = 1;
+                    print $openssl "$_";
+                } else {
+                    if ($written) {
+                        if ($openssl != STDOUT) {
+                            close($openssl)
+                                or die("close: $!");
+                        }
+                        $openssl = undef;
+                        $written = 0;
+                    }
+                }
+            }
+        ')
+    fi
+
     local address="$1"
     shift
     echo \
-        | openssl s_client -showcerts -connect "$address" 2>/dev/null \
-        | perl -ne 'print if /BEGIN CERTIFICATE/../END CERTIFICATE/'
+        | openssl s_client -showcerts -connect "$address" \
+        | "${perl_command[@]}"
 }
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+showcerts <target>
+
+--
+h,help     show the help
+v          verbose output
+"
 
 main "$@"

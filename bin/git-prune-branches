@@ -49,7 +49,7 @@ main() {
     if test -n "$REMOTE"
     then
         for REMOTE_BRANCH in \
-            $(git branch --list --remotes --merged "$UPSTREAM_BRANCH" | sed 's|^  origin/||' || true)
+            $(git branch --list --remotes --merged "$UPSTREAM_BRANCH" | grep -v '\->' | sed 's|^  origin/||' || true)
         do
             local SKIP=""
             if skip_branch origin/"$REMOTE_BRANCH" "$UPSTREAM_BRANCH"
@@ -57,8 +57,24 @@ main() {
                 SKIP=1
             fi
 
+            set +o nounset
+            if test "${#KEEP_BRANCHES[@]}" -gt 0
+            then
+                set -o nounset
+                if ! is-keep-branch "$REMOTE_BRANCH" "${KEEP_BRANCHES[@]}"
+                then
+                    explain "$REMOTE_BRANCH" 'OK: Branch is not in /.gitkeep.'
+                else
+                    explain "$REMOTE_BRANCH" 'SKIP: Branch is in /.gitkeep.'
+                    SKIP=1
+                fi
+            else
+                set -o nounset
+            fi
+
             if test -n "$SKIP"
             then
+                echo "=> remote: $REMOTE_BRANCH: keep"
                 continue
             fi
 
@@ -109,6 +125,7 @@ main() {
 
         if test -n "$SKIP"
         then
+            echo "=> local: $BRANCH: keep"
             continue
         fi
 
@@ -144,9 +161,9 @@ is-keep-branch() {
     return 1
 }
 
-is-on-merge-base() {
+is-fresh-branch() {
     local SRC="$1" DST="$2"
-    test "$(git merge-base "$SRC" "$DST")" == "$(git rev-parse "$SRC")"
+    test "$(git rev-parse "$SRC")" == "$(git rev-parse "$DST")"
 }
 
 branch-is-checked-out() {
@@ -158,7 +175,7 @@ skip_branch() {
 
     if test -z "$RM_FRESH"
     then
-        if ! is-on-merge-base "$BRANCH" "$UPSTREAM_BRANCH"
+        if ! is-fresh-branch "$BRANCH" "$UPSTREAM_BRANCH"
         then
             explain "$BRANCH" 'OK: Branch is not a fresh branch.'
         else

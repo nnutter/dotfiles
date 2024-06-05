@@ -18,12 +18,12 @@ main() {
         esac
     done
 
-    if test -z "$1"
+		local UPSTREAM_BRANCH="origin/HEAD"
+    if test -n "$1"
     then
-        usage
+    		UPSTREAM_BRANCH="$1"
     fi
 
-    local UPSTREAM_BRANCH="$1"
 
     set -o errexit -o nounset -o pipefail
 

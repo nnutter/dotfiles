@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 
-# This requires you create a new password item in macOS's Keychain with the
-# name `vault` and the account `$USER`.
-
 set -o errexit -o nounset -o pipefail
+
+export VAULT_ADDR=https://vault.cbbapps.com:8200
+export VAULT_BIN=/usr/local/bin/vault
 
 if test ! -f ~/.vault-token -o "$(perl -e 'print int ((-M $ARGV[0]) * 24)' -- ~/.vault-token)" -ge 4
 then
-    /usr/local/bin/vault login -method=oidc
+    echo 1>&2 "Logging in..."
+    "$VAULT_BIN" login -method=okta username="${USER/@*}" 1>&2
+fi
+
+if test "$#" -eq 0
+then
+    exit 0
 fi
 
 case "$1" in
@@ -17,13 +23,13 @@ case "$1" in
         shift
         DST="$1"
         shift
-        exec vault read -format json "$SRC" | jq .data | vault write "$DST" -
+        exec "$VAULT_BIN" read -format json "$SRC" | jq .data | "$VAULT_BIN" write "$DST" -
         ;;
     run)
         shift
         exec "$@"
         ;;
     *)
-        exec /usr/local/bin/vault "$@"
+        exec "$VAULT_BIN" "$@"
         ;;
 esac

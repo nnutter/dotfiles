@@ -18,16 +18,12 @@
 	default = current
 [url "git://github.com/"]
 	insteadOf = gh:
-[url "git@github.com:genome-vendor"]
-	insteadOf = https://github.com/genome-vendor
 [url "git@github.com:f3soil"]
 	insteadOf = https://github.com/f3soil
 [url "git@github.com:nnutter"]
 	insteadOf = https://github.com/nnutter
 [url "git@github.com:shawnee-skogen"]
 	insteadOf = https://github.com/shawnee-skogen
-[url "git@github.platforms.engineering:"]
-	insteadOf = https://github.platforms.engineering/
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

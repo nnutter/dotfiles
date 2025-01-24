@@ -67,15 +67,24 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[mergetool "diffconflicts"]
-	cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
-	trustExitCode = true
+[merge]
+   tool = intellij
+[diff]
+   tool = intellij
 [mergetool]
 	keepBackup = false
 [mergetool "vscode"]
 	cmd = code --wait $MERGED
+[mergetool "diffconflicts"]
+	cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+	trustExitCode = true
+[mergetool "intellij"]
+   cmd = idea merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+   trustExitCode = true
 [difftool "vscode"]
-	cmd = code --wait --diff $LOCAL $REMOTE
+	cmd = code --wait --diff "$LOCAL" "$REMOTE"
+[difftool "intellij"]
+   cmd = idea diff "$LOCAL" "$REMOTE"
 [url "git@github.com:shawnee-skogen"]
 	insteadof = https://github.com/shawnee-skogen
 [pull]

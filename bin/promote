@@ -8,14 +8,30 @@ main() {
         refs/heads/dev)
             git checkout test --
             git pull --ff-only
-            git merge origin/dev
+            GIT_EDITOR=/usr/bin/true git merge origin/dev
             git push
             ;;
         refs/heads/test)
             git checkout master --
             git pull --ff-only
-            git merge origin/test
+            GIT_EDITOR=/usr/bin/true git merge origin/test
+            git log origin/master.. | pbcopy
+            echo "**************************** LOGS ****************************"
+            pbpaste
+            git diff --name-only origin/master.. | pbcopy
+            echo "**************************** DIFF ****************************"
+            pbpaste
+            echo "**************************************************************"
+            echo "* To see changed files run: git diff --name-only origin/master.."
+            echo "* To see changed commits run: git log origin/master.."
+            echo "**************************************************************"
+            echo "Perform sanity checks and then exit shell to resume promote..."
+            $SHELL
             git push
+            ;;
+        refs/heads/master)
+            git checkout dev --
+            git pull --ff-only
             ;;
         *)
             echo 1>&2 "HEAD must be dev or test"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CA="/usr/local/etc/openssl/cert.pem"
+CA="/usr/local/etc/openssl@1.1/cert.pem"
 
 security find-certificate -a -p /Library/Keychains/System.keychain > "$CA"
 

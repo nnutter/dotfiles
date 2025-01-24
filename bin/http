@@ -1,2 +1,0 @@
-#!/bin/bash
-curl --dump-header /dev/stderr --silent "$@" | python -mjson.tool

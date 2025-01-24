@@ -15,7 +15,7 @@ main() {
             -n) DRY_RUN=1 ;;
             -r) REMOTE=1 ;;
             -u) USER="$1"; shift ;;
-            -x) EXPLAIN="$1"; shift; DRY_RUN=1 ;;
+            -x) EXPLAIN=1; DRY_RUN=1 ;;
         esac
     done
 
@@ -78,11 +78,6 @@ main() {
     BRANCHES=($(git branch --list | sed 's/^..//'))
     for BRANCH in "${BRANCHES[@]}"
     do
-        if test -n "$EXPLAIN" && test "$BRANCH" != "$EXPLAIN"
-        then
-            continue
-        fi
-
         local SKIP=""
 
         if git merge-base --is-ancestor "$BRANCH" "$UPSTREAM_BRANCH"
@@ -150,7 +145,7 @@ main() {
 
 explain() {
     local BRANCH="$1"
-    if test "$BRANCH" == "$EXPLAIN"
+    if test -n "$EXPLAIN"
     then
         echo 2>&1 "$@"
     fi
@@ -201,7 +196,7 @@ b          include undiverged branches, e.g. fresh branches
 n,dry-run  dry run
 r,remotes  prune orphaned remote branch
 u,user=    username branch prefix if not \$USER
-x=         explain branch (implies dry-run)
+x          explain branch (implies dry-run)
 "
 
 main "$@"

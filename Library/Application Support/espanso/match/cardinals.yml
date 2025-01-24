@@ -1,0 +1,41 @@
+matches:
+  - trigger: ";ddags"
+    replace: "Merging `cbbsl/infra-data-dags` `dev` -> `test` -> `master`"
+  - trigger: ";dpipe"
+    replace: "Merging `infra-dataflow-pipeline` `dev` -> `test` -> `master`; see [Playbook: Deployment: dataflow-pipeline](https://cardinals.atlassian.net/wiki/spaces/BD/pages/2596864026/Data+Engineering+Playbook#infra-dataflow-pipeline) for process."
+  - trigger: ";pdev"
+    replace: "cbbapps-data-dev-6b070bc3c1"
+  - trigger: ";ptest"
+    replace: "cbbapps-data-test-e61c9e300f"
+  - trigger: ";pprod"
+    replace: "cbbapps-data-prod-ab87c5f1e5"
+  - trigger: ";ptg"
+    replace: "provenance_to_global_id_"
+  - trigger: ";_r"
+    replace: "_resolved"
+  - trigger: ";_idc"
+    replace: "_idcanonical"
+  - trigger: ";_idm"
+    replace: "_idmatch"
+  - trigger: ";cdpipe"
+    replace: "cd ~/src/code.cbbapps.com/infrastructure/cloud-applications/dataflow-pipeline"
+  - trigger: ";cdalt"
+    replace: "cd ~/src/code.cbbapps.com/infrastructure/cloud-applications/dataflow-pipeline-alt"
+  - trigger: ";cdk8s"
+    replace: "cd ~/src/code.cbbapps.com/infrastructure/terraform/cbbapps-k8s-app-deployments"
+  - trigger: ";dschema"
+    replace: "Just applied and merged schema changes for `xxx`. If you have an MR open you'll need to merge/rebase `dev` to get up-to-date."
+  - trigger: ";ACT-"
+    replace: "https://cardinals.atlassian.net/browse/ACT-"
+  - trigger: ";dstat"
+    replace: |-
+      - BQ update: not started
+      - Paused fragments: not started
+      - Terraform changes: not started
+      - GKE changes: not started
+  - trigger: ";liaison"
+    replace: "@jprusaczyk @John Kern @bseyfert @akessler This Wednesday is our bi-weekly Data Engineering planning meeting. If there are any issues/topics you would like to raise awareness of please reply to this and let me know. If possible, please include details about any deadline, any sense of the baseball value, or any efficiency gains."
+  - trigger: ";sere"
+    replace: "@sescalona If you have some time you could review []()."
+
+

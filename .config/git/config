@@ -89,3 +89,5 @@
 	insteadof = https://github.com/shawnee-skogen
 [pull]
 	ff = only
+[url "git@code.cbbapps.com:"]
+	insteadof = https://code.cbbapps.com/

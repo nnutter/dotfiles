@@ -1,4 +1,5 @@
 source ~/.vimrc
+set noincsearch
 set commentary
 set ideajoin
 set surround

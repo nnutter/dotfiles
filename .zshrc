@@ -110,12 +110,16 @@ HISTSIZE=2000
 
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    export CLOUDSDK_PYTHON=/usr/local/bin/python3
 fi
+fpath+=~/.zfunc
 autoload -Uz compinit
 compinit -i
 if type brew &>/dev/null; then
     source $(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+    export PATH="$PATH":"$(brew --prefix)/sbin"
 fi
+source ~/.bash_completion.d/*.sh
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 alias ls='\ls -G'
@@ -137,3 +141,14 @@ zmodload zsh/mapfile
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+export GOPATH="$HOME/.go:$HOME"
+export PATH="$HOME/.go/bin:$HOME/bin:$PATH"
+export GOPRIVATE="code.cbbapps.com"
+eval "$(pyenv init -)"
+
+export PIPENV_IGNORE_VIRTUALENVS=1
+
+bindkey -e

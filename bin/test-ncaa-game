@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+main() {
+    local REFRESH_OK=""
+
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    REFRESH_OK=""
+    WRITE_GOLDEN_FILES=""
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -r) REFRESH_OK=1 ;;
+            -c) REFRESH_OK=cleanup ;;
+            -w) WRITE_GOLDEN_FILES=TRUE ;;
+            -u) WRITE_GOLDEN_FILES=UPDATE ;;
+        esac
+    done
+
+    if test -z "$1"
+    then
+        usage
+    fi
+    name="$1"
+
+    test_command=(go test -run ^TestSpecificParsing/"$name" -v ./applications/scraper/internal/baseball/training)
+    WRITE_GOLDEN_FILES="$WRITE_GOLDEN_FILES" REFRESH_OK="$REFRESH_OK" "${test_command[@]}"
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+run-game <name>
+--
+h,help     show the help
+r,refresh  refresh the game from the NCAA site
+c,cleanup  cleanup the cache before running
+w,write    write golden file
+u,update   update golden file if plays diffed
+"
+
+main "$@"

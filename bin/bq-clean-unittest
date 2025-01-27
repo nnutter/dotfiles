@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+bq ls --project_id cbbapps-data-dev-6b070bc3c1 -n 1000 | awk '{print $1}' | grep '^unittest_' | xargs -n 1 bq rm --project_id cbbapps-data-dev-6b070bc3c1 -f

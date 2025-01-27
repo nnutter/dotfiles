@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -o errexit -o nounset
+feature_branch="$1"
+git fetch
+git checkout dev
+git reset --hard origin/dev
+git merge origin/"$feature_branch"
+git push origin dev

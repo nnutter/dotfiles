@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail
+
+main() {
+    for package in "$@"
+    do
+        git grep '\(import\|from\)\s\+'"$package"'\b' -- '*.py'
+    done
+}
+
+main "$@"

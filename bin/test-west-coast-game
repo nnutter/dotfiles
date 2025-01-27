@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+main() {
+    local REFRESH_OK=""
+
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    REFRESH_OK=""
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -c) REFRESH_OK=cleanup ;;
+        esac
+    done
+
+    if test -z "$1"
+    then
+        usage
+    fi
+    name="$1"
+
+    test_command=(go test -run ^TestWestCoastTrainingGames"$name" -v ./applications/scraper/internal/pointstreak/training)
+    STLC_LOG_LEVEL=DEBUG SUBTEST_PLAYS=1 REFRESH_OK="$REFRESH_OK" "${test_command[@]}"
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+run-game <name>
+--
+h,help     show the help
+c,cleanup  cleanup the cache (and golden data) before running
+"
+
+main "$@"

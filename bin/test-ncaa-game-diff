@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+git_command=(git diff)
+if test -n "$1"; then
+	git_command=(git show "$1")
+fi
+
+echo -n 'Regressions: ' && "${git_command[@]}" | grep -c '^-.*: ""'
+echo -n 'Swaps: ' && "${git_command[@]}" | ggrep -vP '^\+.*: (""|"ok")' | grep -c '^+.*: "[^"]'
+echo -n 'Fixes: ' && "${git_command[@]}" | ggrep -cP '^\+.*: (""|"ok")'

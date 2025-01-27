@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+main() {
+    # shellcheck disable=1090
+    source "$(git --exec-path)/git-sh-setup"
+
+    local gcp_env="" namespace="" release=""
+    while [ $# -gt 0 ]; do
+        OPT="$1"
+        shift
+        case $OPT in
+            --) break ;;
+            -e) gcp_env="$1"; shift ;;
+            -n) namespace="$1"; shift ;;
+            -r) release="$1"; shift ;;
+        esac
+    done
+
+    if test -z "$1"
+    then
+        usage
+    fi
+    if test -z "$release"
+    then
+        usage
+    fi
+    if test -z "$namespace"
+    then
+        usage
+    fi
+
+    gkubectl --env "$gcp_env" -- --namespace $namespace annotate "$@" meta.helm.sh/release-name=$release
+    gkubectl --env "$gcp_env" -- --namespace $namespace annotate "$@" meta.helm.sh/release-namespace=$namespace
+    gkubectl --env "$gcp_env" -- --namespace $namespace label    "$@" app.kubernetes.io/managed-by=Helm
+}
+#
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+helm-chown --env <env> --release <release> --namespace <namespace> <kind> <name>
+--
+h,help        show the help
+e,env=        GCP environment: infra, dev, test, prod
+n,namespace=  Kubernetes namespace the existing resource is in
+r,release=    Helm release name
+"
+
+main "$@"

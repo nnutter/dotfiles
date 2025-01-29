@@ -110,7 +110,7 @@ HISTSIZE=2000
 
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-    export CLOUDSDK_PYTHON=/usr/local/bin/python3
+    export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3
 fi
 fpath+=~/.zfunc
 autoload -Uz compinit

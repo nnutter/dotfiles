@@ -78,10 +78,16 @@ main() {
                 continue
             fi
 
-            echo "=> remote: $REMOTE_BRANCH: delete"
             if test -z "$DRY_RUN"
             then
-                git push --delete origin "$REMOTE_BRANCH"
+                if git push --delete origin "$REMOTE_BRANCH"
+                then
+                    echo "=> remote: $REMOTE_BRANCH: delete"
+                else
+                    echo "=> remote: $REMOTE_BRANCH: delete failed"
+                fi
+            else
+                echo "=> remote: $REMOTE_BRANCH: delete"
             fi
         done
     fi
@@ -129,10 +135,16 @@ main() {
             continue
         fi
 
-        echo "=> local: $BRANCH: delete"
         if test -z "$DRY_RUN"
         then
-            git branch -d "$BRANCH"
+            if git branch -d "$BRANCH"
+            then
+                echo "=> local: $BRANCH: delete"
+            else
+                echo "=> local: $BRANCH: delete failed"
+            fi
+        else
+            echo "=> local: $BRANCH: delete"
         fi
     done
 }

@@ -130,6 +130,11 @@ export EDITOR=/usr/local/bin/vim
 
 source $HOME/.bashrc.d/tmux.sh
 
+P_SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+if test -e "$P_SSH_AUTH_SOCK"; then
+    export SSH_AUTH_SOCK="$P_SSH_AUTH_SOCK"
+fi
+
 cdup() {
     cd "$(git rev-parse --show-cdup)"
 }

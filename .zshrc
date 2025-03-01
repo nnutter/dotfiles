@@ -150,7 +150,7 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 export GOPATH="$HOME/.go:$HOME"
-export PATH="$HOME/.go/bin:$HOME/bin:$PATH"
+export PATH="$HOME/.go/bin:$HOME/bin:$HOME/src/github.com/pyenv/pyenv/bin:$PATH"
 export GOPRIVATE="code.cbbapps.com"
 eval "$(pyenv init -)"
 

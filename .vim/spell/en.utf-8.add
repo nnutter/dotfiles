@@ -81,3 +81,5 @@ GOMAXPROCS
 Pipfile
 pipenv
 NJCAA
+unretriable
+virtualization

@@ -28,9 +28,6 @@
 [submodule ".vim/pack/plugins/start/rust"]
 	path = .vim/pack/plugins/start/rust
 	url = https://github.com/rust-lang/rust.vim.git
-[submodule ".vim/pack/plugins/start/vimwiki"]
-	path = .vim/pack/plugins/start/vimwiki
-	url = https://github.com/vimwiki/vimwiki.git
 [submodule ".vim/pack/plugins/start/surround"]
 	path = .vim/pack/plugins/start/surround
 	url = https://github.com/tpope/vim-surround.git

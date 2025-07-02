@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+"$@"
+exit_code=$?
+
+echo "$@" exited "$exit_code" | /opt/homebrew/bin/notify -silent

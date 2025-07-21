@@ -1,0 +1,17 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+[gcloud]
+disabled = true
+
+[git_branch]
+format = 'on [$branch(:$remote_branch)]($style) '
+
+[git_status]
+disabled = true
+
+[golang]
+disabled = true
+
+[python]
+disabled = true

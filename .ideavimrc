@@ -1,7 +1,13 @@
-source ~/.vimrc
-set noincsearch
-set commentary
+" source ~/.vimrc
+" set noincsearch
+" set commentary
+" :map ,t :action RunClass<CR>
+	" foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz
+
 set ideajoin
+set ideamarks
+
+set commentary
 set surround
-:map ,t :action RunClass<CR>
-:map gq :action com.andrewbrookins.idea.wrap.WrapAction<CR>
+
+" :map gq <Action>(Wrap Line to Column)

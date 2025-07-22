@@ -2,7 +2,7 @@ matches:
   - trigger: ";ddags"
     replace: "Merging `cbbsl/infra-data-dags` `dev` -> `test` -> `master`"
   - trigger: ";dpipe"
-    replace: "Merging `infra-dataflow-pipeline` `dev` -> `test` -> `master`; see [Playbook: Deployment: dataflow-pipeline](https://cardinals.atlassian.net/wiki/spaces/BD/pages/2596864026/Data+Engineering+Playbook#infra-dataflow-pipeline) for process."
+    replace: "Merging `infra-dataflow-pipeline` `dev` -> `test` -> `master`; see [Wiki: Deployment: dataflow-pipeline](https://github.com/cbbsl/infra-dataflow-pipeline/wiki/Deployment---infra-dataflow-pipeline) for process."
   - trigger: ";pdev"
     replace: "cbbapps-data-dev-6b070bc3c1"
   - trigger: ";ptest"

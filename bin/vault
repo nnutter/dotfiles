@@ -5,7 +5,7 @@ set -o errexit -o nounset -o pipefail
 export VAULT_ADDR=https://vault.cbbapps.com:8200
 export VAULT_BIN=/opt/homebrew/bin/vault
 
-if test ! -f ~/.vault-token -o "$(perl -e 'print int ((-M $ARGV[0]) * 24)' -- ~/.vault-token)" -ge 4
+if test ! -f ~/.vault-token -o "$(perl -e 'print int ((-M $ARGV[0]) * 48)' -- ~/.vault-token)" -ge 1
 then
     echo 1>&2 "Logging in..."
     "$VAULT_BIN" login -method=okta username="${USER/@*}" 1>&2

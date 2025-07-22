@@ -11,6 +11,7 @@
 	quotepath = false
 	preloadindex = true
 	excludesfile = /Users/nnutter/.gitignore_global
+	sshCommand = ssh
 [merge]
 	renameLimit = 10000
 	tool = diffconflicts

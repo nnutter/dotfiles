@@ -38,3 +38,6 @@ toggle_key: OFF
 # clipboard_threshold: 100
 
 # For a list of all the available options, visit the official docs at: https://espanso.org/docs/
+
+# Disable the ALT+SPACE shortcut since I've never used it and it conflicts with Claude Desktop.
+search_shortcut: off

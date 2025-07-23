@@ -102,19 +102,11 @@
 #
 #setopt interactivecomments
 #
-#HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
-#SAVEHIST=5000
-#HISTSIZE=2000
-#
 #if type brew &>/dev/null; then
-#    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 #    export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3
 #fi
-#fpath+=~/.zfunc
 #fpath=(/Users/nnutter/.docker/completions $fpath)
 #
-#autoload -Uz compinit
-#compinit
 #if type brew &>/dev/null; then
 #    source $(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 #    export PATH="$PATH":"$(brew --prefix)/sbin"
@@ -122,8 +114,6 @@
 ## source ~/.bash_completion.d/*.sh
 #zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 #
-#alias ls='\ls -G'
-#alias ll='ls -l'
 #alias vim='GO111MODULE=off vim'
 #
 #export EDITOR=/opt/homebrew/bin/vim
@@ -144,15 +134,16 @@
 #
 #zmodload zsh/mapfile
 #
-## autoload -U +X bashcompinit && bashcompinit
 #complete -o nospace -C /usr/local/bin/terraform terraform
 #
-#
-#export PATH="$HOME/.go/bin:$HOME/bin:$HOME/src/github.com/pyenv/pyenv/bin:$PATH"
+#export PATH="$HOME/src/github.com/pyenv/pyenv/bin:$PATH"
 #eval "$(pyenv init -)"
 #
 #
 #bindkey -e
+
+alias ls='\ls -G'
+alias ll='ls -l'
 
 export GOPATH="$HOME/.go:$HOME"
 export GOPRIVATE="code.cbbapps.com"

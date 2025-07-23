@@ -89,13 +89,11 @@
 #
 #export PATH="${HOME}/bin:${HOME}/.local/bin:${HOME}/Library/Python/3.9/bin:/opt/homebrew/bin:${PATH}"
 #
-#setopt AUTO_CD
 #
 #setopt GLOB_COMPLETE
 #setopt NO_CASE_GLOB
 #
 #setopt APPEND_HISTORY
-#setopt EXTENDED_HISTORY
 #setopt HIST_EXPIRE_DUPS_FIRST
 #setopt HIST_FIND_NO_DUPS
 #setopt HIST_IGNORE_DUPS
@@ -149,19 +147,19 @@
 ## autoload -U +X bashcompinit && bashcompinit
 #complete -o nospace -C /usr/local/bin/terraform terraform
 #
-#export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 #
 #export PATH="$HOME/.go/bin:$HOME/bin:$HOME/src/github.com/pyenv/pyenv/bin:$PATH"
 #eval "$(pyenv init -)"
 #
-#export PIPENV_IGNORE_VIRTUALENVS=1
 #
 #bindkey -e
 
 export GOPATH="$HOME/.go:$HOME"
 export GOPRIVATE="code.cbbapps.com"
 export HISTSIZE=1000000000
+export PIPENV_IGNORE_VIRTUALENVS=1
 export SAVEHIST=$HISTSIZE
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 safe_path_prepend() {
     if test -d "$1"
@@ -176,7 +174,10 @@ safe_path_prepend "/opt/homebrew/bin"
 setopt AUTO_CD
 setopt EXTENDED_HISTORY
 
-fpath=(/Users/nnutter/.local/share/zsh/completions $fpath)
+if type brew &>/dev/null; then
+    fpath+=$(brew --prefix)/share/zsh-completions
+fi
+fpath+=/Users/nnutter/.local/share/zsh/completions
 autoload -Uz compinit
 compinit
 
@@ -186,9 +187,8 @@ safe_source() {
         source "$1"
     fi
 }
-safe_source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 safe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-zvm_after_init_commands+=('compinit')
+safe_source /opt/homebrew/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc
 
 eval "$(starship init zsh)"
 eval "$(fzf --zsh)"

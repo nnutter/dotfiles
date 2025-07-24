@@ -142,7 +142,7 @@
 #
 #bindkey -e
 
-if ls --version | grep -qi gnu
+if ls --version 2>/dev/null | grep -qi gnu
 then
     alias ls='\ls --color=auto'
 else

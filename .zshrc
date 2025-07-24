@@ -142,7 +142,12 @@
 #
 #bindkey -e
 
-alias ls='\ls -G'
+if ls --version | grep -qi gnu
+then
+    alias ls='\ls --color=auto'
+else
+    alias ls='\ls -G'
+fi
 alias ll='ls -l'
 
 export GOPATH="$HOME/.go:$HOME"

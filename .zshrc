@@ -176,6 +176,7 @@ fi
 fpath+=/Users/nnutter/.local/share/zsh/completions
 autoload -Uz compinit
 compinit
+compdef roam=git
 
 safe_source() {
     if test -f "$1"

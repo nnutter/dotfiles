@@ -74,11 +74,26 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["go.nvim"] = {
+    loaded = true,
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/go.nvim",
+    url = "https://github.com/ray-x/go.nvim"
+  },
+  ["guihua.lua"] = {
+    loaded = true,
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/guihua.lua",
+    url = "https://github.com/ray-x/guihua.lua"
+  },
   ["nord.nvim"] = {
     config = { "\27LJ\2\n4\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\21colorscheme nord\bcmd\bvim\0" },
     loaded = true,
     path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nord.nvim",
     url = "https://github.com/shaunsingh/nord.nvim"
+  },
+  ["nvim-lspconfig"] = {
+    loaded = true,
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-treesitter"] = {
     loaded = true,

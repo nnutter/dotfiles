@@ -26,4 +26,13 @@ return require('packer').startup(function(use)
 	use 'mbbill/undotree'
 
 	use 'tpope/vim-fugitive'
+
+	use {
+		'ray-x/go.nvim',
+		run = function()
+			require('go').setup()
+		end,
+	}
+	use 'ray-x/guihua.lua' -- recommended if need floating window support
+	use 'neovim/nvim-lspconfig'
 end)

@@ -85,7 +85,7 @@ _G.packer_plugins = {
     url = "https://github.com/ray-x/guihua.lua"
   },
   ["nord.nvim"] = {
-    config = { "\27LJ\2\n4\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\21colorscheme nord\bcmd\bvim\0" },
+    config = { "\27LJ\2\n‰\1\0\0\5\0\b\0\0166\0\0\0006\2\1\0'\3\2\0B\0\3\3\14\0\0\0X\2\5€6\2\3\0009\2\4\2'\4\5\0B\2\2\1K\0\1\0006\2\3\0009\2\6\2'\4\a\0B\2\2\1K\0\1\0\21colorscheme nord\bcmd\19nord not found\vnotify\bvim\tnord\frequire\npcall\0" },
     loaded = true,
     path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nord.nvim",
     url = "https://github.com/shaunsingh/nord.nvim"
@@ -130,7 +130,7 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Config for: nord.nvim
 time([[Config for nord.nvim]], true)
-try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\21colorscheme nord\bcmd\bvim\0", "config", "nord.nvim")
+try_loadstring("\27LJ\2\n‰\1\0\0\5\0\b\0\0166\0\0\0006\2\1\0'\3\2\0B\0\3\3\14\0\0\0X\2\5€6\2\3\0009\2\4\2'\4\5\0B\2\2\1K\0\1\0006\2\3\0009\2\6\2'\4\a\0B\2\2\1K\0\1\0\21colorscheme nord\bcmd\19nord not found\vnotify\bvim\tnord\frequire\npcall\0", "config", "nord.nvim")
 time([[Config for nord.nvim]], false)
 
 _G._packer.inside_compile = false

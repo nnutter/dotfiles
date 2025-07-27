@@ -1,4 +1,9 @@
-require'nvim-treesitter.configs'.setup {
+local status_ok, treesitter = pcall(require, "nvim-treesitter.configs")
+if not status_ok then
+	vim.notify("nvim-treesitter not found")
+	return
+end
+treesitter.setup {
 	-- A list of parser names, or "all" (the listed parsers MUST always be installed)
 	ensure_installed = {
 		"go",

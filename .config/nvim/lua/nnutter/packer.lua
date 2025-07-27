@@ -11,6 +11,11 @@ return require('packer').startup(function(use)
 	use {
 		'shaunsingh/nord.nvim',
 		config = function()
+			local status_ok, nord = pcall(require, "nord")
+			if not status_ok then
+				vim.notify("nord not found")
+				return
+			end
 			vim.cmd('colorscheme nord')
 		end
 	}

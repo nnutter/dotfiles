@@ -165,6 +165,7 @@ safe_path_prepend() {
 }
 safe_path_prepend "${HOME}/bin"
 safe_path_prepend "${HOME}/.go/bin"
+safe_path_prepend "${HOME}/.local/bin"
 safe_path_prepend "/opt/homebrew/bin"
 
 setopt AUTO_CD

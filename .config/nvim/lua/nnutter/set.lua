@@ -18,4 +18,6 @@ vim.opt.smartindent = true
 
 vim.opt.undofile = true
 
+vim.opt.wildmode = "list:longest"
+
 vim.opt.wrap = true

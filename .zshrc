@@ -163,10 +163,10 @@ safe_path_prepend() {
         export PATH="${1}:${PATH}"
     fi
 }
+safe_path_prepend "/opt/homebrew/bin"
 safe_path_prepend "${HOME}/bin"
 safe_path_prepend "${HOME}/.go/bin"
 safe_path_prepend "${HOME}/.local/bin"
-safe_path_prepend "/opt/homebrew/bin"
 
 setopt AUTO_CD
 setopt EXTENDED_HISTORY

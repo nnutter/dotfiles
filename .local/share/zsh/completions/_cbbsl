@@ -6,6 +6,7 @@ _cbbsl() {
     
     if [[ -d "$cbbsl_dir" ]]; then
         subdirs=(${cbbsl_dir}/*(/:t))
+		subdirs+=(alt apps claude dags image mds pipe tf)
         _describe 'subdirectories' subdirs
     fi
 }

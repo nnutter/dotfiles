@@ -5,6 +5,13 @@ cbbsl() {
     fi
 
     declare -A aliases
+    aliases[alt]="infra-dataflow-pipeline-alt"
+    aliases[apps]="infra-k8s-apps"
+    aliases[claude]="infra-dataflow-pipeline-claude"
+    aliases[dags]="infra-data-dags"
+    aliases[image]="infra-dataflow-pipeline-image"
+    aliases[mds]="infra-mds"
+    aliases[pipe]="infra-dataflow-pipeline"
     aliases[tf]="infra-dataflow-pipeline-tf"
 
     local subdir="$1"

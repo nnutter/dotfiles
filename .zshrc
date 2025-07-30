@@ -175,9 +175,17 @@ if type brew &>/dev/null; then
     fpath+=$(brew --prefix)/share/zsh-completions
 fi
 fpath+=/Users/nnutter/.local/share/zsh/completions
+fpath+=/Users/nnutter/.local/share/zsh/site-functions
 autoload -Uz compinit
 compinit
 compdef roam=git
+
+# Source all functions from site-functions
+for func in ~/.local/share/zsh/site-functions/*; do
+    if [[ -r "$func" ]]; then
+        autoload -Uz "${func:t}"
+    fi
+done
 
 safe_source() {
     if test -f "$1"

@@ -1,0 +1,23 @@
+cbbsl() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: cbbsl <subdirectory>"
+        return 1
+    fi
+
+    declare -A aliases
+    aliases[tf]="infra-dataflow-pipeline-tf"
+
+    local subdir="$1"
+    if [[ -n "${aliases[$subdir]}" ]]; then
+        subdir="${aliases[$subdir]}"
+    fi
+
+    local target_dir="$HOME/src/github.com/cbbsl/$subdir"
+
+    if [[ -d "$target_dir" ]]; then
+        cd "$target_dir"
+    else
+        echo "Directory $target_dir does not exist"
+        return 1
+    fi
+}

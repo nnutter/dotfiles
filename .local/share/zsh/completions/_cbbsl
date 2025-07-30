@@ -1,0 +1,13 @@
+#compdef cbbsl
+
+_cbbsl() {
+    local cbbsl_dir="$HOME/src/github.com/cbbsl"
+    local -a subdirs
+    
+    if [[ -d "$cbbsl_dir" ]]; then
+        subdirs=(${cbbsl_dir}/*(/:t))
+        _describe 'subdirectories' subdirs
+    fi
+}
+
+_cbbsl "$@"

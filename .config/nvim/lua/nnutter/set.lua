@@ -13,8 +13,12 @@ vim.opt.list = true
 vim.opt.number = true
 
 vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
 
+vim.opt.smartcase = true
 vim.opt.smartindent = true
+
+vim.opt.splitright = true
 
 vim.opt.undofile = true
 

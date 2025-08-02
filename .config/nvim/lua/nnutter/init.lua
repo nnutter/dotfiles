@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 require("nnutter.lsp")
 require("nnutter.packer")
 require("nnutter.remap")

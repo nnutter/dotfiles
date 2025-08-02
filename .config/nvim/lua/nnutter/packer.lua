@@ -5,20 +5,12 @@ return require('packer').startup(function(use)
 	use {
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.8',
-		requires = { {'nvim-lua/plenary.nvim'} }
+		requires = {
+			'nvim-lua/plenary.nvim',
+		}
 	}
 
-	use {
-		'shaunsingh/nord.nvim',
-		config = function()
-			local status_ok, nord = pcall(require, "nord")
-			if not status_ok then
-				vim.notify("nord not found")
-				return
-			end
-			vim.cmd('colorscheme nord')
-		end
-	}
+	use 'shaunsingh/nord.nvim'
 
 	use {
 		'nvim-treesitter/nvim-treesitter',
@@ -34,20 +26,21 @@ return require('packer').startup(function(use)
 
 	use {
 		'ray-x/go.nvim',
-		run = function()
-			require('go').setup()
-		end,
-	}
-	use 'ray-x/guihua.lua' -- recommended if need floating window support
-	use 'neovim/nvim-lspconfig'
-
-	use {
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
 		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"MunifTanjim/nui.nvim",
+			'ray-x/guihua.lua', -- recommended if need floating window support
+			'neovim/nvim-lspconfig',
 		}
 	}
+
+	use {
+		'nvim-neo-tree/neo-tree.nvim',
+		branch = 'v3.x',
+		requires = {
+			'nvim-lua/plenary.nvim',
+			'nvim-tree/nvim-web-devicons',
+			'MunifTanjim/nui.nvim',
+		}
+	}
+
+	use 'akinsho/toggleterm.nvim'
 end)

@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/nnutter/.cache/nvim/packer_hererocks/2.1.1748459687/share/lua/5.1/?.lua;/home/nnutter/.cache/nvim/packer_hererocks/2.1.1748459687/share/lua/5.1/?/init.lua;/home/nnutter/.cache/nvim/packer_hererocks/2.1.1748459687/lib/luarocks/rocks-5.1/?.lua;/home/nnutter/.cache/nvim/packer_hererocks/2.1.1748459687/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/nnutter/.cache/nvim/packer_hererocks/2.1.1748459687/lib/lua/5.1/?.so"
+local package_path_str = "/Users/nnutter/.cache/nvim/packer_hererocks/2.1.1753364724/share/lua/5.1/?.lua;/Users/nnutter/.cache/nvim/packer_hererocks/2.1.1753364724/share/lua/5.1/?/init.lua;/Users/nnutter/.cache/nvim/packer_hererocks/2.1.1753364724/lib/luarocks/rocks-5.1/?.lua;/Users/nnutter/.cache/nvim/packer_hererocks/2.1.1753364724/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/nnutter/.cache/nvim/packer_hererocks/2.1.1753364724/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -76,77 +76,77 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["go.nvim"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/go.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/go.nvim",
     url = "https://github.com/ray-x/go.nvim"
   },
   ["guihua.lua"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/guihua.lua",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/guihua.lua",
     url = "https://github.com/ray-x/guihua.lua"
   },
   ["neo-tree.nvim"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/neo-tree.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/neo-tree.nvim",
     url = "https://github.com/nvim-neo-tree/neo-tree.nvim"
   },
   ["nord.nvim"] = {
-    config = { "\27LJ\2\n‰\1\0\0\5\0\b\0\0166\0\0\0006\2\1\0'\3\2\0B\0\3\3\14\0\0\0X\2\5€6\2\3\0009\2\4\2'\4\5\0B\2\2\1K\0\1\0006\2\3\0009\2\6\2'\4\a\0B\2\2\1K\0\1\0\21colorscheme nord\bcmd\19nord not found\vnotify\bvim\tnord\frequire\npcall\0" },
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/nord.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nord.nvim",
     url = "https://github.com/shaunsingh/nord.nvim"
   },
   ["nui.nvim"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nui.nvim",
     url = "https://github.com/MunifTanjim/nui.nvim"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-treesitter"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["toggleterm.nvim"] = {
+    loaded = true,
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
+    url = "https://github.com/akinsho/toggleterm.nvim"
   },
   undotree = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/undotree",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
   },
   ["vim-fugitive"] = {
     loaded = true,
-    path = "/home/nnutter/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+    path = "/Users/nnutter/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nord.nvim
-time([[Config for nord.nvim]], true)
-try_loadstring("\27LJ\2\n‰\1\0\0\5\0\b\0\0166\0\0\0006\2\1\0'\3\2\0B\0\3\3\14\0\0\0X\2\5€6\2\3\0009\2\4\2'\4\5\0B\2\2\1K\0\1\0006\2\3\0009\2\6\2'\4\a\0B\2\2\1K\0\1\0\21colorscheme nord\bcmd\19nord not found\vnotify\bvim\tnord\frequire\npcall\0", "config", "nord.nvim")
-time([[Config for nord.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

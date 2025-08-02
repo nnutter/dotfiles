@@ -1,0 +1,4 @@
+#compdef roam
+
+# Use git's completion function for roam command
+compdef roam=git

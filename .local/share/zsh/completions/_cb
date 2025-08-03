@@ -1,4 +1,5 @@
 #compdef cb
+compdef _cb cb
 
 # zsh completion for cb                                   -*- shell-script -*-
 

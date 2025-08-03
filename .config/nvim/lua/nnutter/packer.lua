@@ -25,6 +25,14 @@ return require('packer').startup(function(use)
 	use 'tpope/vim-fugitive'
 
 	use {
+		'neovim/nvim-lspconfig',
+		requires = {
+			{ "ms-jpq/coq_nvim", branch = "coq" },
+			{ "ms-jpq/coq.artifacts", branch = "artifacts" },
+		}
+	}
+
+	use {
 		'ray-x/go.nvim',
 		requires = {
 			'ray-x/guihua.lua', -- recommended if need floating window support

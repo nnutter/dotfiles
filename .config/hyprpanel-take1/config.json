@@ -1,0 +1,9 @@
+{
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "scalingPriority": "gdk",
+  "menus.clock.time.military": true,
+  "menus.clock.time.hideSeconds": true,
+  "tear": true
+}

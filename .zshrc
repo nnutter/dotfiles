@@ -176,10 +176,10 @@ safe_path_prepend() {
 
     export PATH="${1}:${PATH}"
 }
-safe_path_prepend "/opt/homebrew/bin"
-safe_path_prepend "${HOME}/bin"
-safe_path_prepend "${HOME}/.go/bin"
-safe_path_prepend "${HOME}/.local/bin"
+safe_path_prepend /opt/homebrew/bin
+safe_path_prepend $HOME/bin
+safe_path_prepend $HOME/.go/bin
+safe_path_prepend $HOME/.local/bin
 
 setopt AUTO_CD
 setopt EXTENDED_HISTORY
@@ -187,14 +187,14 @@ setopt EXTENDED_HISTORY
 if type brew &>/dev/null; then
     fpath+=$(brew --prefix)/share/zsh-completions
 fi
-fpath+=/Users/nnutter/.local/share/zsh/completions
-fpath+=/Users/nnutter/.local/share/zsh/site-functions
+fpath+=$HOME/.local/share/zsh/completions
+fpath+=$HOME/.local/share/zsh/site-functions
 autoload -Uz compinit
 compinit
 compdef roam=git
 
 # Source all functions from site-functions
-for func in ~/.local/share/zsh/site-functions/*; do
+for func in $HOME/.local/share/zsh/site-functions/*; do
     if [[ -r "$func" ]]; then
         autoload -Uz "${func:t}"
     fi

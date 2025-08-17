@@ -162,10 +162,19 @@ export SAVEHIST=$HISTSIZE
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 safe_path_prepend() {
-    if test -d "$1"
+    # Skip if not a directory
+    if ! test -d "$1"
     then
-        export PATH="${1}:${PATH}"
+      return
     fi
+
+    # Skip if already in PATH
+    if echo $PATH | tr ':' '\n' | grep -q '^'"$1"'$'
+    then
+      return
+    fi
+
+    export PATH="${1}:${PATH}"
 }
 safe_path_prepend "/opt/homebrew/bin"
 safe_path_prepend "${HOME}/bin"

@@ -1,0 +1,1 @@
+/home/nnutter/.config/omarchy/current/theme/neovim.lua

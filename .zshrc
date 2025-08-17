@@ -150,7 +150,10 @@ else
 fi
 alias ll='ls -l'
 
-export GIT_EDITOR=nvim
+export EDITOR=nvim
+export SUDO_EDITOR=$EDITOR
+export GIT_EDITOR=$EDITOR
+
 export GOPATH="$HOME/.go:$HOME"
 export GOPRIVATE="code.cbbapps.com"
 export HISTSIZE=1000000000

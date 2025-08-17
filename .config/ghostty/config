@@ -43,3 +43,4 @@
 # resize-overlay-duration = 4s 200ms
 theme = dark:nord,light:nord-light
 keybind = shift+enter=text:\n
+font-family = "JetBrainsMono Nerd Font"

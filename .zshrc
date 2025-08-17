@@ -214,5 +214,5 @@ safe_source $HOME/.local/share/omarchy/default/bash/functions
 
 if type starship &>/dev/null; then eval "$(starship init zsh)"; fi
 if type fzf &>/dev/null; then eval "$(fzf --zsh)"; fi
-if type mise &>/dev/null; then eval "$(mise init zsh)"; fi
+if type mise &>/dev/null; then eval "$(mise activate zsh)"; fi
 if type zoxide &>/dev/null; then eval "$(zoxide init zsh)"; fi

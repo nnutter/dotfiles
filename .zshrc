@@ -156,10 +156,15 @@ export GIT_EDITOR=$EDITOR
 
 export GOPATH="$HOME/.go:$HOME"
 export GOPRIVATE="code.cbbapps.com"
-export HISTSIZE=1000000000
 export PIPENV_IGNORE_VIRTUALENVS=1
-export SAVEHIST=$HISTSIZE
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=1000000000
+export SAVEHIST=$HISTSIZE
+setopt SHARE_HISTORY       # Share history between sessions
+setopt APPEND_HISTORY      # Append to history file rather than overwrite
+setopt INC_APPEND_HISTORY  # Write to history file immediately
 
 safe_path_prepend() {
     # Skip if not a directory

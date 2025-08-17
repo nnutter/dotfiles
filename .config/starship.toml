@@ -16,5 +16,8 @@ disabled = true
 [golang]
 disabled = true
 
+[perl]
+disabled = true
+
 [python]
 disabled = true

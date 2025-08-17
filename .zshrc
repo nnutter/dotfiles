@@ -210,7 +210,6 @@ safe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.
 safe_source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 safe_source /opt/homebrew/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc
 safe_source $HOME/.local/share/omarchy/default/bash/aliases
-safe_source $HOME/.local/share/omarchy/default/bash/functions
 
 if type starship &>/dev/null; then eval "$(starship init zsh)"; fi
 if type fzf &>/dev/null; then eval "$(fzf --zsh)"; fi

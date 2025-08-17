@@ -5,3 +5,6 @@ BraveSoftware
 1Password
 github-copilot
 go/telemetry
+chromium
+*Cache
+*.noindex

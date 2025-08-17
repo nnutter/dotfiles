@@ -214,9 +214,40 @@ safe_source() {
 safe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 safe_source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 safe_source /opt/homebrew/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc
-safe_source $HOME/.local/share/omarchy/default/bash/aliases
 
 if type starship &>/dev/null; then eval "$(starship init zsh)"; fi
-if type fzf &>/dev/null; then eval "$(fzf --zsh)"; fi
+if type fzf &>/dev/null; then
+    eval "$(fzf --zsh)"
+    alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+fi
 if type mise &>/dev/null; then eval "$(mise activate zsh)"; fi
 if type zoxide &>/dev/null; then eval "$(zoxide init zsh)"; fi
+
+if type eza &>/dev/null; then
+    alias ls='eza -lh --group-directories-first --icons=auto'
+    alias lt='eza --tree --level=2 --long --icons --git'
+fi
+alias lsa='ls -a'
+alias lta='lt -a'
+
+if type xdg-open &>/dev/null; then
+    open() {
+      xdg-open "$@" >/dev/null 2>&1 &
+    }
+fi
+
+if type z &>/dev/null; then
+    alias cd="zd"
+    zd() {
+      if [ $# -eq 0 ]; then
+        builtin cd ~ && return
+      elif [ -d "$1" ]; then
+        builtin cd "$1"
+      else
+        z "$@" && printf " \U000F17A9 " && pwd || echo "Error: Directory not found"
+      fi
+    }
+fi
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'

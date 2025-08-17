@@ -15,7 +15,7 @@ _roam() {
 }
 
 setup-checkout() {
-    _roam checkout "$1"
+	_roam checkout "$1"
 }
 
 setup-init() {
@@ -28,8 +28,8 @@ setup-remote() {
 }
 
 setup() {
-    # shellcheck disable=1090
-    source "$(git --exec-path)/git-sh-setup"
+	# shellcheck disable=1090
+	source "$(git --exec-path)/git-sh-setup"
 
 	local branch="master" opt="" repo="$USER/dotfiles"
 	while [ $# -gt 0 ]; do
@@ -40,20 +40,20 @@ setup() {
 			-b) branch="$1"; shift;;
 			-r) repo="$1"; shift;;
 		esac
-    done
- 
+	done
+
 	setup-init
 	setup-remote "$repo"
-    setup-checkout "$branch"
+	setup-checkout "$branch"
 }
 
 main() {
 	case "$1" in
-	setup)
- 		shift;
-		setup "$@";;
-	*)
-		_roam "$@";;
+		setup)
+			shift;
+			setup "$@";;
+		*)
+			_roam "$@";;
 	esac
 }
 

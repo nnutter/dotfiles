@@ -142,52 +142,88 @@
 #
 #bindkey -e
 
-if ls --version 2>/dev/null | grep -qi gnu
-then
-    alias ls='\ls --color=auto'
-else
-    alias ls='\ls -G'
-fi
-alias ll='ls -l'
+####################
+# Helper Functions #
+####################
+
+# _installed checks if an executable exists
+_installed() {
+    type "$1" &>/dev/null
+}
+
+# _safe_path_prepend prepends the directory to PATH but only if it exists and is
+# not already in the PATH
+_safe_path_prepend() {
+    # Skip if not a directory
+    if ! test -d "$1"; then
+        return
+    fi
+
+    # Skip if already in PATH
+    if echo $PATH | tr ':' '\n' | grep -q '^'"$1"'$'; then
+        return
+    fi
+
+    export PATH="${1}:${PATH}"
+}
+
+# _safe_source silently skips non-existent files
+_safe_source() {
+    for file in "$@"; do
+        if test -f "$file"; then
+            source "$file"
+            return 0
+        fi
+    done
+}
+
+#########################
+# Environment Variables #
+#########################
 
 export EDITOR=nvim
 export SUDO_EDITOR=$EDITOR
 export GIT_EDITOR=$EDITOR
 
-export GOPATH="$HOME/.go:$HOME"
+# Installs Go tools, packages, etc. in ~/.go instead of the default, ~/go.
+export GOPATH="$HOME/.go"
+# Disables some public security checks on our private Go packages.
 export GOPRIVATE="code.cbbapps.com"
+
 export PIPENV_IGNORE_VIRTUALENVS=1
+
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+#################
+# Shell History #
+#################
 
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=1000000000
 export SAVEHIST=$HISTSIZE
-setopt SHARE_HISTORY       # Share history between sessions
-setopt APPEND_HISTORY      # Append to history file rather than overwrite
-setopt INC_APPEND_HISTORY  # Write to history file immediately
+setopt APPEND_HISTORY     # Append to history file rather than overwrite
+setopt EXTENDED_HISTORY   # Save commands duration
+setopt INC_APPEND_HISTORY # Write to history file immediately
+setopt SHARE_HISTORY      # Share history between sessions
 
-safe_path_prepend() {
-    # Skip if not a directory
-    if ! test -d "$1"
-    then
-      return
-    fi
-
-    # Skip if already in PATH
-    if echo $PATH | tr ':' '\n' | grep -q '^'"$1"'$'
-    then
-      return
-    fi
-
-    export PATH="${1}:${PATH}"
-}
-safe_path_prepend /opt/homebrew/bin
-safe_path_prepend $HOME/bin
-safe_path_prepend $HOME/.go/bin
-safe_path_prepend $HOME/.local/bin
+#################
+# Shell Options #
+#################
 
 setopt AUTO_CD
-setopt EXTENDED_HISTORY
+
+######################
+# PATH Modifications #
+######################
+
+_safe_path_prepend /opt/homebrew/bin
+_safe_path_prepend $HOME/.local/bin
+_safe_path_prepend $HOME/.go/bin
+_safe_path_prepend $HOME/bin
+
+#####################
+# Shell Completions #
+#####################
 
 if type brew &>/dev/null; then
     fpath+=$(brew --prefix)/share/zsh-completions
@@ -196,7 +232,10 @@ fpath+=$HOME/.local/share/zsh/completions
 fpath+=$HOME/.local/share/zsh/site-functions
 autoload -Uz compinit
 compinit
-compdef roam=git
+
+if _installed roam; then
+    compdef roam=git
+fi
 
 # Source all functions from site-functions
 for func in $HOME/.local/share/zsh/site-functions/*; do
@@ -205,49 +244,76 @@ for func in $HOME/.local/share/zsh/site-functions/*; do
     fi
 done
 
-safe_source() {
-    if test -f "$1"
-    then
-        source "$1"
-    fi
-}
-safe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-safe_source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-safe_source /opt/homebrew/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc
+##########################
+# Other Shell Extensions #
+##########################
 
-if type starship &>/dev/null; then eval "$(starship init zsh)"; fi
-if type fzf &>/dev/null; then
+# zsh-syntax-highlighting
+_safe_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Shell completion for gcloud
+_safe_source /opt/homebrew/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc
+
+# Starship allows you to easily create a customized shell prompt
+# https://starship.rs/config/
+# ~/.config/starship.toml
+if _installed starship; then
+    eval "$(starship init zsh)"
+fi
+
+# fzf is a general-purpose command-line fuzzy finder
+# https://junegunn.github.io/fzf/getting-started/
+if _installed fzf; then
     eval "$(fzf --zsh)"
     alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 fi
-if type mise &>/dev/null; then eval "$(mise activate zsh)"; fi
-if type zoxide &>/dev/null; then eval "$(zoxide init zsh)"; fi
 
-if type eza &>/dev/null; then
-    alias ls='eza -lh --group-directories-first --icons=auto'
-    alias lt='eza --tree --level=2 --long --icons --git'
-fi
-alias lsa='ls -a'
-alias lta='lt -a'
-
-if type xdg-open &>/dev/null; then
-    open() {
-      xdg-open "$@" >/dev/null 2>&1 &
-    }
+# mise manages development environments, environment variables, and tasks
+# https://mise.jdx.dev/walkthrough.html
+if _installed mise; then
+    eval "$(mise activate zsh)"
 fi
 
-if type z &>/dev/null; then
-    alias cd="zd"
+# zoxide is a smarter cd command
+# https://github.com/ajeetdsouza/zoxide/blob/main/README.md
+if _installed zoxide; then
+    eval "$(zoxide init zsh)"
     zd() {
-      if [ $# -eq 0 ]; then
-        builtin cd ~ && return
-      elif [ -d "$1" ]; then
-        builtin cd "$1"
-      else
-        z "$@" && printf " \U000F17A9 " && pwd || echo "Error: Directory not found"
-      fi
+        if [ $# -eq 0 ]; then
+            builtin cd ~ && return
+        elif [ -d "$1" ]; then
+            builtin cd "$1"
+        else
+            z "$@" && printf " \U000F17A9 " && pwd || echo "Error: Directory not found"
+        fi
     }
+    alias cd="zd"
 fi
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+# A modern, maintained replacement for ls
+# https://eza.rocks/
+if _installed eza; then
+    # shellcheck disable=SC2262
+    alias ls='eza -lh --group-directories-first --icons=auto'
+    alias lt='eza --tree --level=2 --long --icons --git'
+    alias lta='lt -a'
+else
+    # shellcheck disable=SC2010,SC2263
+    if ls --version 2>/dev/null | grep -qi gnu; then
+        alias ls='\ls --color=auto'
+    else
+        alias ls='\ls -G'
+    fi
+fi
+alias la='ls -a'
+alias ll='ls -l'
+alias lla='ls -la'
+
+if _installed xdg-open; then
+    open() {
+        exec xdg-open "$@" >/dev/null 2>&1 &
+    }
+fi

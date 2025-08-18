@@ -1,0 +1,1 @@
+defaults write pbs NSServicesStatus -dict-add '"(null) - Switch to Terminal - runWorkflowAsService"' '{key_equivalent = "^~@$\U000d";}'

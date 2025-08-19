@@ -1,1 +1,28 @@
-defaults write pbs NSServicesStatus -dict-add '"(null) - Switch to Terminal - runWorkflowAsService"' '{key_equivalent = "^~@$\U000d";}'
+#!/usr/bin/env zsh
+
+set -o errexit -o nounset -o pipefail +o xtrace
+
+# Key equivalent modifiers: ^ = Control, ~ = Option, @ = Command, $ = Shift, \U000d = Return
+declare -A shortcuts
+shortcuts[\\\\]='Switch to 1Password'
+shortcuts[a]='Switch to Claude'
+shortcuts[b]='Switch to Browser'
+shortcuts[c]='Switch to Calendar'
+#shortcuts[d]='Force Touch'
+shortcuts[e]='Switch to Fastmail'
+#shortcuts[f]='Full Screen'
+shortcuts[g]='Switch to Messages'
+shortcuts[m]='Switch to YouTube Music'
+#shortcuts[q]='Lock Screen'
+shortcuts[r]='Switch to Outlook'
+shortcuts[s]='Switch to Slack'
+shortcuts[t]='Switch to Tasks'
+shortcuts[x]='Switch to Finder'
+shortcuts[y]='Switch to YouTube'
+
+for key in "${(@k)shortcuts}"; do
+	workflow="${shortcuts[$key]}"
+  defaults write pbs NSServicesStatus -dict-add '"(null) - '"$workflow"' - runWorkflowAsService"' '{key_equivalent = "^@'"$key"'";}'
+done
+
+defaults write pbs NSServicesStatus -dict-add '"(null) - Switch to Terminal - runWorkflowAsService"' '{key_equivalent = "^@\U000d";}'

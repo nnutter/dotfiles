@@ -25,10 +25,10 @@ matches:
     replace: "https://cardinals.atlassian.net/browse/WRK-"
   - trigger: ";dstat"
     replace: |-
-      - [ ] BQ updated without errors.
-      - [ ] Images built without failures.
-      - [ ] No paused fragments.
-      - [ ] No Terraform changes.
-      - [ ] Apps deployed.
+      - :white_check_mark BQ updated without errors.
+      - :white_check_mark Images built without failures.
+      - :white_check_mark No paused fragments.
+      - :white_check_mark No Terraform changes.
+      - :white_check_mark Apps deployed.
 
 

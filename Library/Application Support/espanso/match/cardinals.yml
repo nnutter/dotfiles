@@ -1,6 +1,10 @@
 matches:
+  - trigger: ";dapps"
+    replace: "Merging `cbbsl/infra-k8s-apps` `dev` -> `test` -> `master`."
   - trigger: ";ddags"
-    replace: "Merging `cbbsl/infra-data-dags` `dev` -> `test` -> `master`"
+    replace: "Merging `cbbsl/infra-data-dags` `dev` -> `test` -> `master`."
+  - trigger: ";dtf"
+    replace: "Merging `cbbsl/infra-dataflow-pipeline-tf` `dev` -> `test` -> `master`."
   - trigger: ";dpipe"
     replace: "Merging `infra-dataflow-pipeline` `dev` -> `test` -> `master`; see [Wiki: Deployment: dataflow-pipeline](https://github.com/cbbsl/infra-dataflow-pipeline/wiki/Deployment---infra-dataflow-pipeline) for process."
   - trigger: ";pdev"
@@ -17,25 +21,14 @@ matches:
     replace: "_idcanonical"
   - trigger: ";_idm"
     replace: "_idmatch"
-  - trigger: ";cdpipe"
-    replace: "cd ~/src/code.cbbapps.com/infrastructure/cloud-applications/dataflow-pipeline"
-  - trigger: ";cdalt"
-    replace: "cd ~/src/code.cbbapps.com/infrastructure/cloud-applications/dataflow-pipeline-alt"
-  - trigger: ";cdk8s"
-    replace: "cd ~/src/code.cbbapps.com/infrastructure/terraform/cbbapps-k8s-app-deployments"
-  - trigger: ";dschema"
-    replace: "Just applied and merged schema changes for `xxx`. If you have an MR open you'll need to merge/rebase `dev` to get up-to-date."
-  - trigger: ";ACT-"
-    replace: "https://cardinals.atlassian.net/browse/ACT-"
+  - trigger: ";WRK-"
+    replace: "https://cardinals.atlassian.net/browse/WRK-"
   - trigger: ";dstat"
     replace: |-
-      - BQ update: not started
-      - Paused fragments: not started
-      - Terraform changes: not started
-      - GKE changes: not started
-  - trigger: ";liaison"
-    replace: "@jprusaczyk @John Kern @bseyfert @akessler This Wednesday is our bi-weekly Data Engineering planning meeting. If there are any issues/topics you would like to raise awareness of please reply to this and let me know. If possible, please include details about any deadline, any sense of the baseball value, or any efficiency gains."
-  - trigger: ";sere"
-    replace: "@sescalona If you have some time you could review []()."
+      - [ ] BQ updated without errors.
+      - [ ] Images built without failures.
+      - [ ] No paused fragments.
+      - [ ] No Terraform changes.
+      - [ ] Apps deployed.
 
 

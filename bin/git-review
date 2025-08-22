@@ -1,17 +1,46 @@
 #!/usr/bin/env bash
-declare -a PRE POST
-while test "$#" -gt 0
-do
-    case "$1" in
-        --)
-            shift
-            POST=("$@")
-            break
-            ;;
-        *)
-            PRE+=("$1")
-            shift
-            ;;
+
+main() {
+  # shellcheck disable=1090
+  source "$(git --exec-path)/git-sh-setup"
+
+  local upstream="@{upstream}" head="HEAD"
+  declare -a other_options
+  while [ $# -gt 0 ]; do
+    OPT="$1"
+    shift
+    case $OPT in
+    --) break ;;
+    --head)
+      head="$1"
+      shift
+      ;;
+    -p) other_options+=("-p") ;;
+    --stat) other_options+=("--stat") ;;
+    -u)
+      upstream="$1"
+      shift
+      ;;
     esac
-done
-git log --reverse "${PRE[@]}" "@{upstream}.." -- "${POST[@]}"
+  done
+
+  git log --reverse "${other_options[@]}" "$upstream".."$head" -- "$@"
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+git review [options]
+--
+h           Show this help/usage
+head=       Head branch if not current branch
+p,patch     Show patch
+u,upstream= Upstream branch to use if not branch's literal upstream
+stat        Generate diff stats
+"
+
+main "$@"

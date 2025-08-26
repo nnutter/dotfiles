@@ -21,6 +21,7 @@ main() {
       upstream="$1"
       shift
       ;;
+    -w) other_options+=("-w") ;;
     esac
   done
 
@@ -36,11 +37,12 @@ SUBDIRECTORY_OK=1
 OPTIONS_SPEC="\
 git review [options]
 --
-h           Show this help/usage
-head=       Head branch if not current branch
-p,patch     Show patch
-u,upstream= Upstream branch to use if not branch's literal upstream
-stat        Generate diff stats
+h                   Show this help/usage
+head=               Head branch if not current branch
+p,patch             Show patch
+u,upstream=         Upstream branch to use if not branch's literal upstream
+w,ignore-all-space  Show patch
+stat                Generate diff stats
 "
 
 main "$@"

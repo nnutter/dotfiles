@@ -317,3 +317,12 @@ if _installed xdg-open; then
         exec xdg-open "$@" >/dev/null 2>&1 &
     }
 fi
+
+if _installed wl-copy; then
+    pbcopy() {
+        exec wl-copy "$@"
+    }
+    pbpaste() {
+        exec wl-paste "$@"
+    }
+fi

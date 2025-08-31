@@ -24,7 +24,7 @@ shortcuts[y]='Switch to YouTube'
 
 for key in "${(@k)shortcuts}"; do
 	workflow="${shortcuts[$key]}"
-  defaults write pbs NSServicesStatus -dict-add '"(null) - '"$workflow"' - runWorkflowAsService"' '{key_equivalent = "^@'"$key"'";}'
+  defaults write pbs NSServicesStatus -dict-add '"(null) - '"$workflow"' - runWorkflowAsService"' '{key_equivalent = "^~@$'"$key"'";}'
 done
 
-defaults write pbs NSServicesStatus -dict-add '"(null) - Switch to Terminal - runWorkflowAsService"' '{key_equivalent = "^@\U000d";}'
+defaults write pbs NSServicesStatus -dict-add '"(null) - Switch to Terminal - runWorkflowAsService"' '{key_equivalent = "^~@$\U000d";}'

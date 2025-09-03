@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+main() {
+  # shellcheck disable=1090
+  source "$(git --exec-path)/git-sh-setup"
+
+  while [ $# -gt 0 ]; do
+    opt="$1"
+    shift
+    case $opt in
+    --) break ;;
+    esac
+  done
+
+  # Pipe JSON Lines to a loop that invokes the command for each line
+  while IFS= read -r line; do
+    echo "$line" | "$@"
+  done
+}
+
+# shellcheck disable=SC2034
+# NONGIT_OK is used by `git-sh-setup`.
+NONGIT_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+jargs <cmd>
+
+jargs pipes each line of STDIN to the provided command. For example, so you command
+pipe JSON Lines to a command that reads JSON as input.
+
+--
+h,help     show the help
+"
+
+main "$@"

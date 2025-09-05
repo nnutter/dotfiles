@@ -226,9 +226,8 @@ _safe_path_prepend $HOME/bin
 #####################
 
 if type brew &>/dev/null; then
-    fpath+=$(brew --prefix)/share/zsh-completions
+    fpath+=$(brew --prefix)/share/zsh/site-functions
 fi
-fpath+=$HOME/.local/share/zsh/completions
 fpath+=$HOME/.local/share/zsh/site-functions
 autoload -Uz compinit
 compinit

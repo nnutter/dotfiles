@@ -16,6 +16,9 @@ disabled = true
 [golang]
 disabled = true
 
+[lua]
+disabled = true
+
 [package]
 disabled = true
 

@@ -7,3 +7,6 @@
 [submodule ".local/share/omarchy"]
 	path = .local/share/omarchy
 	url = git@github.com:basecamp/omarchy.git
+[submodule ".hammerspoon/Spoons/PaperWM.spoon"]
+	path = .hammerspoon/Spoons/PaperWM.spoon
+	url = https://github.com/mogenson/PaperWM.spoon

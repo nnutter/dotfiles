@@ -206,11 +206,13 @@ setopt EXTENDED_HISTORY   # Save commands duration
 setopt INC_APPEND_HISTORY # Write to history file immediately
 setopt SHARE_HISTORY      # Share history between sessions
 
+
 #################
 # Shell Options #
 #################
 
 setopt AUTO_CD
+setopt VI
 
 ######################
 # PATH Modifications #

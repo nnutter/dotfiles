@@ -5,9 +5,9 @@ cbbsl() {
     fi
 
     declare -A aliases
+    aliases[agent]="infra-dataflow-pipeline-agent"
     aliases[alt]="infra-dataflow-pipeline-alt"
     aliases[apps]="infra-k8s-apps"
-    aliases[claude]="infra-dataflow-pipeline-claude"
     aliases[dags]="infra-data-dags"
     aliases[image]="infra-dataflow-pipeline-image"
     aliases[mds]="infra-mds"

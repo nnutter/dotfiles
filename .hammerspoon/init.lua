@@ -1,90 +1,96 @@
 hs = hs
 spoon = spoon
 
-hs.loadSpoon("ReloadConfiguration")
-spoon.ReloadConfiguration:start()
-
 hs.hotkey.bind({ "cmd", "alt" }, "V", function()
 	hs.eventtap.keyStrokes(hs.pasteboard.getContents())
 end)
 
-AppLauncher = hs.loadSpoon("AppLauncher")
-AppLauncher.modifiers = { "ctrl", "shift", "alt" }
-AppLauncher:bindHotkeys({
-	b = "Brave Browser",
-	c = "Calendar",
-	d = "Discord",
-	f = "Fastmail",
-	o = "Outlook",
-	p = "1Password",
-	t = "Ghostty",
-	v = "Visual Studio Code",
+hs.loadSpoon("Hammerflow")
+spoon.Hammerflow.loadFirstValidTomlFile({
+	"hammerflow.toml",
 })
+if spoon.Hammerflow.auto_reload then
+	hs.loadSpoon("ReloadConfiguration")
+	spoon.ReloadConfiguration:start()
+end
 
-hs.hotkey.bind({ "ctrl", "alt", "shift" }, "-", function()
-	local win = hs.window.focusedWindow()
-	local f = win:frame()
-	local screen = win:screen()
-	local max = screen:frame()
-
-	if f.w < max.w and f.x <= 1 / 3 * max.w then
-		if f.w > 2 / 3 * max.w then
-			f.w = 2 / 3 * max.w
-		elseif f.w > max.w / 2 then
-			f.w = 1 / 2 * max.w
-		else
-			f.w = 1 / 3 * max.w
-		end
-		f.x = 0
-	elseif f.w < max.w and f.x >= 1 / 3 * max.w then
-		if f.w < 1 / 3 * max.w then
-			f.w = 1 / 3 * max.w
-		elseif f.w < 1 / 2 * max.w then
-			f.w = 1 / 2 * max.w
-		else
-			f.w = 2 / 3 * max.w
-		end
-		f.x = max.w - f.w
-	else
-		f.w = 2 / 3 * max.w
-		f.x = 0
-	end
-
-	win:setFrame(f)
-end)
-
-hs.hotkey.bind({ "ctrl", "alt", "shift" }, "=", function()
-	local win = hs.window.focusedWindow()
-	local f = win:frame()
-	local screen = win:screen()
-	local max = screen:frame()
-
-	if f.w < max.w and f.x >= 1 / 3 * max.w then
-		if f.w > 2 / 3 * max.w then
-			f.w = 2 / 3 * max.w
-		elseif f.w > max.w / 2 then
-			f.w = 1 / 2 * max.w
-		else
-			f.w = 1 / 3 * max.w
-		end
-		f.x = max.w - f.w
-	elseif f.w < max.w and f.x <= 1 / 3 * max.w then
-		if f.w < 1 / 3 * max.w then
-			f.w = 1 / 3 * max.w
-		elseif f.w < 1 / 2 * max.w then
-			f.w = 1 / 2 * max.w
-		elseif f.w < 2 / 3 * max.w then
-			f.w = 2 / 3 * max.w
-		else
-			f.w = max.w
-		end
-		f.x = 0
-	else
-		f.w = 2 / 3 * max.w
-		f.x = max.w - f.w
-	end
-	win:setFrame(f)
-end)
+-- AppLauncher = hs.loadSpoon("AppLauncher")
+-- AppLauncher.modifiers = { "ctrl", "shift", "alt" }
+-- AppLauncher:bindHotkeys({
+-- 	b = "Brave Browser",
+-- 	c = "Calendar",
+-- 	d = "Discord",
+-- 	f = "Fastmail",
+-- 	o = "Outlook",
+-- 	p = "1Password",
+-- 	t = "Ghostty",
+-- 	v = "Visual Studio Code",
+-- })
+--
+-- hs.hotkey.bind({ "ctrl", "alt", "shift" }, "-", function()
+-- 	local win = hs.window.focusedWindow()
+-- 	local f = win:frame()
+-- 	local screen = win:screen()
+-- 	local max = screen:frame()
+--
+-- 	if f.w < max.w and f.x <= 1 / 3 * max.w then
+-- 		if f.w > 2 / 3 * max.w then
+-- 			f.w = 2 / 3 * max.w
+-- 		elseif f.w > max.w / 2 then
+-- 			f.w = 1 / 2 * max.w
+-- 		else
+-- 			f.w = 1 / 3 * max.w
+-- 		end
+-- 		f.x = 0
+-- 	elseif f.w < max.w and f.x >= 1 / 3 * max.w then
+-- 		if f.w < 1 / 3 * max.w then
+-- 			f.w = 1 / 3 * max.w
+-- 		elseif f.w < 1 / 2 * max.w then
+-- 			f.w = 1 / 2 * max.w
+-- 		else
+-- 			f.w = 2 / 3 * max.w
+-- 		end
+-- 		f.x = max.w - f.w
+-- 	else
+-- 		f.w = 2 / 3 * max.w
+-- 		f.x = 0
+-- 	end
+--
+-- 	win:setFrame(f)
+-- end)
+--
+-- hs.hotkey.bind({ "ctrl", "alt", "shift" }, "=", function()
+-- 	local win = hs.window.focusedWindow()
+-- 	local f = win:frame()
+-- 	local screen = win:screen()
+-- 	local max = screen:frame()
+--
+-- 	if f.w < max.w and f.x >= 1 / 3 * max.w then
+-- 		if f.w > 2 / 3 * max.w then
+-- 			f.w = 2 / 3 * max.w
+-- 		elseif f.w > max.w / 2 then
+-- 			f.w = 1 / 2 * max.w
+-- 		else
+-- 			f.w = 1 / 3 * max.w
+-- 		end
+-- 		f.x = max.w - f.w
+-- 	elseif f.w < max.w and f.x <= 1 / 3 * max.w then
+-- 		if f.w < 1 / 3 * max.w then
+-- 			f.w = 1 / 3 * max.w
+-- 		elseif f.w < 1 / 2 * max.w then
+-- 			f.w = 1 / 2 * max.w
+-- 		elseif f.w < 2 / 3 * max.w then
+-- 			f.w = 2 / 3 * max.w
+-- 		else
+-- 			f.w = max.w
+-- 		end
+-- 		f.x = 0
+-- 	else
+-- 		f.w = 2 / 3 * max.w
+-- 		f.x = max.w - f.w
+-- 	end
+-- 	win:setFrame(f)
+-- end)
 
 -- hs.hotkey.bind({ "ctrl", "alt", "shift", "cmd" }, "-", function()
 -- 	local win = hs.window.focusedWindow()

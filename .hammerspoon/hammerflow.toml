@@ -1,0 +1,30 @@
+# https://github.com/saml-dev/Hammerflow.spoon/blob/main/sample.toml
+
+leader_key = "f18"
+
+auto_reload = true
+toast_on_reload = true
+show_ui = false
+
+b = "Brave Browser"
+c = "Visual Studio Code"
+e = "Zed"
+i = "IntelliJ IDEA Ultimate"
+n = "Notes"
+o = "Microsoft Outlook"
+r = "TickTick"
+s = "Slack"
+t = "Ghostty"
+z = "Zed"
+
+[h]
+label = "[hammerspoon]"
+c = "code: ~/.hammerspoon"
+r = "reload"
+
+[a]
+label = "[window]"
+h = "window:left-half"
+j = ["window:.2,.2,.6,.6", "small center"]
+k = ["window:0,0,1,1", "maximize"]
+l = "window:right-half"

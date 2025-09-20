@@ -4,27 +4,33 @@ leader_key = "f18"
 
 auto_reload = true
 toast_on_reload = true
-show_ui = false
+show_ui = true
 
+[a]
+label = "[apps]"
 b = "Brave Browser"
-c = "Visual Studio Code"
+c = ["Visual Studio Code", "VS Code"]
 e = "Zed"
-i = "IntelliJ IDEA Ultimate"
+i = ["IntelliJ IDEA Ultimate", "IDEA"]
 n = "Notes"
-o = "Microsoft Outlook"
+o = ["Microsoft Outlook", "Outlook"]
 r = "TickTick"
 s = "Slack"
 t = "Ghostty"
+v = "Safari"
 z = "Zed"
 
 [h]
 label = "[hammerspoon]"
-c = "code: ~/.hammerspoon"
+c = [
+  "cmd:zsh -l -c 'zed ~/.hammerspoon ~/.hammerspoon/hammerflow.toml'",
+  "edit config",
+]
 r = "reload"
 
-[a]
-label = "[window]"
-h = "window:left-half"
-j = ["window:.2,.2,.6,.6", "small center"]
+[r]
+label = "[resize window]"
+h = ["window:left-half", "left-half"]
+j = ["window:.2,.2,.6,.6", "center"]
 k = ["window:0,0,1,1", "maximize"]
-l = "window:right-half"
+l = ["window:right-half", "right-half"]

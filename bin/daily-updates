@@ -10,7 +10,7 @@ LOG_FILE="$HOME/Library/Logs/daily-updates.log"
 
 # Function to log messages with timestamp
 log_message() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S'): $1" >> "$LOG_FILE"
+  echo "$(date '+%Y-%m-%d %H:%M:%S'): $1" >>"$LOG_FILE"
 }
 
 # Ensure log directory exists
@@ -20,18 +20,18 @@ log_message "Starting daily updates"
 
 # Update gcloud components
 log_message "Updating gcloud components..."
-if gcloud components update --quiet >> "$LOG_FILE" 2>&1; then
-    log_message "gcloud components updated successfully"
+if gcloud components update --quiet >>"$LOG_FILE" 2>&1; then
+  log_message "gcloud components updated successfully"
 else
-    log_message "gcloud components update failed with exit code $?"
+  log_message "gcloud components update failed with exit code $?"
 fi
 
 # Update brew packages
 log_message "Updating brew packages..."
-if brew upgrade >> "$LOG_FILE" 2>&1; then
-    log_message "brew packages updated successfully"
+if brew upgrade >>"$LOG_FILE" 2>&1; then
+  log_message "brew packages updated successfully"
 else
-    log_message "brew upgrade failed with exit code $?"
+  log_message "brew upgrade failed with exit code $?"
 fi
 
 log_message "Daily updates completed"

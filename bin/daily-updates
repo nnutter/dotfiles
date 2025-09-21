@@ -35,3 +35,9 @@ else
 fi
 
 log_message "Daily updates completed"
+
+if ! launchctl list | grep -q daily-updates; then
+  launchctl load /Users/nnutter/Library/LaunchAgents/com.user.daily-updates.plist
+  launchctl start com.user.daily-updates
+  echo 1>&2 "Installed daily-updates schedule."
+fi

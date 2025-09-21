@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.daily-updates</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/nnutter/bin/daily-updates</string>
+    </array>
+    
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>5</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    
+    <key>RunAtLoad</key>
+    <false/>
+    
+    <key>StandardOutPath</key>
+    <string>/Users/nnutter/Library/Logs/daily-updates-stdout.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>/Users/nnutter/Library/Logs/daily-updates-stderr.log</string>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin</string>
+    </dict>
+</dict>
+</plist>

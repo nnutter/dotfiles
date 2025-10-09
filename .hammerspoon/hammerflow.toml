@@ -21,7 +21,7 @@ v = "Safari"
 z = "Zed"
 
 [h]
-label = "[hammerspoon]"
+label = "[hammerflow]"
 c = [
   "cmd:zsh -l -c 'zed ~/.hammerspoon ~/.hammerspoon/hammerflow.toml'",
   "edit config",

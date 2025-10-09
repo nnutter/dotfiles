@@ -177,6 +177,12 @@ _safe_source() {
     done
 }
 
+################
+# Key Bindings #
+################
+
+bindkey '^[.' insert-last-word
+
 #########################
 # Environment Variables #
 #########################

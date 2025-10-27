@@ -333,3 +333,7 @@ if _installed wl-copy; then
         exec wl-paste "$@"
     }
 fi
+
+for config in $HOME/.config/zsh/*.zsh; do
+    source "$config"
+done

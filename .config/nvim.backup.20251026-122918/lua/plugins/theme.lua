@@ -1,0 +1,1 @@
+../../../../.local/share/omarchy/themes/nord/neovim.lua

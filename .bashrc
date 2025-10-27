@@ -1,3 +1,6 @@
+# If not running interactively, don't do anything (leave this at the top of this file)
+[[ $- != *i* ]] && return
+
 source "$HOME/.bash_stdlib"
 
 export XDG_CONFIG_HOME="$HOME/.config"

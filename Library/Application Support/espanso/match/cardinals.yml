@@ -26,8 +26,7 @@ matches:
   - trigger: ";dstat"
     replace: |-
       - :white_check_mark No paused fragments before deployment.
-      - :white_check_mark BQ updated without errors.
-      - :white_check_mark Images built without failures.
-      - :white_check_mark No paused fragments.
+      - :white_check_mark Build succeeded.
+      - :white_check_mark No paused fragments after deployment.
       - :white_check_mark No Terraform changes.
       - :white_check_mark Apps deployed.

@@ -46,3 +46,6 @@ font-family = "JetBrainsMono Nerd Font"
 keybind = shift+enter=text:\n
 mouse-hide-while-typing = true
 unfocused-split-opacity = 0.95
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95

@@ -327,10 +327,10 @@ fi
 
 if _installed wl-copy; then
     pbcopy() {
-        exec wl-copy "$@"
+        wl-copy "$@"
     }
     pbpaste() {
-        exec wl-paste "$@"
+        wl-paste "$@"
     }
 fi
 

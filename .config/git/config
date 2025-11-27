@@ -25,6 +25,8 @@
 	insteadOf = https://github.com/nnutter
 [url "git@github.com:shawnee-skogen"]
 	insteadOf = https://github.com/shawnee-skogen
+[url "git@github.com:soilnordiccircle"]
+	insteadOf = https://github.com/soilnordiccircle
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

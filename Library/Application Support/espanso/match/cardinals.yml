@@ -25,8 +25,38 @@ matches:
     replace: "https://cardinals.atlassian.net/browse/WRK-"
   - trigger: ";dstat"
     replace: |-
-      - :white_check_mark No paused fragments before deployment.
+      - :white_check_mark$|$ No paused fragments before deployment.
       - :white_check_mark Build succeeded.
       - :white_check_mark No paused fragments after deployment.
       - :white_check_mark No Terraform changes.
       - :white_check_mark Apps deployed.
+  - trigger: ";bqform"
+    form: |
+      bq --project_id [[project_ID]] \
+      --format json query --nouse_legacy_sql --max_rows [[max_rows]] \
+      '[[query]]' | \
+      jq -r '.[] | .[[field_to_grab]]'
+    form_fields:
+      project_ID:
+        default: cbbapps-manual
+        type: choice
+        values:
+          - cbbapps-manual
+          - cbbapps-data-dev-6b070bc3c1
+          - cbbapps-data-prod-ab87c5f1e5
+      max_rows:
+        default: "1000"
+      query:
+        default: SELECT * FROM ``
+        multiline: true
+        trim_string_values: false
+      field_to_grab:
+        default: _provenance_id
+  - trigger: ;details
+    replace: |-
+      <details><summary>$|$</summary>
+
+      ```
+      ```
+
+      </details>

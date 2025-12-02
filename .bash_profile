@@ -11,3 +11,5 @@ then
 fi
 
 use "$HOME/.bashrc"
+
+complete -C /opt/homebrew/bin/terraform terraform

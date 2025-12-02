@@ -337,3 +337,6 @@ fi
 for config in $HOME/.config/zsh/*.zsh; do
     source "$config"
 done
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform

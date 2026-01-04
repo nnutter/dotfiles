@@ -4,9 +4,17 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
-  "modules-left": ["custom/omarchy", "hyprland/workspaces"],
-  "modules-center": ["clock", "custom/update", "custom/screenrecording-indicator"],
+  "modules-left": [
+    "custom/omarchy",
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "clock",
+    "custom/update",
+    "custom/screenrecording-indicator"
+  ],
   "modules-right": [
+    "custom/hyprwhspr",
     "group/tray-expander",
     "bluetooth",
     "network",
@@ -138,5 +146,8 @@
   "tray": {
     "icon-size": 12,
     "spacing": 12
-  }
+  },
+  "include": [
+    "/home/nnutter/.config/waybar/hyprwhspr-module.jsonc"
+  ]
 }

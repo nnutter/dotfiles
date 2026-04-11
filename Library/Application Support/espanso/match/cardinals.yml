@@ -38,3 +38,31 @@ matches:
       ```
 
       </details>
+  - trigger: ;leads
+    vars:
+      - name: date
+        type: date
+        params:
+          format: "%B %e, %Y"
+    markdown: |-
+      # {{date}}
+      ## General Info
+      * ?
+      ## Data Engineering
+      ### Notices
+      * ?
+      ### Priorities
+      * ?
+      ## ML Engineering
+      * ?
+      ## Data Science
+      * ?
+      ## App Dev
+      * ?
+  - trigger: ;update
+    markdown: |-
+      ## Data Engineering
+      ### Notices
+      * ?
+      ### Progress
+      * ?

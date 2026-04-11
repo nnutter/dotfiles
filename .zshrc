@@ -187,9 +187,13 @@ bindkey '^[.' insert-last-word
 # Environment Variables #
 #########################
 
-export EDITOR=nvim
+if test -z "$EDITOR"; then
+    export EDITOR=nvim
+fi
 export SUDO_EDITOR=$EDITOR
-export GIT_EDITOR=$EDITOR
+if test -z "$GIT_EDITOR"; then
+    export GIT_EDITOR=$EDITOR
+fi
 
 # Installs Go tools, packages, etc. in ~/.go instead of the default, ~/go.
 export GOPATH="$HOME/.go"

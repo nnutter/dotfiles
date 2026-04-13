@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail -o nounset
+
+require_tmux_session() {
+	if [[ -n "${TMUX_PANE:-}" ]]; then
+		return
+	fi
+
+	echo "ERROR: tmux-batch-send must run inside tmux" >&2
+	exit 1
+}
+
+load_target_panes() {
+	local pane_id=""
+
+	TARGET_PANES=()
+	while IFS= read -r pane_id; do
+		if [[ "$pane_id" == "$TMUX_PANE" ]]; then
+			continue
+		fi
+		TARGET_PANES+=("$pane_id")
+	done < <(tmux list-panes -F '#{pane_id}')
+
+	if [[ ${#TARGET_PANES[@]} -gt 0 ]]; then
+		return
+	fi
+
+	echo "ERROR: no other panes found in the current tmux window" >&2
+	exit 1
+}
+
+send_line_to_pane() {
+	local pane_id="$1"
+	local line="$2"
+
+	tmux send-keys -t "$pane_id" -l -- "$line"
+	tmux send-keys -t "$pane_id" Enter
+}
+
+prompt_to_continue() {
+	local response=""
+
+	if ! read -r -p "Start next batch? [Y/n] " response </dev/tty; then
+		return 1
+	fi
+
+	if [[ -z "$response" || "$response" == "y" || "$response" == "Y" ]]; then
+		return 0
+	fi
+
+	if [[ "$response" == "n" || "$response" == "N" ]]; then
+		return 1
+	fi
+
+	echo "ERROR: invalid response: ${response}" >&2
+	exit 1
+}
+
+build_prefixed_line() {
+	local line="$1"
+	local command_prefix=""
+
+	if [[ ${#BATCH_PREFIX[@]} -gt 0 ]]; then
+		printf -v command_prefix '%q ' "${BATCH_PREFIX[@]}"
+		command_prefix="${command_prefix% }"
+	fi
+
+	if [[ -z "$command_prefix" ]]; then
+		printf '%s' "$line"
+		return
+	fi
+
+	if [[ -z "$line" ]]; then
+		printf '%s' "$command_prefix"
+		return
+	fi
+
+	printf '%s %s' "$command_prefix" "$line"
+}
+
+main() {
+	local pending_line=""
+	local has_pending_line=0
+	local line=""
+	local index=0
+	local prefixed_line=""
+	local target_count=0
+	local -a batch_lines=()
+
+	require_tmux_session
+	load_target_panes
+	target_count=${#TARGET_PANES[@]}
+
+	while true; do
+		batch_lines=()
+
+		if [[ $has_pending_line -eq 1 ]]; then
+			batch_lines+=("$pending_line")
+			has_pending_line=0
+		fi
+
+		while [[ ${#batch_lines[@]} -lt $target_count ]]; do
+			if ! IFS= read -r line; then
+				break
+			fi
+			batch_lines+=("$line")
+		done
+
+		if [[ ${#batch_lines[@]} -eq 0 ]]; then
+			exit 0
+		fi
+
+		for index in "${!batch_lines[@]}"; do
+			prefixed_line="$(build_prefixed_line "${batch_lines[$index]}")"
+			send_line_to_pane "${TARGET_PANES[$index]}" "$prefixed_line"
+		done
+
+		if [[ ${#batch_lines[@]} -lt $target_count ]]; then
+			exit 0
+		fi
+
+		if IFS= read -r pending_line; then
+			has_pending_line=1
+			prompt_to_continue || exit 0
+			continue
+		fi
+
+		exit 0
+	done
+}
+
+BATCH_PREFIX=("$@")
+TARGET_PANES=()
+
+main

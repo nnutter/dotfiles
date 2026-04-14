@@ -1,13 +1,12 @@
 #compdef cbbsl
 
 _cbbsl() {
-  local cbbsl_dir="$HOME/src/github.com/cbbsl"
+  local cbbsl_dir='/Users/nnutter/src/github.com/cbbsl'
   local -a subdirs
 
   if [[ -d "$cbbsl_dir" ]]; then
     subdirs=(${cbbsl_dir}/*(/:t))
-    subdirs+=(apps dags image mds pipe tf)
-    _describe 'subdirectories' subdirs
+    _describe 'repositories' subdirs
   fi
 }
 

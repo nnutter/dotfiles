@@ -1,10 +1,10 @@
-cbbsl() {
+nn() {
     if [[ -z "$1" ]]; then
-        echo "Usage: cbbsl <repository>"
+        echo "Usage: nn <repository>"
         return 1
     fi
 
-    local repos_dir='/Users/nnutter/src/github.com/cbbsl'
+    local repos_dir='/Users/nnutter/src/github.com/nnutter'
     local target_dir="$repos_dir/$1"
 
     if [[ -d "$target_dir" ]]; then

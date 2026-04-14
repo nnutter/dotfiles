@@ -1,0 +1,13 @@
+#compdef nn
+
+_nn() {
+  local nn_dir='/Users/nnutter/src/github.com/nnutter'
+  local -a subdirs
+
+  if [[ -d "$nn_dir" ]]; then
+    subdirs=(${nn_dir}/*(/:t))
+    _describe 'repositories' subdirs
+  fi
+}
+
+_nn "$@"

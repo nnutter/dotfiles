@@ -4,7 +4,7 @@ nn() {
         return 1
     fi
 
-    local repos_dir='/Users/nnutter/src/github.com/nnutter'
+    local repos_dir="$HOME"'/src/github.com/nnutter'
     local target_dir="$repos_dir/$1"
 
     if [[ -d "$target_dir" ]]; then

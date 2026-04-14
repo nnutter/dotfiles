@@ -1,7 +1,7 @@
 #compdef cbbsl
 
 _cbbsl() {
-  local cbbsl_dir='/Users/nnutter/src/github.com/cbbsl'
+  local cbbsl_dir="$HOME"'/src/github.com/cbbsl'
   local -a subdirs
 
   if [[ -d "$cbbsl_dir" ]]; then

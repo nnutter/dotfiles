@@ -4,7 +4,7 @@ cbbsl() {
         return 1
     fi
 
-    local repos_dir='/Users/nnutter/src/github.com/cbbsl'
+    local repos_dir="$HOME"'/src/github.com/cbbsl'
     local target_dir="$repos_dir/$1"
 
     if [[ -d "$target_dir" ]]; then

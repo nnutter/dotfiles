@@ -1,7 +1,7 @@
 #compdef nn
 
 _nn() {
-  local nn_dir='/Users/nnutter/src/github.com/nnutter'
+  local nn_dir="$HOME"'/src/github.com/nnutter'
   local -a subdirs
 
   if [[ -d "$nn_dir" ]]; then

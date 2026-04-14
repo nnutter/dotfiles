@@ -22,6 +22,37 @@ sq_quote() {
 	printf "'%s'" "$(printf '%s' "$1" | sed "s/'/'\\\\''/g")"
 }
 
+path_expr() {
+	path=$1
+	case "$path" in
+	"$home_abs")
+		printf '%s' '"$HOME"'
+		;;
+	"$home_abs"/*)
+		printf '%s' '"$HOME"'
+		sq_quote "${path#"$home_abs"}"
+		;;
+	*)
+		sq_quote "$path"
+		;;
+	esac
+}
+
+display_path() {
+	path=$1
+	case "$path" in
+	"$home_abs")
+		printf '%s' '$HOME'
+		;;
+	"$home_abs"/*)
+		printf '%s%s' '$HOME' "${path#"$home_abs"}"
+		;;
+	*)
+		printf '%s' "$path"
+		;;
+	esac
+}
+
 write_function_file() {
 	target=$1
 	{
@@ -109,17 +140,21 @@ esac
 test -d "$repos" || die "error: repos directory does not exist: $repos"
 
 mkdir -p "$out_dir" || die "error: could not create output directory: $out_dir"
+home_abs=$(cd "$HOME" && pwd -P) || die 'error: could not resolve home directory'
 out_dir=$(cd "$out_dir" && pwd -P) || die "error: could not resolve output directory: $out_dir"
 repos_abs=$(cd "$repos" && pwd -P) || die "error: could not resolve repos directory: $repos"
-repos_sq=$(sq_quote "$repos_abs") || die "error: could not quote repos directory: $repos_abs"
+repos_sq=$(path_expr "$repos_abs") || die "error: could not quote repos directory: $repos_abs"
 
 function_file=$out_dir/$name
 completion_file=$out_dir/_$name
+function_file_display=$(display_path "$function_file")
+completion_file_display=$(display_path "$completion_file")
+out_dir_display=$(display_path "$out_dir")
 
 if test -z "$force"
 then
-	test ! -e "$function_file" || die "error: $function_file already exists; use --force to overwrite"
-	test ! -e "$completion_file" || die "error: $completion_file already exists; use --force to overwrite"
+	test ! -e "$function_file" || die "error: $function_file_display already exists; use --force to overwrite"
+	test ! -e "$completion_file" || die "error: $completion_file_display already exists; use --force to overwrite"
 fi
 
 tmp_function=$(mktemp "${function_file}.tmp.XXXXXX") || die 'error: could not create temporary function file'
@@ -139,6 +174,6 @@ mv -f "$tmp_completion" "$completion_file" || die "error: could not install $com
 
 trap - EXIT HUP INT TERM
 
-printf '%s\n' "Wrote $function_file"
-printf '%s\n' "Wrote $completion_file"
-printf '%s\n' "Ensure $out_dir is on fpath. Restart zsh or rerun compinit if completion does not appear immediately."
+printf '%s\n' "Wrote $function_file_display"
+printf '%s\n' "Wrote $completion_file_display"
+printf '%s\n' "Ensure $out_dir_display is on fpath. Restart zsh or rerun compinit if completion does not appear immediately."

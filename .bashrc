@@ -69,3 +69,5 @@ use ${HOME}/.bashrc.d
 alias ll='ls -lh'
 
 complete -C /usr/local/bin/terraform terraform
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init bash)"; fi

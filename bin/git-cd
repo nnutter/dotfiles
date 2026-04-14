@@ -1,0 +1,144 @@
+#!/bin/sh
+
+OPTIONS_KEEPDASHDASH=
+OPTIONS_STUCKLONG=
+NONGIT_OK=Yes
+OPTIONS_SPEC='git cd [options]
+--
+n,name=      name of generated zsh function
+r,repos=     directory containing repositories
+o,out=       output directory for generated files
+f,force      overwrite existing generated files
+'
+
+. "$(git --exec-path)/git-sh-setup"
+
+name=
+repos=
+out_dir=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions
+force=
+
+sq_quote() {
+	printf "'%s'" "$(printf '%s' "$1" | sed "s/'/'\\\\''/g")"
+}
+
+write_function_file() {
+	target=$1
+	{
+		printf '%s\n' "${name}() {"
+		printf '%s\n' '    if [[ -z "$1" ]]; then'
+		printf '%s\n' "        echo \"Usage: ${name} <repository>\""
+		printf '%s\n' '        return 1'
+		printf '%s\n' '    fi'
+		printf '%s\n' ''
+		printf '%s\n' "    local repos_dir=${repos_sq}"
+		printf '%s\n' '    local target_dir="$repos_dir/$1"'
+		printf '%s\n' ''
+		printf '%s\n' '    if [[ -d "$target_dir" ]]; then'
+		printf '%s\n' '        cd "$target_dir"'
+		printf '%s\n' '    else'
+		printf '%s\n' '        echo "Directory $target_dir does not exist"'
+		printf '%s\n' '        return 1'
+		printf '%s\n' '    fi'
+		printf '%s\n' '}'
+	} >"$target" || die "error: could not write $target"
+}
+
+write_completion_file() {
+	target=$1
+	dir_var=${name}_dir
+	{
+		printf '%s\n' "#compdef ${name}"
+		printf '%s\n' ''
+		printf '%s\n' "_${name}() {"
+		printf '%s\n' "  local ${dir_var}=${repos_sq}"
+		printf '%s\n' '  local -a subdirs'
+		printf '%s\n' ''
+		printf '%s\n' "  if [[ -d \"\$${dir_var}\" ]]; then"
+		printf '%s\n' "    subdirs=(\${${dir_var}}/*(/:t))"
+		printf '%s\n' "    _describe 'repositories' subdirs"
+		printf '%s\n' '  fi'
+		printf '%s\n' '}'
+		printf '%s\n' ''
+		printf '%s\n' "_${name} \"\$@\""
+	} >"$target" || die "error: could not write $target"
+}
+
+while test $# != 0
+do
+	case "$1" in
+	-n|--name)
+		shift
+		test $# != 0 || die 'error: --name requires a value'
+		name=$1
+		;;
+	-r|--repos)
+		shift
+		test $# != 0 || die 'error: --repos requires a value'
+		repos=$1
+		;;
+	-o|--out)
+		shift
+		test $# != 0 || die 'error: --out requires a value'
+		out_dir=$1
+		;;
+	-f|--force)
+		force=1
+		;;
+	--)
+		shift
+		break
+		;;
+	*)
+		usage
+		;;
+	esac
+	shift
+done
+
+test $# = 0 || usage
+test -n "$name" || die 'error: --name is required'
+test -n "$repos" || die 'error: --repos is required'
+
+case "$name" in
+''|[0-9]*|*[!A-Za-z0-9_]*)
+	die 'error: --name must match [A-Za-z_][A-Za-z0-9_]*'
+	;;
+esac
+
+test -d "$repos" || die "error: repos directory does not exist: $repos"
+
+mkdir -p "$out_dir" || die "error: could not create output directory: $out_dir"
+out_dir=$(cd "$out_dir" && pwd -P) || die "error: could not resolve output directory: $out_dir"
+repos_abs=$(cd "$repos" && pwd -P) || die "error: could not resolve repos directory: $repos"
+repos_sq=$(sq_quote "$repos_abs") || die "error: could not quote repos directory: $repos_abs"
+
+function_file=$out_dir/$name
+completion_file=$out_dir/_$name
+
+if test -z "$force"
+then
+	test ! -e "$function_file" || die "error: $function_file already exists; use --force to overwrite"
+	test ! -e "$completion_file" || die "error: $completion_file already exists; use --force to overwrite"
+fi
+
+tmp_function=$(mktemp "${function_file}.tmp.XXXXXX") || die 'error: could not create temporary function file'
+tmp_completion=$(mktemp "${completion_file}.tmp.XXXXXX") || die 'error: could not create temporary completion file'
+
+cleanup() {
+	rm -f "$tmp_function" "$tmp_completion"
+}
+
+trap 'cleanup' EXIT HUP INT TERM
+
+write_function_file "$tmp_function"
+write_completion_file "$tmp_completion"
+
+mv -f "$tmp_function" "$function_file" || die "error: could not install $function_file"
+mv -f "$tmp_completion" "$completion_file" || die "error: could not install $completion_file"
+
+trap - EXIT HUP INT TERM
+
+printf '%s\n' "Wrote $function_file"
+printf '%s\n' "Wrote $completion_file"
+printf '%s\n' "Ensure $out_dir is on fpath. Restart zsh or rerun compinit if completion does not appear immediately."

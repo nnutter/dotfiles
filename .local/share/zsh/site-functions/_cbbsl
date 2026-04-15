@@ -5,7 +5,7 @@ _cbbsl() {
   local -a subdirs
 
   if [[ -d "$cbbsl_dir" ]]; then
-    subdirs=(${cbbsl_dir}/*(/:t))
+    subdirs=(${cbbsl_dir}/*(-/:t))
     _describe 'repositories' subdirs
   fi
 }

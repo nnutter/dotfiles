@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 pbpaste \
-  | sed \
-    -e 's|{{ time_offset_milliseconds }}|1800000|g' \
-    -e 's|{{ namespace }}|prod|g' \
-    -e 's|{{ project }}|cbbapps-data-prod-ab87c5f1e5|g' \
-    -e 's|{{ max_age_in_days }}|10000|g' \
+  | sed -E \
+    -e 's|{{? ?time_offset_milliseconds ?}?}|1800000|gi' \
+    -e 's|{{? ?namespace ?}?}|prod|gi' \
+    -e 's|{{? ?project ?}?}|cbbapps-data-prod-ab87c5f1e5|gi' \
+    -e 's|{{? ?project_id ?}?}|cbbapps-data-prod-ab87c5f1e5|gi' \
+    -e 's|{{? ?max_age_in_days ?}?}|10000|gi' \
   | pbcopy

@@ -5,7 +5,7 @@ _nn() {
   local -a subdirs
 
   if [[ -d "$nn_dir" ]]; then
-    subdirs=(${nn_dir}/*(/:t))
+    subdirs=(${nn_dir}/*(-/:t))
     _describe 'repositories' subdirs
   fi
 }

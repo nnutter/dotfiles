@@ -17,6 +17,59 @@ _roam() {
   # (it checks 'if [[ $service == git ]]' to decide which code path to use)
   local service=git
 
+  # Override _git-add to use standard file completion instead of git file completion
+  _git-add() {
+    local curcontext=$curcontext state line ret=1
+    declare -A opt_args
+
+    local ignore_missing=
+    if (( words[(I)-n|--dry-run] )); then
+      ignore_missing='--ignore-missing[check if files (even missing) are ignored in dry run]'
+    fi
+
+    _arguments -C -S -s $endopt \
+      '(-n --dry-run)'{-n,--dry-run}'[do not actually add files; only show which ones would be added]' \
+      '(-v --verbose)'{-v,--verbose}'[show files as they are added]' \
+      '(-f --force)'{-f,--force}'[allow adding otherwise ignored files]' \
+      '(-i --interactive : -)'{-i,--interactive}'[add contents interactively to index]' \
+      '(-p --patch)'{-p,--patch}'[like -i but go directly into patch mode for specified files]' \
+      '(-e --edit)'{-e,--edit}'[open diff against editor]' \
+      '(-A --all --no-ignore-removal -u --update --no-all --ignore-removal --renormalize)'{-A,--all,--no-ignore-removal}'[add, modify, and remove index entries to match the working tree]' \
+      '(-A --all --no-ignore-removal -u --update --no-all --ignore-removal --renormalize)'{--no-all,--ignore-removal}'[like "--all" but ignore removals]' \
+      '(-A --all --no-ignore-removal -u --update --no-all --ignore-removal)'{-u,--update}'[update the index just where it already has an entry matching pathspec]' \
+      '(-A --all --no-ignore-removal -u --update --no-all --ignore-removal)--renormalize[renormalize EOL of tracked files (implies -u)]' \
+      '(-N --intent-to-add)'{-N,--intent-to-add}'[record only that path will be added later]' \
+      '--refresh[do not add files, but refresh their stat() info in index]' \
+      '--ignore-errors[continue adding if an error occurs]' \
+      $ignore_missing \
+      '--sparse[allow updating entries outside of sparse-checkout cone]' \
+      '--chmod=[override the executable bit of the listed files]:override:(-x +x)' \
+      '(*)--pathspec-from-file=[read pathspec from file]:file:_files' \
+      '(*)--pathspec-file-nul[pathspec elements are separated with NUL character]' \
+      '*: :_files' && ret=0
+
+    return ret
+  }
+
+  # Override _git-clean to use standard file completion instead of git file completion
+  _git-clean() {
+    local curcontext=$curcontext state line ret=1
+    declare -A opt_args
+
+    _arguments -C -S -s $endopt \
+      '-d[also remove untracked directories]' \
+      \*{-f,--force}'[required by default; twice, removes untracked nested repositories]' \
+      '(-i --interactive)'{-i,--interactive}'[show what would be done and clean files interactively]' \
+      '(-n --dry-run)'{-n,--dry-run}'[only show what would and what would not be removed]' \
+      '(-q --quiet)'{-q,--quiet}"[don't print names of files removed]" \
+      '*'{-e+,--exclude=}'[skip files matching specified pattern]:pattern' \
+      '(-X   )-x[also remove ignored files]' \
+      '(   -x)-X[remove only ignored files]' \
+      '*: :_files' && ret=0
+
+    return ret
+  }
+
   # Delegate to standard git completion
   _git "$@"
 }

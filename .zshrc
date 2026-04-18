@@ -244,10 +244,6 @@ fpath+=$HOME/.local/share/zsh/site-functions
 autoload -Uz compinit
 compinit
 
-if _installed roam; then
-    compdef roam=git
-fi
-
 # Source all functions from site-functions
 for func in $HOME/.local/share/zsh/site-functions/*; do
     if [[ -r "$func" ]]; then

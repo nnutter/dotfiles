@@ -1,4 +1,22 @@
 #compdef roam
 
-# Use git's completion function for roam command
-compdef roam=git
+# roam is a git wrapper: git --git-dir "$HOME/.dotfiles.git" --work-tree "$HOME" "$@"
+# This completion function sets the git environment variables so that git's
+# completion logic works correctly for the dotfiles repository.
+
+_roam() {
+  # Autoload _git if not already loaded
+  (( $+functions[_git] )) || autoload -Uz +X _git
+
+  # Set git environment variables for the dotfiles repo
+  # These tell git where the repository is and where the work tree is
+  local -x GIT_DIR="$HOME/.dotfiles.git"
+  local -x GIT_WORK_TREE="$HOME"
+
+  # Set service=git so that _git uses its main completion logic
+  # (it checks 'if [[ $service == git ]]' to decide which code path to use)
+  local service=git
+
+  # Delegate to standard git completion
+  _git "$@"
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mode": {
+    "build": {
+      "model": "opencode/minimax-m2.5"
+    },
+    "plan": {
+      "model": "opencode/kimi-k2.5"
+    }
+  }
+}

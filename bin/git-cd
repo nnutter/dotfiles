@@ -65,12 +65,11 @@ write_function_file() {
     printf '%s\n' "    local repos_dir=${repos_sq}"
     printf '%s\n' '    local target_dir="$repos_dir/$1"'
     printf '%s\n' ''
-    printf '%s\n' '    if [[ -d "$target_dir" ]]; then'
-    printf '%s\n' '        cd "$target_dir"'
-    printf '%s\n' '    else'
+    printf '%s\n' '    if ! [[ -d "$target_dir" ]]; then'
     printf '%s\n' '        echo "Directory $target_dir does not exist"'
     printf '%s\n' '        return 1'
     printf '%s\n' '    fi'
+    printf '%s\n' '    cd "$target_dir"'
     printf '%s\n' '}'
   } >"$target" || die "error: could not write $target"
 }
@@ -90,8 +89,6 @@ write_completion_file() {
     printf '%s\n' "    _describe 'repositories' subdirs"
     printf '%s\n' '  fi'
     printf '%s\n' '}'
-    printf '%s\n' ''
-    printf '%s\n' "_${name} \"\$@\""
   } >"$target" || die "error: could not write $target"
 }
 

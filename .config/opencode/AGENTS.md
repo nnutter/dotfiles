@@ -49,6 +49,10 @@ From [Optimizing for Reviewers: The Three Step AI Dev Loop](https://npf.io/2026/
 > - When you change the tests, don’t change prod.
 > - Any time you change both, minimize the diff and refactor later.
 
+## Agent Guidelines
+
+- Create temp directories inside the project rather than trying to use `/tmp`.
+
 ## Programming Languages
 
 - Prefer Go over Python unless Python is particularly suited to the task. For example, Python would be better for data analysis due to the library ecosystem that exists.

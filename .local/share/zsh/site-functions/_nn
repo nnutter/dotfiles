@@ -9,5 +9,3 @@ _nn() {
     _describe 'repositories' subdirs
   fi
 }
-
-_nn "$@"

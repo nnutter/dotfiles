@@ -7,10 +7,9 @@ nn() {
     local repos_dir="$HOME"'/src/github.com/nnutter'
     local target_dir="$repos_dir/$1"
 
-    if [[ -d "$target_dir" ]]; then
-        cd "$target_dir"
-    else
+    if ! [[ -d "$target_dir" ]]; then
         echo "Directory $target_dir does not exist"
         return 1
     fi
+    cd "$target_dir"
 }

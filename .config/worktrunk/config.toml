@@ -1,4 +1,4 @@
-worktree-path = "{{ repo_path }}/.git/worktrees/{{ branch | sanitize }}"
+worktree-path = "{{ repo_path }}/.git/wt/worktrees/{{ branch | sanitize }}"
 
 [commit]
 stage = "tracked"

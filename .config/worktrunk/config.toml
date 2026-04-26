@@ -5,3 +5,6 @@ stage = "tracked"
 
 [commit.generation]
 command = "opencode run -m opencode/gemini-3.1-pro --variant fast"
+
+[[pre-start]]
+deps = "git branch --set-upstream-to $(wt config state default-branch) {{ branch }}"

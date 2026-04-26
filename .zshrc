@@ -229,6 +229,7 @@ setopt VI
 ######################
 
 _safe_path_prepend /opt/homebrew/bin
+_safe_path_prepend $HOME/.cargo/bin
 _safe_path_prepend $HOME/.local/bin
 _safe_path_prepend $HOME/.go/bin
 _safe_path_prepend $HOME/bin

@@ -1,0 +1,7 @@
+worktree-path = "{{ repo_path }}/.git/worktrees/{{ branch | sanitize }}"
+
+[commit]
+stage = "tracked"
+
+[commit.generation]
+command = "opencode run -m opencode/gemini-3.1-pro --variant fast"

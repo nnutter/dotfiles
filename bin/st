@@ -70,14 +70,6 @@ def fzf_select(sessions: List[str], query: Optional[str] = None) -> Optional[str
     return selected
 
 
-def fzf_has_match(sessions: List[str], query: str) -> bool:
-    source = "\n".join(sessions) + "\n"
-    result = run(["fzf", "--filter", query], input_text=source)
-    if result.returncode != 0:
-        return False
-    return bool(result.stdout.strip())
-
-
 def inside_git_worktree() -> bool:
     result = run(["git", "rev-parse", "--is-inside-work-tree"])
     return result.returncode == 0 and result.stdout.strip() == "true"
@@ -119,16 +111,10 @@ def picker_flow(query: Optional[str]) -> int:
             return 1
         return tmux_attach(selected)
 
-    if not sessions:
-        return tmux_new_attach(query)
-
-    if not fzf_has_match(sessions, query):
-        return tmux_new_attach(query)
-
     selected = fzf_select(sessions, query=query)
-    if selected is None:
-        return 1
-    return tmux_attach(selected)
+    if selected is not None:
+        return tmux_attach(selected)
+    return tmux_new_attach(query)
 
 
 def main(argv: List[str]) -> int:

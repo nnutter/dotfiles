@@ -47,13 +47,52 @@ def tmux_new_attach(session_name: str) -> int:
     if not session_name:
         print("Session name cannot be empty", file=sys.stderr)
         return 1
-    result = subprocess.run(["tmux", "new-session", "-A", "-s", session_name], check=False)
-    return result.returncode
+
+    if tmux_session_exists(session_name):
+        return tmux_attach(session_name)
+
+    result = subprocess.run(["tmux", "new-session", "-d", "-s", session_name], check=False)
+    if result.returncode != 0:
+        return result.returncode
+
+    return tmux_attach(session_name)
+
+
+def tmux_new_attach_git(session_name: str) -> int:
+    if not session_name:
+        print("Session name cannot be empty", file=sys.stderr)
+        return 1
+
+    if tmux_session_exists(session_name):
+        return tmux_attach(session_name)
+
+    result = subprocess.run(["tmux", "new-session", "-d", "-s", session_name, "-n", "opencode", "opencode"], check=False)
+    if result.returncode != 0:
+        return result.returncode
+
+    result = subprocess.run(["tmux", "new-window", "-t", session_name, "-n", "neovim", "nvim", "."], check=False)
+    if result.returncode != 0:
+        return result.returncode
+
+    result = subprocess.run(["tmux", "new-window", "-t", session_name, "-n", "zsh"], check=False)
+    if result.returncode != 0:
+        return result.returncode
+
+    result = subprocess.run(["tmux", "select-window", "-t", f"{session_name}:zsh"], check=False)
+    if result.returncode != 0:
+        return result.returncode
+
+    return tmux_attach(session_name)
 
 
 def tmux_attach(session_name: str) -> int:
     result = subprocess.run(["tmux", "attach-session", "-t", session_name], check=False)
     return result.returncode
+
+
+def tmux_session_exists(session_name: str) -> bool:
+    result = run(["tmux", "has-session", "-t", session_name])
+    return result.returncode == 0
 
 
 def fzf_select(sessions: List[str], query: Optional[str] = None) -> Optional[str]:
@@ -132,7 +171,7 @@ def main(argv: List[str]) -> int:
         session_name = derive_git_session_name()
         if session_name is None:
             return 1
-        return tmux_new_attach(session_name)
+        return tmux_new_attach_git(session_name)
 
     return picker_flow(None)
 

@@ -23,7 +23,7 @@ zmx-select() {
 
   query=$(echo "$output" | sed -n '1p')
   key=$(echo "$output" | sed -n '2p')
-  selected=$(echo "$output" | sed -n '3p')
+  selected=$(echo "$output" | sed -n '3p' | awk '{print $1}' | cut -d = -f 2)
 
   if [[ "$key" == "ctrl-n" && -n "$query" ]]; then
     session_name="$query"

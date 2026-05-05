@@ -2,7 +2,7 @@ env_on_chdir () {
   if git rev-parse --is-inside-work-tree 1>/dev/null 2<&1
   then
     local nickname
-    nickname=$(git config nickname 2>/dev/null)
+    nickname=$(git config zmx.nickname 2>/dev/null)
     if test -z "$nickname"
     then
       nickname=$(basename $(git rev-parse --show-toplevel))

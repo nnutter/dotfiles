@@ -35,5 +35,5 @@ zmx-select() {
     return 130
   fi
 
-  zmx attach "$session_name"
+  ZMX_SESSION_PREFIX= zmx attach "$session_name"
 }

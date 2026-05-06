@@ -7,7 +7,16 @@ env_on_chdir () {
     then
       nickname=$(basename $(git rev-parse --show-toplevel))
     fi
-    export ZMX_SESSION_PREFIX="${nickname}."
+    ZMX_SESSION_PREFIX="${nickname}."
+
+    local current_branch
+    current_branch=$(git branch --show-current)
+    if test -n "$current_branch"
+    then
+      ZMX_SESSION_PREFIX="${ZMX_SESSION_PREFIX}.${current_branch}."
+    fi
+
+    export ZMX_SESSION_PREFIX
   fi
 }
 

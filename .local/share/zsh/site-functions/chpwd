@@ -10,10 +10,10 @@ env_on_chdir () {
     ZMX_SESSION_PREFIX="${nickname}."
 
     local current_branch
-    current_branch=$(git branch --show-current)
+    current_branch=$(git branch --show-current | sed -e 's|^nn/||' -e 's|/|.|g')
     if test -n "$current_branch"
     then
-      ZMX_SESSION_PREFIX="${ZMX_SESSION_PREFIX}.${current_branch}."
+      ZMX_SESSION_PREFIX="${ZMX_SESSION_PREFIX}${current_branch}."
     fi
 
     export ZMX_SESSION_PREFIX

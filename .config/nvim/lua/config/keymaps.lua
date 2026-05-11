@@ -6,3 +6,7 @@
 -- http://vimbits.com/bits/20
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
+
+vim.keymap.set({ "n", "i" }, "<D-s>", function()
+  vim.cmd("write")
+end, { noremap = true, silent = true, desc = "Save file" })

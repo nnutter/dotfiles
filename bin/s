@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+main() {
+  # shellcheck disable=1090
+  source "$(git --exec-path)/git-sh-setup"
+
+  while test $# -gt 0; do
+    OPT="$1"
+    shift
+    case $OPT in
+    --) break ;;
+    esac
+  done
+
+  exec zmx attach zsh zsh
+}
+
+# shellcheck disable=SC2034
+# SUBDIRECTORY_OK is used by `git-sh-setup`.
+SUBDIRECTORY_OK=1
+
+# shellcheck disable=SC2034
+# OPTIONS_SPEC is used by `git-sh-setup`.
+OPTIONS_SPEC="\
+s
+
+--
+h,help     show the help
+"
+
+main "$@"

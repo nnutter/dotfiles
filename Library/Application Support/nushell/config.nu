@@ -17,4 +17,4 @@
 # options using:
 #     config nu --doc | nu-highlight | less -R
 
-use ~/.config/starship.nu
+#use ~/.config/starship.nu

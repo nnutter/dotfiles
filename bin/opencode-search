@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail
+
+DB="${OPENCODE_DB:-$HOME/.local/share/opencode/opencode.db}"
+QUERY="${*:-}"
+
+if test -z "$QUERY"; then
+  read -rp "Search OpenCode sessions: " QUERY
+fi
+
+if test -z "$QUERY"; then
+  QUERY="%"
+fi
+
+sqlite3 -readonly -separator $'\t' "$DB" <<EOF | fzf \
+  --delimiter=$'\t' \
+  --with-nth='3..4,2' | cut -f 1 | xargs opencode --session
+.parameter set @q "%${QUERY}%"
+
+SELECT
+  s.id,
+  COALESCE(s.title, '(untitled)') AS title,
+  datetime(s.time_updated / 1000, 'unixepoch') AS updated,
+  substr(group_concat(p.data -> '$.text', ' '), 1, 240) AS snippet
+FROM session AS s
+JOIN message AS m ON m.session_id = s.id
+JOIN part AS p ON p.message_id = m.id
+WHERE
+  m.data ->> '$.role' IN ('user', 'assistant')
+  AND p.data ->> '$.type' = 'text'
+  AND p.data ->> '$.text' LIKE @q
+GROUP BY s.id
+ORDER BY s.time_updated DESC
+LIMIT 200;
+EOF

@@ -6,8 +6,12 @@
 
 set ideajoin
 set ideamarks
+set ideaput
 
+set anyobject
 set commentary
+set sneak
 set surround
+set VimEverywhere
 
 " :map gq <Action>(Wrap Line to Column)

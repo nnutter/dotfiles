@@ -1,0 +1,101 @@
+#compdef dasel
+
+_dasel() {
+    local -a commands formats
+    commands=(
+        'query:[default] Execute a query'
+        'version:Print the version'
+        'interactive:Start an interactive session (alpha)'
+        'completion:Generate shell completion script'
+        'man:Generate man page'
+    )
+    formats=(csv dasel hcl ini json kdl toml xml yaml )
+
+    _arguments -C \
+        '1:command:->command' \
+        '*::arg:->args'
+
+    case "${state}" in
+        command)
+            _describe 'command' commands
+            _arguments \
+                '--help[Show context-sensitive help.]' \
+                '-h[Show context-sensitive help.]' \
+                '--var[Variables to pass to the query. E.g. --var foo="bar" --var baz=json:file:./some/file.json]' \
+                '--rw-flag[Read/Write flag to customise parsing/output. Applies to read + write E.g. --rw-flag csv-delimiter=;]' \
+                '--read-flag[Reader flag to customise parsing. E.g. --read-flag xml-mode=structured]' \
+                '--write-flag[Writer flag to customise output. E.g. --write-flag csv-delimiter=;]' \
+                '--in[The format of the input data.]' \
+                '-i[The format of the input data.]' \
+                '--out[The format of the output data.]' \
+                '-o[The format of the output data.]' \
+                '--root[Return the root value.]' \
+                '--compact[Output in compact mode (no indentation/newlines).]' \
+                '--unstable[Allow access to potentially unstable features.]' \
+                '--it[Run in interactive mode (alpha).]' \
+                '--config[Path to config file]' \
+                '-c[Path to config file]' \
+
+            ;;
+        args)
+            case "${words[1]}" in
+                query)
+                    _arguments \
+                        '--var[Variables to pass to the query. E.g. --var foo="bar" --var baz=json:file:./some/file.json]' \
+                        '--rw-flag[Read/Write flag to customise parsing/output. Applies to read + write E.g. --rw-flag csv-delimiter=;]' \
+                        '--read-flag[Reader flag to customise parsing. E.g. --read-flag xml-mode=structured]' \
+                        '--write-flag[Writer flag to customise output. E.g. --write-flag csv-delimiter=;]' \
+                        '--in[The format of the input data.]' \
+                        '-i[The format of the input data.]' \
+                        '--out[The format of the output data.]' \
+                        '-o[The format of the output data.]' \
+                        '--root[Return the root value.]' \
+                        '--compact[Output in compact mode (no indentation/newlines).]' \
+                        '--unstable[Allow access to potentially unstable features.]' \
+                        '--it[Run in interactive mode (alpha).]' \
+                        '--config[Path to config file]' \
+                        '-c[Path to config file]' \
+                        '--help[Show context-sensitive help.]' \
+
+                    ;;
+                version)
+                    _arguments \
+                        '--help[Show context-sensitive help.]' \
+
+                    ;;
+                interactive)
+                    _arguments \
+                        '--var[Variables to pass to the query. E.g. --var foo="bar" --var baz=json:file:./some/file.json]' \
+                        '--rw-flag[Read/Write flag to customise parsing/output. Applies to read + write E.g. --rw-flag csv-delimiter=;]' \
+                        '--read-flag[Reader flag to customise parsing. E.g. --read-flag xml-mode=structured]' \
+                        '--write-flag[Writer flag to customise output. E.g. --write-flag csv-delimiter=;]' \
+                        '--in[The format of the input data.]' \
+                        '-i[The format of the input data.]' \
+                        '--out[The format of the output data.]' \
+                        '-o[The format of the output data.]' \
+                        '--config[Path to config file]' \
+                        '-c[Path to config file]' \
+                        '--help[Show context-sensitive help.]' \
+
+                    ;;
+                completion)
+                    _arguments \
+                        '--help[Show context-sensitive help.]' \
+
+                    ;;
+                man)
+                    _arguments \
+                        '--help[Show context-sensitive help.]' \
+
+                    ;;
+            esac
+
+            # Complete format names for --in/--out
+            if [[ "${words[CURRENT-1]}" == --in || "${words[CURRENT-1]}" == --out || "${words[CURRENT-1]}" == -i || "${words[CURRENT-1]}" == -o ]]; then
+                _describe 'format' formats
+            fi
+            ;;
+    esac
+}
+
+compdef _dasel dasel

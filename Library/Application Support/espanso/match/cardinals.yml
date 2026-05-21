@@ -76,3 +76,12 @@ matches:
       * ?
       ### Progress
       * ?
+  - trigger: ;notices
+    replace: |-
+      *Notices*
+
+      * ?
+
+      *Progress*
+
+      * ?

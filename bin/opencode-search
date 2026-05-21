@@ -15,7 +15,7 @@ fi
 
 sqlite3 -readonly -separator $'\t' "$DB" <<EOF | fzf \
   --delimiter=$'\t' \
-  --with-nth='3..4,2' | cut -f 1 | xargs opencode --session
+  --with-nth='3..4,2' | cut -f 1
 .parameter set @q "%${QUERY}%"
 
 SELECT

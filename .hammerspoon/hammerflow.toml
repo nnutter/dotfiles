@@ -8,16 +8,17 @@ show_ui = true
 
 [a]
 label = "[apps]"
-b = "Brave Browser"
-c = ["Visual Studio Code", "VS Code"]
+a = "ChatGPT"
+b = "Brave Origin Nightly"
 e = "Zed"
+f = "Fastmail"
 i = ["IntelliJ IDEA Ultimate", "IDEA"]
-n = "Notes"
+n = "Simplenote"
 o = ["Microsoft Outlook", "Outlook"]
-r = "TickTick"
+r = "Reminders"
 s = "Slack"
 t = "Ghostty"
-v = "Safari"
+v = ["Visual Studio Code", "VS Code"]
 z = "Zed"
 
 [h]

@@ -255,6 +255,11 @@ fi
 fpath+=$HOME/.local/share/zsh/site-functions
 autoload -Uz compinit
 compinit
+if _installed carapace; then
+  export CARAPACE_BRIDGES='zsh,bash'
+  zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+  source <(carapace _carapace)
+fi
 
 # Source all functions from site-functions
 for func in $HOME/.local/share/zsh/site-functions/*; do

@@ -239,6 +239,7 @@ _safe_path_prepend $HOME/.cargo/bin
 _safe_path_prepend $HOME/.local/bin
 _safe_path_prepend $HOME/.go/bin
 _safe_path_prepend $HOME/bin
+_safe_path_prepend $HOME/.lmstudio/bin""
 
 if test -d /opt/homebrew/opt/postgresql@18; then
   export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"

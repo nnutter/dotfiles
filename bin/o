@@ -12,7 +12,11 @@ main() {
     esac
   done
 
-  exec zmx attach opencode opencode
+  if type -p safehouse 2>&1 1>/dev/null; then
+    exec zmx attach opencode safe-opencode
+  else
+    exec zmx attach opencode opencode
+  fi
 }
 
 # shellcheck disable=SC2034

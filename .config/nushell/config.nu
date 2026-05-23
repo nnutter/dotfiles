@@ -17,8 +17,6 @@
 # options using:
 #     config nu --doc | nu-highlight | less -R
 
-#use ~/.config/starship.nu
-
 $env.config.edit_mode = 'vi'
 $env.config.cursor_shape = {
   vi_insert: line

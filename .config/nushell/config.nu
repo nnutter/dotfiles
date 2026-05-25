@@ -36,20 +36,20 @@ $env.config.keybindings ++= [{
   ]
 }]
 
-$env.editor = 'nvim'
-$env.git_editor = 'nvim'
+$env.EDITOR = 'nvim'
+$env.GIT_EDITOR = 'nvim'
 
-$env.homebrew_prefix = "/home/linuxbrew/.linuxbrew"
-$env.homebrew_cellar = $"($env.homebrew_prefix)/Cellar"
-$env.homebrew_repository = $"($env.homebrew_prefix)/Homebrew";
+$env.HOMEBREW_PREFIX = "/home/linuxbrew/.linuxbrew"
+$env.HOMEBREW_CELLAR = $"($env.HOMEBREW_PREFIX)/Cellar"
+$env.HOMEBREW_REPOSITORY = $"($env.HOMEBREW_PREFIX)/Homebrew";
 
-$env.INFOPATH = ($env.INFOPATH? | default []) ++ [$'($env.homebrew_prefix)/share/info']
+$env.INFOPATH = ($env.INFOPATH? | default []) ++ [$'($env.HOMEBREW_PREFIX)/share/info']
 
 use std/util "path add"
-path add $'($env.home)/.cargo/bin'
-path add $'($env.home)/.go/bin'
-path add $'($env.home)/.lmstudio/bin'
-path add $'($env.home)/.local/bin'
-path add $'($env.home)/bin'
-path add $'($env.homebrew_prefix)/bin'
-path add $'($env.homebrew_prefix)/sbin'
+path add $'($env.HOME)/.cargo/bin'
+path add $'($env.HOME)/.go/bin'
+path add $'($env.HOME)/.lmstudio/bin'
+path add $'($env.HOME)/.local/bin'
+path add $'($env.HOME)/bin'
+path add $'($env.HOMEBREW_PREFIX)/bin'
+path add $'($env.HOMEBREW_PREFIX)/sbin'

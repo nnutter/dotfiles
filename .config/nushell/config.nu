@@ -38,3 +38,10 @@ $env.config.keybindings ++= [{
 
 $env.editor = 'nvim'
 $env.git_editor = 'nvim'
+
+use std/util "path add"
+path add $'($env.home)/.cargo/bin'
+path add $'($env.home)/.go/bin'
+path add $'($env.home)/.lmstudio/bin'
+path add $'($env.home)/.local/bin'
+path add $'($env.home)/bin'

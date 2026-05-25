@@ -26,3 +26,13 @@ $env.config.cursor_shape = {
 }
 $env.PROMPT_INDICATOR_VI_INSERT = ""
 $env.PROMPT_INDICATOR_VI_NORMAL = ""
+$env.config.keybindings ++= [{
+  name: insert_last_token
+  modifier: alt
+  keycode: char_.
+  mode: vi_insert
+  event: [
+    { edit: InsertString, value: "!$" }
+    { send: Enter }
+  ]
+}]

@@ -35,3 +35,6 @@ $env.config.keybindings ++= [{
     { send: Enter }
   ]
 }]
+
+$env.editor = 'nvim'
+$env.git_editor = 'nvim'

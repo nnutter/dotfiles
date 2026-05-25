@@ -361,3 +361,5 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+if test -x /home/linuxbrew/.linuxbrew/bin/brew; then eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"; fi

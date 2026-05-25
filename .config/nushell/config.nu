@@ -39,9 +39,17 @@ $env.config.keybindings ++= [{
 $env.editor = 'nvim'
 $env.git_editor = 'nvim'
 
+$env.homebrew_prefix = "/home/linuxbrew/.linuxbrew"
+$env.homebrew_cellar = $"($env.homebrew_prefix)/Cellar"
+$env.homebrew_repository = $"($env.homebrew_prefix)/Homebrew";
+
+$env.INFOPATH = ($env.INFOPATH? | default []) ++ [$'($env.homebrew_prefix)/share/info']
+
 use std/util "path add"
 path add $'($env.home)/.cargo/bin'
 path add $'($env.home)/.go/bin'
 path add $'($env.home)/.lmstudio/bin'
 path add $'($env.home)/.local/bin'
 path add $'($env.home)/bin'
+path add $'($env.homebrew_prefix)/bin'
+path add $'($env.homebrew_prefix)/sbin'

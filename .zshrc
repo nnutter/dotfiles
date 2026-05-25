@@ -182,6 +182,7 @@ _safe_source() {
 ################
 
 bindkey '^[.' insert-last-word
+bindkey -M viins '^[.' insert-last-word
 
 #########################
 # Environment Variables #

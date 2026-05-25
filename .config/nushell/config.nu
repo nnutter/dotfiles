@@ -22,8 +22,8 @@ $env.config.cursor_shape = {
   vi_insert: line
   vi_normal: block
 }
-$env.PROMPT_INDICATOR_VI_INSERT = ""
-$env.PROMPT_INDICATOR_VI_NORMAL = ""
+$env.prompt_indicator_vi_insert = ""
+$env.prompt_indicator_vi_normal = ""
 $env.config.keybindings ++= [{
   name: insert_last_token
   modifier: alt

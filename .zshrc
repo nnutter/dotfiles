@@ -201,6 +201,8 @@ export GOPATH="$HOME/.go"
 # Disables some public security checks on our private Go packages.
 export GOPRIVATE="code.cbbapps.com"
 
+export MISE_EXPERIMENTAL=1
+
 export PIPENV_IGNORE_VIRTUALENVS=1
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True

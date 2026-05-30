@@ -7,6 +7,9 @@
   "permission": {
     "external_directory": {
       "~/.go/pkg/mod/**": "allow"
+    },
+    "edit": {
+      "~/.go/pkg/mod/**": "deny"
     }
   },
   "shell": "/usr/bin/nu"

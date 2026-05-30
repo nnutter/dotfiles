@@ -1,5 +1,9 @@
 # AGENTS.md
 
+## Working within Git Working Three
+
+- Read from your own working tree directory instead of the main working tree's directory.
+
 ## Optimizing for Reviewers: The Three Step AI Dev Loop
 
 From [Optimizing for Reviewers: The Three Step AI Dev Loop](https://npf.io/2026/04/optimize-for-reviewers/),

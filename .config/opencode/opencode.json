@@ -11,6 +11,5 @@
     "edit": {
       "~/.go/pkg/mod/**": "deny"
     }
-  },
-  "shell": "/usr/bin/nu"
+  }
 }

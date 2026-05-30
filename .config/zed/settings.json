@@ -7,68 +7,101 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "cli_default_open_behavior": "existing_window",
-  "agent_servers": {
-    "opencode": {
-      "type": "registry",
-      "favorite_config_option_values": {
-        "model": ["github-copilot/gpt-5.4"],
-      },
-    },
-  },
-  "project_panel": {
-    "dock": "right",
-  },
-  "outline_panel": {
-    "dock": "right",
-  },
-  "collaboration_panel": {
-    "dock": "right",
-  },
   "agent": {
     "default_model": {
-      "provider": "x_ai",
-      "model": "grok-4-1-fast-reasoning",
-      "enable_thinking": false,
+      "effort": "medium",
+      "enable_thinking": true,
+      "model": "gpt-5.4",
+      "provider": "openai-subscribed"
     },
+    "default_profile": "write",
     "dock": "left",
     "favorite_models": [],
-    "model_parameters": [],
+    "model_parameters": []
   },
-  "git_panel": {
-    "dock": "right",
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    }
+  },
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 15,
+  "cli_default_open_behavior": "existing_window",
+  "collaboration_panel": {
+    "dock": "right"
   },
   "colorize_brackets": true,
-  "inlay_hints": {
-    "enabled": true,
-    "show_value_hints": true,
-    "show_type_hints": true,
-    "show_parameter_hints": true,
-    "show_other_hints": true,
-    "show_background": false,
-    "edit_debounce_ms": 700,
-    "scroll_debounce_ms": 50,
-    "toggle_on_modifiers_press": {
-      "control": false,
-      "alt": false,
-      "shift": false,
-      "platform": false,
-      "function": false,
-    },
+  "git_panel": {
+    "dock": "right"
   },
-  "vim_mode": true,
-  "ui_font_size": 16,
-  "buffer_font_size": 15,
-  "theme": {
-    "mode": "system",
-    "light": "One Light",
-    "dark": "Everforest Dark Medium (regular)",
+  "inlay_hints": {
+    "edit_debounce_ms": 700,
+    "enabled": true,
+    "scroll_debounce_ms": 50,
+    "show_background": false,
+    "show_other_hints": true,
+    "show_parameter_hints": true,
+    "show_type_hints": true,
+    "show_value_hints": true,
+    "toggle_on_modifiers_press": {
+      "alt": false,
+      "control": false,
+      "function": false,
+      "platform": false,
+      "shift": false
+    }
+  },
+  "language_models": {
+    "lmstudio": {
+      "api_url": "http://localhost:1234/api/v1"
+    }
+  },
+  "languages": {
+    "Go": {
+      "inlay_hints": {
+        "enabled": false,
+        "show_type_hints": false
+      }
+    },
+    "Python": {
+      "hard_tabs": true,
+      "language_servers": [
+        "ty",
+        "!basedpyright",
+        "!pylsp",
+        "!pyright",
+        "..."
+      ]
+    }
   },
   "lsp": {
     "gopls": {
       "settings": {
-        "staticcheck": true,
-      },
-    },
+        "staticcheck": true
+      }
+    }
   },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "project_panel": {
+    "dock": "right",
+    "hide_gitignore": true,
+    "starts_open": false
+  },
+  "show_edit_predictions": true,
+  "terminal": {
+    "option_as_meta": true
+  },
+  "theme": {
+    "dark": "Everforest Dark Medium (regular)",
+    "light": "One Light",
+    "mode": "system"
+  },
+  "ui_font_size": 16,
+  "vim": {
+    "toggle_relative_line_numbers": true,
+    "use_system_clipboard": "never"
+  },
+  "vim_mode": true
 }

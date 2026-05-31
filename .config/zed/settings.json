@@ -135,9 +135,10 @@
     "dock": "right"
   },
   "project_panel": {
+    "file_icons": false,
     "dock": "right",
     "hide_gitignore": true,
-    "starts_open": false
+    "starts_open": true,
   },
   "show_edit_predictions": true,
   "terminal": {

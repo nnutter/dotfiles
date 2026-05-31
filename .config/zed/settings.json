@@ -74,11 +74,11 @@
   "buffer_font_size": 13,
   "cli_default_open_behavior": "existing_window",
   "collaboration_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "colorize_brackets": true,
   "git_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "inlay_hints": {
     "edit_debounce_ms": 700,
@@ -94,8 +94,8 @@
       "control": false,
       "function": false,
       "platform": false,
-      "shift": false
-    }
+      "shift": false,
+    },
   },
   "language_models": {
     "opencode": {
@@ -110,29 +110,23 @@
     "Go": {
       "inlay_hints": {
         "enabled": false,
-        "show_type_hints": false
-      }
+        "show_type_hints": false,
+      },
     },
     "Python": {
       "hard_tabs": true,
-      "language_servers": [
-        "ty",
-        "!basedpyright",
-        "!pylsp",
-        "!pyright",
-        "..."
-      ]
-    }
+      "language_servers": ["ty", "!basedpyright", "!pylsp", "!pyright", "..."],
+    },
   },
   "lsp": {
     "gopls": {
       "settings": {
-        "staticcheck": true
-      }
-    }
+        "staticcheck": true,
+      },
+    },
   },
   "outline_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "project_panel": {
     "file_icons": false,
@@ -142,17 +136,17 @@
   },
   "show_edit_predictions": true,
   "terminal": {
-    "option_as_meta": true
+    "option_as_meta": true,
   },
   "theme": {
     "dark": "Everforest Dark Medium (regular)",
     "light": "One Light",
-    "mode": "system"
+    "mode": "system",
   },
   "ui_font_size": 14,
   "vim": {
     "toggle_relative_line_numbers": true,
-    "use_system_clipboard": "never"
+    "use_system_clipboard": "never",
   },
-  "vim_mode": true
+  "vim_mode": true,
 }

@@ -172,5 +172,4 @@ go "github.com/oklog/ulid/v2/cmd/ulid"
 cargo "rustlings"
 cargo "worktrunk"
 uv "keyring", with: ["keyrings-google-artifactregistry-auth"]
-npm "@anthropic-ai/claude-code"
 npm "neovim"

@@ -69,10 +69,7 @@
     "model_parameters": [],
   },
   "agent_servers": {
-    "opencode": {
-      "type": "registry"
-    }
-  },
+    },
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_size": 15,
   "cli_default_open_behavior": "existing_window",

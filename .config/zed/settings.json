@@ -7,6 +7,16 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "edit_predictions": {
+    "mode": "subtle",
+    "ollama": {
+      "api_url": "http://127.0.0.1:1234"
+    },
+    "open_ai_compatible_api": {
+      "model": "google/gemma-4-e4b",
+      "api_url": "http://127.0.0.1:1234/v1"
+    }
+  },
   "agent": {
     "default_model": {
       "effort": "medium",
@@ -53,8 +63,8 @@
   },
   "language_models": {
     "lmstudio": {
-      "api_url": "http://localhost:1234/api/v1"
-    }
+      "api_url": "http://127.0.0.1:1234",
+    },
   },
   "languages": {
     "Go": {

@@ -98,6 +98,10 @@
     }
   },
   "language_models": {
+    "opencode": {
+      "show_go_models": false,
+      "show_free_models": false
+    },
     "lmstudio": {
       "api_url": "http://127.0.0.1:1234",
     },

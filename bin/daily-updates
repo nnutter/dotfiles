@@ -34,6 +34,14 @@ else
   log_message "brew upgrade failed with exit code $?"
 fi
 
+# Update brew packages
+log_message "Installing brew bundle packages..."
+if brew bundle install --global >>"$LOG_FILE" 2>&1; then
+  log_message "brew bundle packages installed successfully"
+else
+  log_message "brew bundle install failed with exit code $?"
+fi
+
 log_message "Daily updates completed"
 
 if ! launchctl list | grep -q daily-updates; then

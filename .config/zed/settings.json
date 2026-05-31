@@ -11,8 +11,8 @@
     "default_model": {
       "effort": "medium",
       "enable_thinking": true,
-      "model": "gpt-5.4",
-      "provider": "openai-subscribed"
+      "model": "gpt-5.3-codex",
+      "provider": "openai-subscribed",
     },
     "default_profile": "write",
     "dock": "left",

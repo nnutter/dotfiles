@@ -1,6 +1,5 @@
 tap "charmbracelet/tap"
 tap "hashicorp/tap"
-tap "homebrew/core"
 tap "sst/tap"
 tap "zmwangx/npm-noob"
 brew "abduco"

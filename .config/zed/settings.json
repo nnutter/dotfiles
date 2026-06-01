@@ -25,45 +25,44 @@
         "provider": "openai-subscribed",
         "model": "gpt-5.5",
         "enable_thinking": true,
-        "effort": "medium"
+        "effort": "medium",
       },
       {
         "provider": "openai-subscribed",
         "model": "gpt-5.3-codex",
         "enable_thinking": true,
-        "effort": "medium"
+        "effort": "medium",
       },
       {
         "provider": "openai-subscribed",
         "model": "gpt-5.4",
         "enable_thinking": true,
-        "effort": "medium"
+        "effort": "medium",
       },
       {
         "provider": "x_ai",
         "model": "grok-4.3",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "opencode",
         "model": "zen/kimi-k2.6",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "opencode",
         "model": "zen/qwen3.6-plus",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "opencode",
         "model": "zen/glm-5.1",
-        "enable_thinking": false
-      }
+        "enable_thinking": false,
+      },
     ],
     "model_parameters": [],
   },
-  "agent_servers": {
-    },
+  "agent_servers": {},
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_size": 13,
   "cli_default_open_behavior": "existing_window",
@@ -94,7 +93,7 @@
   "language_models": {
     "opencode": {
       "show_go_models": false,
-      "show_free_models": false
+      "show_free_models": false,
     },
     "lmstudio": {
       "api_url": "http://127.0.0.1:1234",

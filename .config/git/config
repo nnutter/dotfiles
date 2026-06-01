@@ -12,6 +12,7 @@
 	preloadindex = true
 	excludesfile = /Users/nnutter/.gitignore_global
 	sshCommand = ssh
+	pager = hunk pager
 [merge]
 	renameLimit = 10000
 	tool = diffconflicts
@@ -56,10 +57,6 @@
 	program = gpg2
 [diff "gpg"]
 	textconv = gpg -d
-[pager]
-	log = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
 [diff "ansible-vault"]
 	textconv = ansible-vault view
 [includeIf "gitdir:~/src/github.com/cbbsl/"]

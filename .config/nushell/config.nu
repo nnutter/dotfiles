@@ -48,7 +48,7 @@ $env.HOMEBREW_PREFIX = "/home/linuxbrew/.linuxbrew"
 $env.HOMEBREW_CELLAR = $"($env.HOMEBREW_PREFIX)/Cellar"
 $env.HOMEBREW_REPOSITORY = $"($env.HOMEBREW_PREFIX)/Homebrew";
 
-$env.INFOPATH = ($env.INFOPATH? | default []) ++ [$'($env.HOMEBREW_PREFIX)/share/info']
+$env.INFOPATH = ($env.INFOPATH? | split row : | default []) ++ [$'($env.HOMEBREW_PREFIX)/share/info']
 
 use std/util "path add"
 path add $'($env.HOME)/.cargo/bin'

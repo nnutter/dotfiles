@@ -9,7 +9,7 @@ show_ui = true
 [a]
 label = "[apps]"
 a = "ChatGPT"
-b = "Brave Origin Nightly"
+b = ["Brave Origin", "Brave"]
 e = "Zed"
 f = "Fastmail"
 i = ["IntelliJ IDEA Ultimate", "IDEA"]

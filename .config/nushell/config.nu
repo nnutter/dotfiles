@@ -42,7 +42,7 @@ $env.GIT_EDITOR = 'nvim'
 # Installs Go tools, packages, etc. in ~/.go instead of the default, ~/go.
 $env.GOPATH = $"($env.HOME)/.go"
 # Disables some public security checks on our private Go packages.
-$env.GOPRIVATE = "code.cbbapps.com"
+$env.GOPRIVATE = "code.cbbapps.com,github.com/phasemerge"
 
 $env.HOMEBREW_PREFIX = "/home/linuxbrew/.linuxbrew"
 $env.HOMEBREW_CELLAR = $"($env.HOMEBREW_PREFIX)/Cellar"

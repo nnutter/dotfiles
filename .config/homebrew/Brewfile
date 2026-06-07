@@ -141,6 +141,7 @@ cask "zed"
 cask "zoom"
 
 cargo "rustlings"
+cargo "savepoint"
 cargo "worktrunk"
 
 go "github.com/99designs/gqlgen"

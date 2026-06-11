@@ -11,6 +11,10 @@ main() {
     shift
     case $OPT in
     --) break ;;
+    --grep)
+      other_options+=("--grep" "$1")
+      shift
+      ;;
     --head)
       head="$1"
       shift
@@ -38,6 +42,7 @@ OPTIONS_SPEC="\
 git review [options]
 --
 h                   Show this help/usage
+grep=               Grep
 head=               Head branch if not current branch
 p,patch             Show patch
 u,upstream=         Upstream branch to use if not branch's literal upstream

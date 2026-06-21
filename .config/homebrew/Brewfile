@@ -1,7 +1,5 @@
-tap "charmbracelet/tap"
 tap "hashicorp/tap"
 tap "modem-dev/tap"
-tap "sst/tap"
 
 brew "awscli"
 brew "bat"

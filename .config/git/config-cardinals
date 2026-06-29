@@ -1,3 +1,5 @@
 [user]
 	name = "Nathan Nutter"
 	email = nnutter@cardinals.com
+[url "git@github.com:cbbsl"]
+	insteadof = https://github.com/cbbsl

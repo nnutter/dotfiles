@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+base_name="$1"
+timestamp_1="$2"
+timestamp_2="$3"
+
+difft \
+  <(gcloud storage cat "gs://stlc-data-ingestion-completed-prod/statcast_play_data/${base_name}_${timestamp_1}.json" | jq | head -n 10000) \
+  <(gcloud storage cat "gs://stlc-data-ingestion-completed-prod/statcast_play_data/${base_name}_${timestamp_2}.json" | jq | head -n 10000)
